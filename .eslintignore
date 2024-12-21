@@ -1,0 +1,8 @@
+.next/*
+*.css
+dist
+public/*
+*.config.js
+node_modules
+.next
+build
