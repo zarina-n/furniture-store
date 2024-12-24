@@ -6,14 +6,25 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
+    "format": "prettier --write .",
     "lint": "next lint",
+    "lint:fix": "eslint --fix && stylelint --fix \"**/*.{css,scss}\"",
+    "typecheck": "tsc --noEmit --pretty",
     "prepare": "husky install"
   },
   "lint-staged": {
-    "src/**/*.{ts,tsx,css}": "prettier --write",
-    "src/**/*.{ts,tsx}": "eslint"
+    "src/**/*.{ts,tsx,js,jsx}": [
+      "prettier --write",
+      "eslint --fix"
+    ],
+    "src/**/*.{css,scss}": [
+      "prettier --write",
+      "stylelint --fix --allow-empty-input"
+    ]
   },
   "dependencies": {
+    "@firebase/firestore": "^4.7.5",
+    "firebase": "^11.1.0",
     "next": "15.1.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
@@ -25,6 +36,8 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.1.1",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
     "husky": "^9.1.7",
     "lint-staged": "^15.2.11",
     "prettier": "3.4.2",
