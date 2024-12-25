@@ -1,4 +1,13 @@
-.home {
-  height: 450px;
-  background-color: aquamarine;
+.catalog_link {
+  display: inline-block;
+  margin-bottom: 64px;
+  margin-top: 39px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+  text-decoration-line: underline;
+  color: #000000;
+  margin-top: 32px;
+  transition: 0.4s;
 }
