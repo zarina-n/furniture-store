@@ -1,0 +1,129 @@
+.footer {
+  background: #f7f6f6;
+  padding-top: 32px;
+  padding-bottom: 40px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.logo {
+  fill: #000;
+
+  transition: all 0.4s;
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.footer_heading {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 29px;
+  color: #000000;
+}
+
+.footer_content {
+  width: 792px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.footer_info {
+  display: flex;
+  gap: 129px;
+}
+
+.footer_item {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer_icons {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+svg.footer_icons {
+  fill: #888888;
+  transition: 0.4s;
+  &:hover {
+    fill: black;
+  }
+}
+
+.footer_link {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  color: #888888;
+  transition: 0.4s;
+
+  &:hover {
+    transition: 0.4s;
+    color: #000000;
+    text-decoration: underline;
+  }
+}
+
+.footer_form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer_text {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 15px;
+  color: #000000;
+}
+
+.email {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 15px;
+  line-height: 18px;
+  color: #c4c4c4;
+  background: #fff;
+  border: 1px solid #c4c4c4;
+  box-sizing: border-box;
+  border-radius: 20px;
+  width: 275px;
+  height: 46px;
+  padding-left: 25px;
+  padding-right: 25px;
+
+  &:focus {
+    outline-color: black;
+  }
+}
+
+.email_button {
+  background: rgba(222, 215, 215, 0.41);
+  border: 1px solid #fff;
+  box-sizing: border-box;
+  border-radius: 20px;
+  width: 275px;
+  height: 46px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 17px;
+  color: #000000;
+  transition: all 0.4s;
+
+  &:hover {
+    background: #000000;
+    border: 1px solid #ffffff;
+    color: #ffffff;
+    cursor: pointer;
+    transform: scale(1.05);
+  }
+}

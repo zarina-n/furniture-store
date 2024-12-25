@@ -8,7 +8,7 @@
     "start": "next start",
     "format": "prettier --write .",
     "lint": "next lint",
-    "lint:fix": "eslint --fix && stylelint --fix \"**/*.{css,scss}\"",
+    "lint:fix": "eslint --fix && prettier --write \"**/*.{css,scss}\"",
     "typecheck": "tsc --noEmit --pretty",
     "prepare": "husky install"
   },
@@ -18,8 +18,7 @@
       "eslint --fix"
     ],
     "src/**/*.{css,scss}": [
-      "prettier --write",
-      "stylelint --fix --allow-empty-input"
+      "prettier --write"
     ]
   },
   "dependencies": {
