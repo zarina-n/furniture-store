@@ -2,10 +2,11 @@ import Products from "@/components/Products/Products";
 import styles from "./page.module.css";
 import Link from "next/link";
 import Categories from "@/components/Categories/Categories";
+import classNames from "classnames";
 
 export default function Home() {
   return (
-    <main className={styles.home}>
+    <main className={classNames(styles.home, "center")}>
       <Categories />
       <Products heading="Special Offers" />
       <Products heading="Products Catalog" />

@@ -1,10 +1,11 @@
 import Link from "next/link";
 import Image from "next/image";
 import styles from "./Footer.module.css";
+import classNames from "classnames";
 
 export default function Footer() {
   return (
-    <footer className={styles.footer}>
+    <footer className={classNames(styles.footer, "center")}>
       <Link href={"/"}>
         <Image
           className={styles.logo}
