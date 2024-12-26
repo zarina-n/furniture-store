@@ -2,20 +2,18 @@ import Product from "./Product";
 import styles from "./Products.module.css";
 
 interface Props {
-  heading: string;
+  heading?: string;
+  numberOfProducts: number;
 }
 
-export default function Products({ heading }: Props) {
+export default function Products({ heading, numberOfProducts }: Props) {
   return (
     <div className={styles.product_box}>
-      <h2 className={styles.heading}>{heading}</h2>
+      {heading && <h2 className={styles.heading}>{heading}</h2>}
       <div className={styles.product_content}>
-        <Product />
-        <Product />
-        <Product />
-        <Product />
-        <Product />
-        <Product />
+        {new Array(numberOfProducts).fill(<Product />).map((_, i) => (
+          <Product key={i} />
+        ))}
       </div>
     </div>
   );

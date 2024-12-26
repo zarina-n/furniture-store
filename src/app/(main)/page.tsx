@@ -6,13 +6,13 @@ import classNames from "classnames";
 
 export default function Home() {
   return (
-    <main className={classNames(styles.home, "center")}>
+    <div className={classNames(styles.home, "center")}>
       <Categories />
-      <Products heading="Special Offers" />
-      <Products heading="Products Catalog" />
+      <Products heading="Special Offers" numberOfProducts={3} />
+      <Products heading="Products Catalog" numberOfProducts={6} />
       <Link className={styles.catalog_link} href={"/"}>
         Go to Catalog
       </Link>
-    </main>
+    </div>
   );
 }

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Wrapper from "@/components/Wrapper/Wrapper";
 
 export const metadata: Metadata = {
   title: "Interior",
@@ -14,9 +13,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
-        <Wrapper>{children}</Wrapper>
-      </body>
+      <body>{children}</body>
     </html>
   );
 }

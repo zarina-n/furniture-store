@@ -1,16 +1,22 @@
-.navBar {
+.home_header {
   height: 735px;
-  background-image: url(/assets/images/topbackground.jpg);
+  background-image: url(/assets/images/top_background.jpg);
   background-repeat: no-repeat;
   background-size: cover;
 }
 
-.logo {
-  filter: invert(1);
-  transition: all 0.4s;
-  &:hover {
-    transform: scale(1.05);
-  }
+.catalog_header {
+  height: 400px;
+  background-image: url(/assets/images/catalog_background.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.cart_header {
+  height: 400px;
+  background-image: url(/assets/images/cart_background.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .header {

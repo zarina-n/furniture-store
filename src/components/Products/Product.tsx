@@ -6,7 +6,7 @@ export default function Product() {
   return (
     <div className={styles.product}>
       <Image
-        src={"/assets/images/topbackground.jpg"}
+        src={"/assets/images/top_background.jpg"}
         width={370}
         height={240}
         alt="image"

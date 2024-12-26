@@ -11,3 +11,7 @@
   margin-top: 32px;
   transition: 0.4s;
 }
+
+.main {
+  flex-grow: 1;
+}

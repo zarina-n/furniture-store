@@ -1,6 +1,7 @@
 import Footer from "@/components/Footer/Footer";
-import NavBar from "@/components/NavBar/NavBar";
 import Wrapper from "@/components/Wrapper/Wrapper";
+import styles from "./page.module.css";
+import Header from "@/components/Header/Header";
 
 export default function Layout({
   children,
@@ -9,13 +10,9 @@ export default function Layout({
 }>) {
   return (
     <Wrapper>
-      <div>
-        <header>
-          <NavBar />
-        </header>
-        <main>{children}</main>
-        <Footer />
-      </div>
+      <Header />
+      <main className={styles.main}>{children}</main>
+      <Footer />
     </Wrapper>
   );
 }

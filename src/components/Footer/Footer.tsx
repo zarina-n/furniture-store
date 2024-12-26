@@ -6,14 +6,8 @@ import classNames from "classnames";
 export default function Footer() {
   return (
     <footer className={classNames(styles.footer, "center")}>
-      <Link href={"/"}>
-        <Image
-          className={styles.logo}
-          src="/assets/svg/logo.svg"
-          width={193}
-          height={33}
-          alt="logo"
-        />
+      <Link href={"/"} className="logo">
+        <Image src="/assets/svg/logo.svg" width={193} height={33} alt="logo" />
       </Link>
       <div className={styles.footer_content}>
         <div className={styles.footer_info}>
