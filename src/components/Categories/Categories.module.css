@@ -32,7 +32,6 @@
   justify-content: center;
   align-items: center;
   transition: 0.4s;
-  cursor: pointer;
   background-repeat: no-repeat;
   background-size: cover;
   &:hover {

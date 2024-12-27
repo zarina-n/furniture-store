@@ -1,3 +1,4 @@
+import Link from "next/link";
 import styles from "./Categories.module.css";
 
 const categoriesLit = [
@@ -30,7 +31,8 @@ export default function Categories() {
       <h2 className={styles.heading}>Furniture for ...</h2>
       <div className={styles.category_box}>
         {categoriesLit.map((category, index) => (
-          <div
+          <Link
+            href={"/catalog"}
             key={category.id}
             className={`${styles.category_item} ${
               index < 2 && styles.category_item_large
@@ -42,7 +44,7 @@ export default function Categories() {
             <h3 className={styles.category_name}>
               {category.name.toUpperCase()}
             </h3>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
