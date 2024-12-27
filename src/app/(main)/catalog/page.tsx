@@ -2,6 +2,7 @@ import Products from "@/components/Products/Products";
 import styles from "./page.module.css";
 import BreadCrumbs from "@/components/BreadCrumbs/BreadCrumbs";
 import FilterBy from "@/components/FilterBy/FilterBy";
+import { products } from "../../mockedData/products";
 
 export default function Catalog() {
   return (
@@ -10,7 +11,7 @@ export default function Catalog() {
         <BreadCrumbs />
         <FilterBy />
       </div>
-      <Products numberOfProducts={9} />
+      <Products products={products} />
     </div>
   );
 }
