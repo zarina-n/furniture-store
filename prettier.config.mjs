@@ -2,9 +2,9 @@ const prettierConfig = {
   semi: false,
   singleQuote: true,
   tabWidth: 2,
-  trailingComma: "all",
+  trailingComma: 'all',
   printWidth: 80,
-  endOfLine: "auto",
-};
+  endOfLine: 'auto',
+}
 
-export default prettierConfig;
+export default prettierConfig
