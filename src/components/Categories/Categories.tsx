@@ -32,7 +32,8 @@ export default function Categories() {
       <div className={styles.category_box}>
         {categoriesLit.map((category, index) => (
           <Link
-            href={"/catalog"}
+            href={`/catalog/${category.name.toLowerCase()}`}
+            // href={`/catalog/rest`}
             key={category.id}
             className={`${styles.category_item} ${
               index < 2 && styles.category_item_large

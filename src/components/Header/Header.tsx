@@ -15,12 +15,12 @@ const pageList = [
     className: "home_header",
   },
   {
-    pageName: "/catalog",
+    pageName: "catalog",
     title: "Catalog",
     className: "catalog_header",
   },
   {
-    pageName: "/cart",
+    pageName: "cart",
     title: "Cart",
     className: "cart_header",
   },
@@ -29,8 +29,10 @@ const pageList = [
 export default function Header() {
   const pathName = usePathname();
 
-  const currentPage = pageList.filter((page) => page.pageName === pathName); // TODO: refactor
-  const currentPageClassName = currentPage[0].className;
+  const currentPage = pageList.filter((page) =>
+    page.pageName.includes(pathName),
+  ); // TODO: refactor
+  const currentPageClassName = currentPage[0]?.className || "catalog_header";
 
   return (
     <header className={classNames(styles[currentPageClassName], "center")}>
@@ -58,8 +60,8 @@ export default function Header() {
         </nav>
       </div>
       <Title
-        title={currentPage[0].title}
-        titleDescription={currentPage[0].titleDescription}
+        title={currentPage[0]?.title}
+        titleDescription={currentPage[0]?.titleDescription}
       />
     </header>
   );

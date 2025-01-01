@@ -26,7 +26,9 @@ export default function CartProduct({
     <div className={styles.cart_item}>
       <div className={styles.cart_item_info}>
         <div className={styles.cart_item_box}>
-          <Link href={`/catalog/${id}`}>
+          <Link href={`/catalog/all/${id}`}>
+            {" "}
+            {/* TODO: fix "all" in the route*/}
             <Image src={imgSrc} width={173} height={173} alt={name} />
           </Link>
           <div>

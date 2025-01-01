@@ -6,4 +6,5 @@ export type Product = {
   discount?: boolean;
   priceBeforeDiscount?: number | null | undefined;
   id: number;
+  category?: string[];
 };

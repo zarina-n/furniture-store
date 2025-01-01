@@ -21,8 +21,9 @@ export default function Product({
   priceBeforeDiscount,
   id,
 }: Props) {
+  const category = "all";
   return (
-    <Link className={styles.product} href={`/catalog/${id}`}>
+    <Link className={styles.product} href={`/catalog/${category}/${id}`}>
       <Image src={imgSrc} width={370} height={240} alt={name} />
       <div className={styles.product_name}>{name}</div>
       <p className={styles.product_text}>{description}</p>
