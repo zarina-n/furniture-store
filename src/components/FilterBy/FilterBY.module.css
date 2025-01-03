@@ -1,15 +1,50 @@
 .select {
   font-style: normal;
   font-weight: normal;
-  font-size: 16px;
-  line-height: 20px;
   color: #000000;
   border: 1px solid #c4c4c4;
   box-sizing: border-box;
   border-radius: 20px;
-  padding: 11px 75px 10px 14px;
-  appearance: none;
-  /* background-image: url(../img/arrow.png);
+  width: 200px;
+  padding: 10px 15px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.button {
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  font-size: 16px;
+  line-height: 20px;
+  cursor: pointer;
+}
+
+.toggle_button {
+  background-image: url(/assets/images/arrow.png);
   background-repeat: no-repeat;
-  background-position: center right 25px; */
+  background-position: center right 25px;
+}
+
+.option_box {
+  display: none;
+}
+
+.visible {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: absolute;
+  right: 50;
+  top: 520;
+  z-index: 1000;
+  background-color: #fff;
+  gap: 10px;
+
+  border: 1px solid #c4c4c4;
+  box-sizing: border-box;
+  border-radius: 20px;
+  width: 200px;
+  padding: 10px 15px;
 }

@@ -1,6 +1,5 @@
 'use client'
 
-import React from 'react'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import styles from './Breadcrumbs.module.css'
@@ -20,11 +19,9 @@ export default function Breadcrumbs() {
         const itemLink = link[0].toUpperCase() + link.slice(1, link.length)
 
         return (
-          <React.Fragment key={index}>
-            <li className={styles.list_link}>
-              <Link href={href}>{itemLink}</Link>
-            </li>
-          </React.Fragment>
+          <li className={styles.list_link} key={index}>
+            <Link href={href}>{itemLink}</Link>
+          </li>
         )
       })}
     </ul>
