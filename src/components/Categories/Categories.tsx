@@ -1,29 +1,29 @@
-import Link from "next/link";
-import styles from "./Categories.module.css";
+import Link from 'next/link'
+import styles from './Categories.module.css'
 
 const categoriesLit = [
   {
-    name: "Rest",
+    name: 'rest',
     id: 1,
   },
   {
-    name: "Work",
+    name: 'work',
     id: 2,
   },
   {
-    name: "Kitchen",
+    name: 'kitchen',
     id: 3,
   },
   {
-    name: "Children",
-    image: "",
+    name: 'children',
+    image: '',
     id: 4,
   },
   {
-    name: "Bath",
+    name: 'bath',
     id: 5,
   },
-];
+]
 
 export default function Categories() {
   return (
@@ -32,7 +32,7 @@ export default function Categories() {
       <div className={styles.category_box}>
         {categoriesLit.map((category, index) => (
           <Link
-            href={"/catalog"}
+            href={`/catalog/${category.name.toLowerCase()}`}
             key={category.id}
             className={`${styles.category_item} ${
               index < 2 && styles.category_item_large
@@ -48,5 +48,5 @@ export default function Categories() {
         ))}
       </div>
     </div>
-  );
+  )
 }

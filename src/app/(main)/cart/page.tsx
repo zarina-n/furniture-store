@@ -3,6 +3,7 @@ import styles from "./page.module.css";
 import CartForm from "@/components/CartForm/CartForm";
 import CartProduct from "@/components/CartProduct/CartProduct";
 import classNames from "classnames";
+import { products, cartList } from "../../mockedData/products";
 
 export default function Cart() {
   return (
@@ -13,10 +14,19 @@ export default function Cart() {
             <p className={styles.cart_text}>Product</p>
             <p className={styles.cart_text}>Quantity</p>
           </div>
-          {new Array(2).fill(<CartProduct />).map((_, i) => (
-            <CartProduct key={i} />
-          ))}
-
+          {cartList.map(
+            ({ name, imgSrc, description, price, priceBeforeDiscount, id }) => (
+              <CartProduct
+                key={id}
+                name={name}
+                imgSrc={imgSrc}
+                description={description}
+                price={price}
+                priceBeforeDiscount={priceBeforeDiscount}
+                id={id}
+              />
+            ),
+          )}
           <div className={styles.cart_button_box}>
             <button className={styles.cart_button} type="reset">
               Empty the cart
@@ -28,7 +38,10 @@ export default function Cart() {
       </div>
 
       <div className="center">
-        <Products heading="Special Offers" numberOfProducts={3} />
+        <Products
+          heading="Special Offers"
+          products={products.filter((product) => product.priceBeforeDiscount)}
+        />
       </div>
     </>
   );
