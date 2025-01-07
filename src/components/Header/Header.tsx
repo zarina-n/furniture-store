@@ -1,43 +1,43 @@
-"use client";
+'use client'
 
-import Image from "next/image";
-import styles from "./Header.module.css";
-import Link from "next/link";
-import classNames from "classnames";
-import { usePathname } from "next/navigation";
-import Title from "./Title";
+import Image from 'next/image'
+import styles from './Header.module.css'
+import Link from 'next/link'
+import classNames from 'classnames'
+import { usePathname } from 'next/navigation'
+import Title from './Title'
 
 const pageList = [
   {
-    pageName: "/",
-    title: "Everything your home deserves",
-    titleDescription: "Our furniture is your reflection",
-    className: "home_header",
+    pageName: '/',
+    title: 'Everything your home deserves',
+    titleDescription: 'Our furniture is your reflection',
+    className: 'home_header',
   },
   {
-    pageName: "catalog",
-    title: "Catalog",
-    className: "catalog_header",
+    pageName: 'catalog',
+    title: 'Catalog',
+    className: 'catalog_header',
   },
   {
-    pageName: "cart",
-    title: "Cart",
-    className: "cart_header",
+    pageName: 'cart',
+    title: 'Cart',
+    className: 'cart_header',
   },
-];
+]
 
 export default function Header() {
-  const pathName = usePathname();
+  const pathName = usePathname()
 
   const currentPage = pageList.filter((page) =>
     page.pageName.includes(pathName),
-  ); // TODO: refactor
-  const currentPageClassName = currentPage[0]?.className || "catalog_header";
+  ) // TODO: refactor
+  const currentPageClassName = currentPage[0]?.className || 'catalog_header'
 
   return (
-    <header className={classNames(styles[currentPageClassName], "center")}>
+    <header className={classNames(styles[currentPageClassName], 'center')}>
       <div className={styles.header}>
-        <Link href={"/"} className="logo logo_invert">
+        <Link href={'/'} className="logo logo_invert">
           <Image
             src="/assets/svg/logo.svg"
             width={193}
@@ -64,5 +64,5 @@ export default function Header() {
         titleDescription={currentPage[0]?.titleDescription}
       />
     </header>
-  );
+  )
 }

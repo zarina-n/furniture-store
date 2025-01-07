@@ -1,16 +1,16 @@
-import classNames from "classnames";
-import styles from "./Products.module.css";
-import Image from "next/image";
-import Link from "next/link";
+import classNames from 'classnames'
+import styles from './Products.module.css'
+import Image from 'next/image'
+import Link from 'next/link'
 
 interface Props {
   // TODO: replace with type from types.ts
-  name: string;
-  imgSrc: string;
-  description: string;
-  price: number;
-  priceBeforeDiscount?: number | null | undefined;
-  id: number;
+  name: string
+  imgSrc: string
+  description: string
+  price: number
+  priceBeforeDiscount?: number | null | undefined
+  id: number
 }
 
 export default function Product({
@@ -21,7 +21,7 @@ export default function Product({
   priceBeforeDiscount,
   id,
 }: Props) {
-  const category = "all";
+  const category = 'all'
   return (
     <Link className={styles.product} href={`/catalog/${category}/${id}`}>
       <Image src={imgSrc} width={370} height={240} alt={name} />
@@ -41,5 +41,5 @@ export default function Product({
         )}
       </div>
     </Link>
-  );
+  )
 }

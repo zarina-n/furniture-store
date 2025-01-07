@@ -1,25 +1,25 @@
-import Link from "next/link";
-import Image from "next/image";
-import styles from "./Footer.module.css";
-import classNames from "classnames";
+import Link from 'next/link'
+import Image from 'next/image'
+import styles from './Footer.module.css'
+import classNames from 'classnames'
 
 export default function Footer() {
   return (
-    <footer className={classNames(styles.footer, "center")}>
-      <Link href={"/"} className="logo">
+    <footer className={classNames(styles.footer, 'center')}>
+      <Link href={'/'} className="logo">
         <Image src="/assets/svg/logo.svg" width={193} height={33} alt="logo" />
       </Link>
       <div className={styles.footer_content}>
         <div className={styles.footer_info}>
           <nav className={styles.footer_item}>
             <h4 className={styles.footer_heading}>Menu</h4>
-            <Link href={"/"} className={styles.footer_link}>
+            <Link href={'/'} className={styles.footer_link}>
               Main
             </Link>
-            <Link href={"/catalog"} className={styles.footer_link}>
+            <Link href={'/catalog'} className={styles.footer_link}>
               Catalog
             </Link>
-            <Link href={"/cart"} className={styles.footer_link}>
+            <Link href={'/cart'} className={styles.footer_link}>
               Cart
             </Link>
           </nav>
@@ -35,7 +35,7 @@ export default function Footer() {
               help@interier.com
             </Link>
             <div className={styles.footer_icons}>
-              <Link href={"/"}>
+              <Link href={'/'}>
                 <Image
                   src="/assets/svg/instagram.svg"
                   width={25}
@@ -43,7 +43,7 @@ export default function Footer() {
                   alt="instagram"
                 />
               </Link>
-              <Link href={"/"}>
+              <Link href={'/'}>
                 <Image
                   src="/assets/svg/twitter.svg"
                   width={25}
@@ -51,7 +51,7 @@ export default function Footer() {
                   alt="twitter"
                 />
               </Link>
-              <Link href={"/"}>
+              <Link href={'/'}>
                 <Image
                   src="/assets/svg/facebook.svg"
                   width={25}
@@ -76,5 +76,5 @@ export default function Footer() {
         </form>
       </div>
     </footer>
-  );
+  )
 }

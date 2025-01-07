@@ -1,14 +1,21 @@
-import Products from "@/components/Products/Products";
-import styles from "./page.module.css";
-import CartForm from "@/components/CartForm/CartForm";
-import CartProduct from "@/components/CartProduct/CartProduct";
-import classNames from "classnames";
-import { products, cartList } from "../../mockedData/products";
+import Products from '@/components/Products/Products'
+import styles from './page.module.css'
+import CartForm from '@/components/CartForm/CartForm'
+import CartProduct from '@/components/CartProduct/CartProduct'
+import classNames from 'classnames'
+import { products, cartList } from '../../mockedData/products'
+
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Interior - Cart',
+  description: 'Cart',
+}
 
 export default function Cart() {
   return (
     <>
-      <div className={classNames(styles.cart, "center")}>
+      <div className={classNames(styles.cart, 'center')}>
         <div className={styles.cart_content}>
           <div className={styles.cart_content_top}>
             <p className={styles.cart_text}>Product</p>
@@ -44,5 +51,5 @@ export default function Cart() {
         />
       </div>
     </>
-  );
+  )
 }

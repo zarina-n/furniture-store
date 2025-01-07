@@ -1,4 +1,4 @@
-import styles from "./CartForm.module.css";
+import styles from './CartForm.module.css'
 
 export default function CartForm() {
   return (
@@ -33,5 +33,5 @@ export default function CartForm() {
         </div>
       </form>
     </div>
-  );
+  )
 }

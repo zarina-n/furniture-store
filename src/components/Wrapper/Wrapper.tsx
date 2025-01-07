@@ -1,9 +1,9 @@
-import styles from "./Wrapper.module.css";
+import styles from './Wrapper.module.css'
 
 export default function Wrapper({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
-  return <div className={styles.wrapper}>{children}</div>;
+  return <div className={styles.wrapper}>{children}</div>
 }

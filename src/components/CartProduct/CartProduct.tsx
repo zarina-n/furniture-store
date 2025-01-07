@@ -1,17 +1,17 @@
-"use client";
+'use client'
 
-import Link from "next/link";
-import Image from "next/image";
-import styles from "./CartProduct.module.css";
+import Link from 'next/link'
+import Image from 'next/image'
+import styles from './CartProduct.module.css'
 
 interface Props {
   // TODO: replace with type from types.ts
-  name: string;
-  imgSrc: string;
-  description: string;
-  price: number;
-  priceBeforeDiscount?: number | null | undefined;
-  id: number;
+  name: string
+  imgSrc: string
+  description: string
+  price: number
+  priceBeforeDiscount?: number | null | undefined
+  id: number
 }
 
 export default function CartProduct({
@@ -27,7 +27,7 @@ export default function CartProduct({
       <div className={styles.cart_item_info}>
         <div className={styles.cart_item_box}>
           <Link href={`/catalog/all/${id}`}>
-            {" "}
+            {' '}
             {/* TODO: fix "all" in the route*/}
             <Image src={imgSrc} width={173} height={173} alt={name} />
           </Link>
@@ -53,5 +53,5 @@ export default function CartProduct({
         </div>
       </div>
     </div>
-  );
+  )
 }

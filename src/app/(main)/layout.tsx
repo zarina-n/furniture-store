@@ -1,12 +1,12 @@
-import Footer from "@/components/Footer/Footer";
-import Wrapper from "@/components/Wrapper/Wrapper";
-import styles from "./page.module.css";
-import Header from "@/components/Header/Header";
+import Footer from '@/components/Footer/Footer'
+import Wrapper from '@/components/Wrapper/Wrapper'
+import styles from './page.module.css'
+import Header from '@/components/Header/Header'
 
 export default function Layout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
     <Wrapper>
@@ -14,5 +14,5 @@ export default function Layout({
       <main className={styles.main}>{children}</main>
       <Footer />
     </Wrapper>
-  );
+  )
 }
