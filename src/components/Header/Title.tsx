@@ -1,11 +1,11 @@
-"use client";
+'use client'
 
-import styles from "./Header.module.css";
-import Link from "next/link";
+import styles from './Header.module.css'
+import Link from 'next/link'
 
 interface Props {
-  title: string;
-  titleDescription?: string;
+  title: string
+  titleDescription?: string
 }
 
 export default function Title({ title, titleDescription }: Props) {
@@ -21,5 +21,5 @@ export default function Title({ title, titleDescription }: Props) {
         </>
       )}
     </section>
-  );
+  )
 }

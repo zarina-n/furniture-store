@@ -1,11 +1,11 @@
-import { Product as ProductType } from "@/app/types";
-import Product from "./Product";
-import styles from "./Products.module.css";
+import { Product as ProductType } from '@/app/types'
+import Product from './Product'
+import styles from './Products.module.css'
 
 interface Props {
-  heading?: string;
-  products: ProductType[];
-  numberOfProductsToDisplay?: number;
+  heading?: string
+  products: ProductType[]
+  numberOfProductsToDisplay?: number
 }
 
 export default function Products({
@@ -15,7 +15,7 @@ export default function Products({
 }: Props) {
   const reducedArray = numberOfProductsToDisplay
     ? products.slice(0, numberOfProductsToDisplay)
-    : products;
+    : products
 
   return (
     <div className={styles.product_box}>
@@ -36,5 +36,5 @@ export default function Products({
         )}
       </div>
     </div>
-  );
+  )
 }
