@@ -16,12 +16,14 @@ export default function FilterBy() {
         >
           Sort by
         </button>
-      </div>
-      <div className={cn(styles.option_box, areOptionsOpen && styles.visible)}>
-        <button className={styles.button}>Newest</button>
-        <button className={styles.button}>Featured</button>
-        <button className={styles.button}>Price: High to Low</button>
-        <button className={styles.button}>Price: Low to High</button>
+        {areOptionsOpen && (
+          <div className={styles.option_box}>
+            <button className={styles.button}>Newest</button>
+            <button className={styles.button}>Featured</button>
+            <button className={styles.button}>Price: High to Low</button>
+            <button className={styles.button}>Price: Low to High</button>
+          </div>
+        )}
       </div>
     </>
   )
