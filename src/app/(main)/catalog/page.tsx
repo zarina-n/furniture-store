@@ -1,7 +1,3 @@
-export default function Catalog({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
-  return <> {children}</>
+export default function Catalog() {
+  return <> </>
 }
