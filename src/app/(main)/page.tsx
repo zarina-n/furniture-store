@@ -5,6 +5,7 @@ import Categories from '@/components/Categories/Categories'
 import classNames from 'classnames'
 import { products } from '../mockedData/products'
 import { SearchParamProps } from '../types'
+import { Suspense } from 'react'
 
 export default async function Home(props: SearchParamProps) {
   const searchParams = await props.searchParams
@@ -13,7 +14,9 @@ export default async function Home(props: SearchParamProps) {
   return (
     <div className={classNames(styles.home, 'center')}>
       {query ? (
-        <Products searchQuery={query} products={products} />
+        <Suspense key={query} fallback={<div>Searching ..</div>}>
+          <Products products={products} searchQuery={query} />
+        </Suspense>
       ) : (
         <>
           <Categories />
