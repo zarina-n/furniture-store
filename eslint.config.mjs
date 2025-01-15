@@ -48,6 +48,7 @@ const eslintConfig = [
       'quote-props': ['warn', 'as-needed'],
       'react/react-in-jsx-scope': 'off',
       'react/prop-types': 'off',
+      'no-console': 'warn',
     },
   },
 ]
