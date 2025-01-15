@@ -8,3 +8,9 @@ export type Product = {
   id: number
   category?: string[]
 }
+
+export type SearchParamProps = {
+  searchParams?: Promise<{
+    query?: string
+  }>
+}
