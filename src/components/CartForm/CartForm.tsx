@@ -1,6 +1,6 @@
 import styles from './CartForm.module.css'
 
-export default function CartForm() {
+export default function CartForm({ totalAmount }: { totalAmount: number }) {
   return (
     <div className={styles.form}>
       <h3 className={styles.form_heading}>Place an order</h3>
@@ -26,7 +26,7 @@ export default function CartForm() {
           />
         </div>
         <div className={styles.submit}>
-          <p className={styles.form_text}>Total: amount</p>
+          <p className={styles.form_text}>Total: ${`${totalAmount}`}</p>
           <button className={styles.form_button} type="submit">
             Place an order
           </button>

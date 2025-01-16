@@ -7,7 +7,7 @@ import styles from './CartProduct.module.css'
 interface Props {
   // TODO: replace with type from types.ts
   name: string
-  imgSrc: string
+  cartImgSrc: string
   description: string
   price: number
   priceBeforeDiscount?: number | null | undefined
@@ -17,7 +17,7 @@ interface Props {
 export default function CartProduct({
   // TODO: add form for input
   name,
-  imgSrc,
+  cartImgSrc,
   description,
   price,
   id,
@@ -27,7 +27,7 @@ export default function CartProduct({
       <div className={styles.cart_item_info}>
         <div className={styles.cart_item_box}>
           <Link href={`/catalog/${id}`}>
-            <Image src={imgSrc} width={173} height={173} alt={name} />
+            <Image src={cartImgSrc} width={173} height={173} alt={name} />
           </Link>
           <div>
             <h3 className={styles.cart_product_name}>{name}</h3>
@@ -45,7 +45,7 @@ export default function CartProduct({
             type="number"
             name="quantity" // TODO: add constant
             min="1"
-            value="1"
+            defaultValue={1}
             onChange={() => {}}
           />
         </div>

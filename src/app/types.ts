@@ -1,6 +1,7 @@
 export type Product = {
   name: string
   imgSrc: string
+  cartImgSrc?: string
   description: string
   price: number
   discount?: boolean

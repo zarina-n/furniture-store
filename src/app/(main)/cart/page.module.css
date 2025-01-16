@@ -1,7 +1,22 @@
+.cart_wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
 .cart {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   gap: 32px;
+  flex-grow: 1;
+}
+
+.empty_cart {
+  margin-top: 64px;
+  grid-column: 1 / 16;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .cart_content {
@@ -51,5 +66,10 @@
     background-color: #000000;
     color: #ffffff;
     cursor: pointer;
+  }
+
+  a:active,
+  a:hover {
+    color: #fff;
   }
 }
