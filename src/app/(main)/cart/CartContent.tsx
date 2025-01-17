@@ -4,7 +4,6 @@ import cn from 'classnames'
 import styles from './page.module.css'
 import CartForm from '@/components/CartForm/CartForm'
 import CartProduct from '@/components/CartProduct/CartProduct'
-import { products, cartList } from '../../mockedData/products'
 import Products from '@/components/Products/Products'
 import { Product } from '@/app/types'
 import EmptyCart from './EmptyCart'
@@ -12,22 +11,23 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 
 export default function CartContent() {
+  const [products, setProducts] = useState<Product[]>([])
   const [cartItems, setCartItems] = useState<Product[]>([])
 
   const isCartEmpty = !cartItems.length
 
   useEffect(() => {
-    const data = cartList
+    const productsFromLocalStorage: Product[] = JSON.parse(
+      localStorage.getItem('products') || '[]',
+    )
 
-    if (data && typeof window !== 'undefined') {
-      localStorage.setItem('cartItems', JSON.stringify(cartList))
-    }
+    setProducts(productsFromLocalStorage)
   }, [])
 
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem('cartItems') || '[]')
-    setCartItems(data)
-  }, [])
+    const productsInCart = products.filter((product) => product.inTheCart)
+    setCartItems(productsInCart)
+  }, [products])
 
   const onResetHandle = () => {
     setCartItems([])
@@ -53,6 +53,8 @@ export default function CartContent() {
                   price,
                   priceBeforeDiscount,
                   id,
+                  cartAmount,
+                  favorite,
                 }) => (
                   <CartProduct
                     key={id}
@@ -62,6 +64,8 @@ export default function CartContent() {
                     price={price}
                     priceBeforeDiscount={priceBeforeDiscount}
                     id={id}
+                    cartAmount={cartAmount}
+                    favorite={favorite}
                   />
                 ),
               )}

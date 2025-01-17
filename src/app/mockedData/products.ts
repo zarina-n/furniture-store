@@ -14,6 +14,9 @@ export const products: Product[] = [
     discount: true,
     category: ['kitchen', 'bath'],
     cartImgSrc: '/assets/images/cart_1.jpg',
+    inTheCart: true,
+    cartAmount: null,
+    favorite: true,
   },
   {
     name: 'Sofa RONALD',
@@ -26,6 +29,9 @@ export const products: Product[] = [
     discount: true,
     category: ['rest', 'children', 'work'],
     cartImgSrc: '/assets/images/cart_1.jpg',
+    inTheCart: true,
+    cartAmount: null,
+    favorite: false,
   },
   {
     name: 'Chest of Drawers VENT',
@@ -37,6 +43,9 @@ export const products: Product[] = [
     discount: true,
     category: ['rest', 'work', 'children'],
     cartImgSrc: '/assets/images/cart_1.jpg',
+    inTheCart: false,
+    cartAmount: null,
+    favorite: true,
   },
   {
     name: 'Bed TATRAN',
@@ -49,6 +58,9 @@ export const products: Product[] = [
     discount: false,
     category: ['rest', 'children'],
     cartImgSrc: '/assets/images/cart_1.jpg',
+    inTheCart: false,
+    cartAmount: null,
+    favorite: false,
   },
   {
     name: 'Armchair VILORA',
@@ -61,6 +73,9 @@ export const products: Product[] = [
     discount: false,
     category: ['rest', 'work', 'children'],
     cartImgSrc: '/assets/images/cart_1.jpg',
+    inTheCart: false,
+    cartAmount: null,
+    favorite: false,
   },
   {
     name: 'Table MENU',
@@ -72,6 +87,9 @@ export const products: Product[] = [
     discount: false,
     category: ['kitchen'],
     cartImgSrc: '/assets/images/cart_1.jpg',
+    inTheCart: false,
+    cartAmount: null,
+    favorite: false,
   },
   {
     name: 'Armchair ASKESTA',
@@ -84,6 +102,9 @@ export const products: Product[] = [
     discount: false,
     category: ['rest', 'work', 'children'],
     cartImgSrc: '/assets/images/cart_1.jpg',
+    inTheCart: false,
+    cartAmount: null,
+    favorite: false,
   },
   {
     name: 'Table NORMAN',
@@ -96,6 +117,9 @@ export const products: Product[] = [
     discount: false,
     category: ['kitchen'],
     cartImgSrc: '/assets/images/cart_1.jpg',
+    inTheCart: false,
+    cartAmount: null,
+    favorite: false,
   },
   {
     name: 'Sofa NASTAN',
@@ -108,6 +132,9 @@ export const products: Product[] = [
     discount: false,
     category: ['rest', 'work', 'children'],
     cartImgSrc: '/assets/images/cart_1.jpg',
+    inTheCart: false,
+    cartAmount: null,
+    favorite: false,
   },
   {
     name: 'Sofa ASKETA',
@@ -120,6 +147,9 @@ export const products: Product[] = [
     discount: false,
     category: ['rest', 'work', 'children'],
     cartImgSrc: '/assets/images/cart_1.jpg',
+    inTheCart: false,
+    cartAmount: null,
+    favorite: false,
   },
   {
     name: 'Armchair LUNAR',
@@ -132,6 +162,9 @@ export const products: Product[] = [
     discount: false,
     category: ['rest', 'work', 'children'],
     cartImgSrc: '/assets/images/cart_1.jpg',
+    inTheCart: false,
+    cartAmount: null,
+    favorite: false,
   },
   {
     name: 'Wardrobe Nastan',
@@ -144,32 +177,8 @@ export const products: Product[] = [
     discount: false,
     category: ['rest', 'work', 'children'],
     cartImgSrc: '/assets/images/cart_1.jpg',
-  },
-]
-
-export const cartList: Product[] = [
-  {
-    name: 'Chandelier VODA',
-    imgSrc: '/assets/images/top_background.jpg',
-    description:
-      'The base made of polished stainless steel gives an original floating effect.',
-    price: 450,
-    priceBeforeDiscount: 670,
-    id: 1,
-    discount: true,
-    category: ['kitchen', 'bath'],
-    cartImgSrc: '/assets/images/cart_1.jpg',
-  },
-  {
-    name: 'Sofa RONALD',
-    imgSrc: '/assets/images/top_background.jpg',
-    description:
-      'The model is characterized by simplicity of lines and shapes, without flashy decor.',
-    price: 1560,
-    priceBeforeDiscount: 1980,
-    id: 2,
-    discount: true,
-    category: ['rest', 'children', 'work'],
-    cartImgSrc: '/assets/images/cart_1.jpg',
+    inTheCart: false,
+    cartAmount: null,
+    favorite: true,
   },
 ]

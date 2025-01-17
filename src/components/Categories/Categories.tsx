@@ -1,5 +1,9 @@
+'use client'
+
 import Link from 'next/link'
 import styles from './Categories.module.css'
+import { useEffect } from 'react'
+import { products } from '@/app/mockedData/products'
 
 const categoriesLit = [
   {
@@ -26,6 +30,18 @@ const categoriesLit = [
 ]
 
 export default function Categories() {
+  useEffect(() => {
+    // TODO: remove this when backend is working
+
+    const existingProducts = JSON.parse(
+      localStorage.getItem('productsS') || '[]',
+    )
+
+    if (existingProducts) {
+      localStorage.setItem('products', JSON.stringify(products))
+    }
+  }, [])
+
   return (
     <div className={styles.category_wrapper}>
       <h2 className={styles.heading}>Furniture for ...</h2>

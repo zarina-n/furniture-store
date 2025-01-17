@@ -112,3 +112,30 @@ svg.cart_icon {
   text-decoration-line: line-through;
   color: #888888;
 }
+
+.product_image {
+  position: relative;
+}
+
+.icons_box {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  position: absolute;
+
+  top: 10px;
+  right: 10px;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  stroke: #fff;
+  fill: #c4c4c4;
+  transition: all 0.4s;
+
+  &:hover {
+    fill: #fff;
+    transform: scale(1.5);
+  }
+}

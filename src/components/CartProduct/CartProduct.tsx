@@ -3,6 +3,10 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import styles from './CartProduct.module.css'
+import { products } from '@/app/mockedData/products'
+import { FaRegHeart, FaHeart } from 'react-icons/fa'
+import { RiDeleteBinFill } from 'react-icons/ri'
+import { ChangeEventHandler } from 'react'
 
 interface Props {
   // TODO: replace with type from types.ts
@@ -12,6 +16,8 @@ interface Props {
   price: number
   priceBeforeDiscount?: number | null | undefined
   id: number
+  cartAmount: number | null
+  favorite: boolean
 }
 
 export default function CartProduct({
@@ -21,7 +27,39 @@ export default function CartProduct({
   description,
   price,
   id,
+  cartAmount,
+  favorite,
 }: Props) {
+  const onAddToFavoritesHandle = () => {
+    const adjustedProducts = products.map((product) =>
+      product.id === id ? { ...product, favorite: !product.favorite } : product,
+    )
+
+    localStorage.setItem('products', JSON.stringify(adjustedProducts))
+    window.location.reload()
+  }
+
+  const onRemoveFromCartHandle = () => {
+    const adjustedProducts = products.map((product) =>
+      product.id === id
+        ? { ...product, inTheCart: !product.inTheCart, cartAmount: null }
+        : product,
+    )
+
+    localStorage.setItem('products', JSON.stringify(adjustedProducts))
+    window.location.reload()
+  }
+
+  const onProductAmountChange:
+    | ChangeEventHandler<HTMLInputElement>
+    | undefined = (e) => {
+    const adjustedProducts = products.map((product) =>
+      product.id === id ? { ...product, cartAmount: e.target.value } : product,
+    )
+
+    localStorage.setItem('cartItems', JSON.stringify(adjustedProducts))
+  }
+
   return (
     <div className={styles.cart_item}>
       <div className={styles.cart_item_info}>
@@ -34,8 +72,12 @@ export default function CartProduct({
             <p className={styles.cart_product_text}>{description}</p>
             <span className={styles.cart_product_price}>{price}</span>
             <div className={styles.cart_link_box}>
-              <p className={styles.cart_link}>Favorites</p>
-              <p className={styles.cart_link}>Remove</p>
+              <p className={styles.cart_link} onClick={onAddToFavoritesHandle}>
+                {favorite ? <FaHeart /> : <FaRegHeart />}
+              </p>
+              <p className={styles.cart_link} onClick={onRemoveFromCartHandle}>
+                <RiDeleteBinFill />
+              </p>
             </div>
           </div>
         </div>
@@ -45,8 +87,8 @@ export default function CartProduct({
             type="number"
             name="quantity" // TODO: add constant
             min="1"
-            defaultValue={1}
-            onChange={() => {}}
+            value={cartAmount || 1}
+            onChange={onProductAmountChange}
           />
         </div>
       </div>
