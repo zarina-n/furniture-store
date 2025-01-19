@@ -61,15 +61,16 @@
   line-height: 17px;
   color: #000000;
   transition: 0.4s;
-  &:hover {
-    transform: scale(1.05);
-    background-color: #000000;
-    color: #ffffff;
-    cursor: pointer;
-  }
+}
 
-  a:active,
-  a:hover {
-    color: #fff;
-  }
+.cart_button:hover {
+  transform: scale(1.05);
+  background-color: #000000;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.cart_button a:active,
+.cart_button a:hover {
+  color: #fff;
 }
