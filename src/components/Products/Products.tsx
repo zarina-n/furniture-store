@@ -1,3 +1,5 @@
+'use client'
+
 import { Product as ProductType } from '@/app/types'
 import Product from './Product'
 import styles from './Products.module.css'
@@ -43,7 +45,16 @@ export default function Products({
           <div className={styles.empty_search}>No results are found</div>
         ) : (
           searchArray.map(
-            ({ name, imgSrc, description, price, priceBeforeDiscount, id }) => (
+            ({
+              name,
+              imgSrc,
+              description,
+              price,
+              priceBeforeDiscount,
+              id,
+              favorite,
+              inTheCart,
+            }) => (
               <Product
                 name={name}
                 imgSrc={imgSrc}
@@ -52,6 +63,8 @@ export default function Products({
                 price={price}
                 priceBeforeDiscount={priceBeforeDiscount}
                 id={id}
+                favorite={favorite}
+                inTheCart={inTheCart}
               />
             ),
           )
