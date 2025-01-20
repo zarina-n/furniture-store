@@ -54,6 +54,13 @@ export default function Header() {
     replace(`${pathName}?${params.toString()}`)
   }
 
+  const onLoginHandle = () => {
+    const params = new URLSearchParams(searchParams)
+
+    params.set('modal', 'true')
+    replace(`${pathName}?${params.toString()}`)
+  }
+
   return (
     <header className={classNames(styles[currentPageClassName], 'center')}>
       <div className={styles.header}>
@@ -85,6 +92,9 @@ export default function Header() {
                 </Link>
               ),
           )}
+          <button className={styles.nav_link} onClick={onLoginHandle}>
+            Login
+          </button>
         </nav>
       </div>
       <Title

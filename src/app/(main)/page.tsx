@@ -3,7 +3,7 @@ import styles from './page.module.css'
 import Link from 'next/link'
 import Categories from '@/components/Categories/Categories'
 import classNames from 'classnames'
-import { products } from '../mockedData/products'
+import { products } from '../../mockedData/products'
 import { SearchParamProps } from '../types'
 import { Suspense } from 'react'
 

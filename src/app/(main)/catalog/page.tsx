@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
 import Products from '@/components/Products/Products'
-import { products } from '@/app/mockedData/products'
+import { products } from '@/mockedData/products'
 import { Metadata } from 'next'
 import { SearchParamProps } from '@/app/types'
 
