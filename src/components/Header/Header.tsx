@@ -33,7 +33,7 @@ const pageList = [
 export default function Header() {
   const pathName = usePathname()
   const searchParams = useSearchParams()
-  const { replace } = useRouter()
+  const router = useRouter()
 
   const currentPage = pageList.filter((page) =>
     page.pageName.includes(pathName.slice(1).split('/')[0]),
@@ -51,15 +51,17 @@ export default function Header() {
       params.delete('query')
     }
 
-    replace(`${pathName}?${params.toString()}`)
+    router.replace(`${pathName}?${params.toString()}`)
   }
 
   const onLoginHandle = () => {
     const params = new URLSearchParams(searchParams)
-
     params.set('modal', 'true')
-    replace(`${pathName}?${params.toString()}`)
+    router.replace(`${pathName}?${params.toString()}`)
   }
+
+  const updatedQuery = new URLSearchParams(searchParams.toString())
+  updatedQuery.set('modal', 'true')
 
   return (
     <header className={classNames(styles[currentPageClassName], 'center')}>
@@ -92,9 +94,15 @@ export default function Header() {
                 </Link>
               ),
           )}
-          <button className={styles.nav_link} onClick={onLoginHandle}>
+          <Link
+            href={`${pathName}?${updatedQuery.toString()}`}
+            replace
+            shallow
+            className={styles.nav_link}
+            onClick={onLoginHandle}
+          >
             Login
-          </button>
+          </Link>
         </nav>
       </div>
       <Title

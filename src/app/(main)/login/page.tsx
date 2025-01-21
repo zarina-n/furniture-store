@@ -1,8 +1,16 @@
+'use client'
+
 import Link from 'next/link'
 import styles from './page.module.css'
 import { RiCloseLargeLine } from 'react-icons/ri'
+import { usePathname, useSearchParams } from 'next/navigation'
 
-export default function LoginPage({ onClose }: { onClose: () => void }) {
+export default function LoginPage() {
+  const pathName = usePathname()
+  const searchParams = useSearchParams()
+
+  const updatedQuery = new URLSearchParams(searchParams.toString()) // TODO: repeated code
+  updatedQuery.delete('modal')
   return (
     <form className={styles.form}>
       <h3 className={styles.form_heading}>Login form</h3>
@@ -24,9 +32,14 @@ export default function LoginPage({ onClose }: { onClose: () => void }) {
       <div className={styles.form_buttons}>
         <p>Not a member?</p> <Link href="/signup">Sign up now</Link>
       </div>
-      <button className={styles.form_close_button} onClick={onClose}>
+      <Link
+        className={styles.form_close_button}
+        href={`${pathName}?${updatedQuery.toString()}`}
+        replace
+        shallow
+      >
         <RiCloseLargeLine />
-      </button>
+      </Link>
     </form>
   )
 }

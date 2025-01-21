@@ -1,23 +1,16 @@
 'use client'
 
 import LoginPage from '@/app/(main)/login/page'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import { JSX, useEffect, useRef } from 'react'
 import styles from './Modal.module.css'
 
 export default function Modal() {
   const searchParams = useSearchParams()
   const dialogRef = useRef<null | HTMLDialogElement>(null)
-  const pathName = usePathname()
-  const { replace } = useRouter()
+
   const showModal = searchParams.get('modal')
   const modal = 'login'
-
-  const onModalClose = () => {
-    const params = new URLSearchParams(searchParams.toString())
-    params.delete('modal')
-    replace(`${pathName}?${params.toString()}`)
-  }
 
   useEffect(() => {
     if (showModal === 'true') {
@@ -30,7 +23,7 @@ export default function Modal() {
   const dialog: JSX.Element | null =
     showModal === 'true' ? (
       <dialog ref={dialogRef} className={styles.modal}>
-        <div>{modal === 'login' && <LoginPage onClose={onModalClose} />}</div>
+        <div>{modal === 'login' && <LoginPage />}</div>
       </dialog>
     ) : null
 
