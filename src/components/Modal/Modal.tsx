@@ -1,9 +1,9 @@
 'use client'
 
-import LoginPage from '@/app/(main)/login/page'
 import { useSearchParams } from 'next/navigation'
 import { JSX, useEffect, useRef } from 'react'
 import styles from './Modal.module.css'
+import Login from '../Login/Login'
 
 export default function Modal() {
   const searchParams = useSearchParams()
@@ -23,7 +23,7 @@ export default function Modal() {
   const dialog: JSX.Element | null =
     showModal === 'true' ? (
       <dialog ref={dialogRef} className={styles.modal}>
-        <div>{modal === 'login' && <LoginPage />}</div>
+        <div>{modal === 'login' && <Login />}</div>
       </dialog>
     ) : null
 

@@ -5,7 +5,7 @@ import styles from './page.module.css'
 import { RiCloseLargeLine } from 'react-icons/ri'
 import { usePathname, useSearchParams } from 'next/navigation'
 
-export default function LoginPage() {
+export default function Login() {
   const pathName = usePathname()
   const searchParams = useSearchParams()
 
