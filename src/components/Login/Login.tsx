@@ -25,7 +25,7 @@ export default function Login() {
     handleSubmit,
     reset,
     setError,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isLoading },
   } = useForm<LoginFormValues>({
     defaultValues: { email: '', password: '' },
     resolver: zodResolver(LoginFormDataSchema),
@@ -63,9 +63,9 @@ export default function Login() {
       <button
         type="submit"
         className={styles.form_button}
-        disabled={isSubmitting}
+        disabled={isSubmitting || isLoading}
       >
-        {isSubmitting ? 'Login in...' : 'Login'}
+        {isSubmitting || isLoading ? 'Login in...' : 'Login'}
       </button>
       <div className={styles.form_buttons}>
         <p>Do not have an account?</p>

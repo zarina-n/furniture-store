@@ -23,7 +23,7 @@ export default function Signup() {
     handleSubmit,
     reset,
     setError,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isLoading },
   } = useForm<SignupFormValues>({
     defaultValues: { email: '', password: '', repeat_password: '' },
     resolver: zodResolver(SignupFormDataSchema),
@@ -69,9 +69,9 @@ export default function Signup() {
       <button
         type="submit"
         className={styles.form_button}
-        disabled={isSubmitting}
+        disabled={isSubmitting || isLoading}
       >
-        {isSubmitting ? 'Signing up...' : ' Sign Up'}
+        {isSubmitting || isLoading ? 'Signing up...' : ' Sign Up'}
       </button>
       <div className={styles.form_buttons}>
         <Link
