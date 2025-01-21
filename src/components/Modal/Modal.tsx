@@ -3,8 +3,8 @@
 import { useSearchParams } from 'next/navigation'
 import { JSX, useEffect, useRef } from 'react'
 import styles from './Modal.module.css'
-import Login from '../Login/Login'
-import Signup from '../Signup/Signup'
+import Login from '../Auth/Login'
+import Signup from '../Auth/Signup'
 
 export default function Modal() {
   const searchParams = useSearchParams()
