@@ -6,7 +6,7 @@ import classNames from 'classnames'
 import { products, cartList } from '../../../mockedData/products'
 import { Metadata } from 'next'
 import { Suspense } from 'react'
-import { SearchParamProps } from '@/app/types'
+import { SearchParamProps } from '@/lib/types'
 
 export const metadata: Metadata = {
   title: 'Interior - Cart',

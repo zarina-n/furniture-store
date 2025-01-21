@@ -56,12 +56,9 @@ export default function Header() {
 
   const onLoginHandle = () => {
     const params = new URLSearchParams(searchParams)
-    params.set('modal', 'true')
+    params.set('modal', 'login')
     router.replace(`${pathName}?${params.toString()}`)
   }
-
-  const updatedQuery = new URLSearchParams(searchParams.toString())
-  updatedQuery.set('modal', 'true')
 
   return (
     <header className={classNames(styles[currentPageClassName], 'center')}>
@@ -95,7 +92,7 @@ export default function Header() {
               ),
           )}
           <Link
-            href={`${pathName}?${updatedQuery.toString()}`}
+            href={`${pathName}?modal=login`}
             replace
             shallow
             className={styles.nav_link}

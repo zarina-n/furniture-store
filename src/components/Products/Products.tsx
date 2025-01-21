@@ -1,4 +1,4 @@
-import { Product as ProductType } from '@/app/types'
+import { Product as ProductType } from '@/lib/types'
 import Product from './Product'
 import styles from './Products.module.css'
 import cn from 'classnames'

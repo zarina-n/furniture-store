@@ -4,26 +4,26 @@ import { useSearchParams } from 'next/navigation'
 import { JSX, useEffect, useRef } from 'react'
 import styles from './Modal.module.css'
 import Login from '../Login/Login'
+import Signup from '../Signup/Signup'
 
 export default function Modal() {
   const searchParams = useSearchParams()
   const dialogRef = useRef<null | HTMLDialogElement>(null)
 
-  const showModal = searchParams.get('modal')
-  const modal = 'login'
+  const modal = searchParams.get('modal')
 
   useEffect(() => {
-    if (showModal === 'true') {
+    if (modal === 'login' || modal === 'signup') {
       dialogRef.current?.showModal()
     } else {
       dialogRef.current?.close()
     }
-  }, [showModal])
+  }, [modal])
 
   const dialog: JSX.Element | null =
-    showModal === 'true' ? (
+    modal === 'login' || modal === 'signup' ? ( // TODO: refactor
       <dialog ref={dialogRef} className={styles.modal}>
-        <div>{modal === 'login' && <Login />}</div>
+        <div>{modal === 'login' ? <Login /> : <Signup />}</div>
       </dialog>
     ) : null
 

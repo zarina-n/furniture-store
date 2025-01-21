@@ -1,5 +1,5 @@
 .form {
-  position: relative;
+  position: relative; /* TODO: same file as for login*/
   width: 366px;
   padding: 30px 24px;
   border-radius: 12px;

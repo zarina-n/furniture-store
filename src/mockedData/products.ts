@@ -1,4 +1,4 @@
-import { Product } from '../app/types'
+import { Product } from '../lib/types'
 
 //     category: ['rest', 'work', 'kitchen', 'children', 'bath],
 

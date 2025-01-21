@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Categories from '@/components/Categories/Categories'
 import classNames from 'classnames'
 import { products } from '../../mockedData/products'
-import { SearchParamProps } from '../types'
+import { SearchParamProps } from '../../lib/types'
 import { Suspense } from 'react'
 
 export default async function Home(props: SearchParamProps) {
