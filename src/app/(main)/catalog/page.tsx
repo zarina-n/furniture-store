@@ -12,10 +12,15 @@ export const metadata: Metadata = {
 export default async function Catalog(props: SearchParamProps) {
   const searchParams = await props.searchParams
   const query = searchParams?.query || ''
+  const categories = searchParams?.category?.split(',') || []
 
   return (
     <Suspense key={query} fallback={<div>Searching ..</div>}>
-      <Products products={products} searchQuery={query} />
+      <Products
+        products={products}
+        searchQuery={query}
+        categories={categories}
+      />
     </Suspense>
   )
 }

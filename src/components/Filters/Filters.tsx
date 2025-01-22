@@ -30,7 +30,13 @@ export default function Filters() {
       categories.push(filter.toLowerCase())
     }
 
-    params.set('category', categories?.join(','))
+    if (!categories.length) {
+      //TODO: refactor conditions
+      params.delete('category')
+    } else {
+      params.set('category', categories?.join(','))
+    }
+
     router.replace(`${pathName}?${params.toString()}`)
   }
 
