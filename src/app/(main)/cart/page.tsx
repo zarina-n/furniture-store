@@ -3,10 +3,10 @@ import styles from './page.module.css'
 import CartForm from '@/components/CartForm/CartForm'
 import CartProduct from '@/components/CartProduct/CartProduct'
 import classNames from 'classnames'
-import { products, cartList } from '../../mockedData/products'
+import { products, cartList } from '../../../mockedData/products'
 import { Metadata } from 'next'
 import { Suspense } from 'react'
-import { SearchParamProps } from '@/app/types'
+import { SearchParamProps } from '@/lib/types'
 
 export const metadata: Metadata = {
   title: 'Interior - Cart',

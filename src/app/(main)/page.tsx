@@ -3,9 +3,9 @@ import styles from './page.module.css'
 import Link from 'next/link'
 import Categories from '@/components/Categories/Categories'
 import classNames from 'classnames'
-import { products } from '../mockedData/products'
-import { SearchParamProps } from '../types'
+import { products } from '../../mockedData/products'
 import { Suspense } from 'react'
+import { SearchParamProps } from '@/lib/types'
 
 export default async function Home(props: SearchParamProps) {
   const searchParams = await props.searchParams
