@@ -1,10 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import styles from './FilterBy.module.css'
+import styles from './SortBy.module.css'
 import cn from 'classnames'
 
-export default function FilterBy() {
+export default function SortBy() {
   const [areOptionsOpen, setAreOptionsOpen] = useState(false)
 
   return (

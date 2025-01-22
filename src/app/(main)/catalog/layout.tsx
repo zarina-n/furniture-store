@@ -1,6 +1,6 @@
-import Breadcrumbs from '@/components/Breadcrumbs/Breadcrumbs'
+import Filters from '@/components/Filters/Filters'
 import styles from './page.module.css'
-import FilterBy from '@/components/FilterBy/FilterBy'
+import SortBy from '@/components/SortBy/SortBy'
 
 export default function CatalogLayout({
   children,
@@ -10,8 +10,8 @@ export default function CatalogLayout({
   return (
     <div className="center">
       <div className={styles.menu}>
-        <Breadcrumbs />
-        <FilterBy />
+        <Filters />
+        <SortBy />
         {/*  TODO: add condition if on the product page */}
       </div>
       {children}

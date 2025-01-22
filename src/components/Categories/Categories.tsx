@@ -1,38 +1,15 @@
 import Link from 'next/link'
 import styles from './Categories.module.css'
-
-const categoriesLit = [
-  {
-    name: 'rest',
-    id: 1,
-  },
-  {
-    name: 'work',
-    id: 2,
-  },
-  {
-    name: 'kitchen',
-    id: 3,
-  },
-  {
-    name: 'children',
-    image: '',
-    id: 4,
-  },
-  {
-    name: 'bath',
-    id: 5,
-  },
-]
+import { categories as categoriesList } from '@/mockedData/categories'
 
 export default function Categories() {
   return (
     <div className={styles.category_wrapper}>
       <h2 className={styles.heading}>Furniture for ...</h2>
       <div className={styles.category_box}>
-        {categoriesLit.map((category, index) => (
+        {categoriesList.map((category, index) => (
           <Link
-            href={`/catalog/${category.name.toLowerCase()}`}
+            href={`/catalog/?category=${category.name.toLowerCase()}`}
             key={category.id}
             className={`${styles.category_item} ${
               index < 2 && styles.category_item_large
