@@ -13,6 +13,7 @@ export default async function Catalog(props: SearchParamProps) {
   const searchParams = await props.searchParams
   const query = searchParams?.query || ''
   const categories = searchParams?.category?.split(',') || []
+  const sortOption = searchParams?.sort || ''
 
   return (
     <Suspense key={query} fallback={<div>Searching ..</div>}>
@@ -20,6 +21,7 @@ export default async function Catalog(props: SearchParamProps) {
         products={products}
         searchQuery={query}
         categories={categories}
+        sortOption={sortOption}
       />
     </Suspense>
   )

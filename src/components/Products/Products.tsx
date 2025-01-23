@@ -4,6 +4,7 @@ import { Product as ProductType } from '@/lib/types'
 import Product from './Product'
 import styles from './Products.module.css'
 import cn from 'classnames'
+import { sortBy } from '@/utils/sortBy'
 
 interface Props {
   heading?: string
@@ -11,6 +12,7 @@ interface Props {
   numberOfProductsToDisplay?: number
   searchQuery?: string
   categories?: string[]
+  sortOption?: string
 }
 
 export default function Products({
@@ -19,6 +21,7 @@ export default function Products({
   numberOfProductsToDisplay,
   searchQuery,
   categories,
+  sortOption,
 }: Props) {
   const reducedArray = numberOfProductsToDisplay
     ? products.slice(0, numberOfProductsToDisplay)
@@ -34,6 +37,8 @@ export default function Products({
 
   const emptyState = searchQuery && !searchArray.length
 
+  //TODO: figure out displaying favorites
+
   const filters = categories?.length ? [...categories] : []
   const filteredArray = filters?.length
     ? searchArray.filter((searchArrayItem) =>
@@ -42,6 +47,8 @@ export default function Products({
         ),
       )
     : searchArray
+
+  const sortedArray = sortBy(sortOption, filteredArray)
 
   return (
     <div
@@ -55,7 +62,7 @@ export default function Products({
         {emptyState ? (
           <div className={styles.empty_search}>No results are found</div>
         ) : (
-          filteredArray.map(
+          sortedArray.map(
             ({ name, imgSrc, description, price, priceBeforeDiscount, id }) => (
               <Product
                 name={name}

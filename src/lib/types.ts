@@ -17,6 +17,7 @@ export type SearchParamProps = {
   searchParams?: Promise<{
     query?: string
     category?: string
+    sort?: string
   }>
 }
 

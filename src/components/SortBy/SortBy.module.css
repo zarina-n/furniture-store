@@ -19,6 +19,18 @@
   font-size: 16px;
   line-height: 20px;
   cursor: pointer;
+  border-radius: 5px;
+  padding: 4px;
+  transition: all 0.4s;
+}
+
+.button:hover {
+  background-color: lightgray;
+}
+
+.button.active_option {
+  background-color: darkgray;
+  color: #fff;
 }
 
 .toggle_button {
