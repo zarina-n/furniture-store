@@ -1,6 +1,7 @@
 .breadcrumb {
   list-style-type: none;
   display: flex;
+  margin-top: 20px;
 }
 
 .breadcrumb li + li:before {

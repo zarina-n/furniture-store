@@ -1,3 +1,5 @@
+'use client'
+
 import { Product as ProductType } from '@/lib/types'
 import Product from './Product'
 import styles from './Products.module.css'
@@ -20,7 +22,7 @@ export default function Products({
     ? products.slice(0, numberOfProductsToDisplay)
     : products
 
-  const searchArray = searchQuery // TODO: refactor products sorting
+  const searchArray = searchQuery
     ? reducedArray.filter(
         (item) =>
           item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||

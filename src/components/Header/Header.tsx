@@ -92,6 +92,14 @@ export default function Header() {
               ),
           )}
           <Link
+            href={`/catalog/favorites`}
+            replace
+            shallow
+            className={styles.nav_link}
+          >
+            Favorites
+          </Link>
+          <Link
             href={`${pathName}?modal=login`}
             replace
             shallow

@@ -27,7 +27,7 @@ export default function Product({
       <div className={styles.product_name}>{name}</div>
       <p className={styles.product_text}>{description}</p>
       <div className={styles.product_price_box}>
-        <span className={styles.product_price}>{price}</span>
+        <span className={styles.product_price}>${price}</span>
         {priceBeforeDiscount && (
           <span
             className={classNames(
@@ -35,7 +35,7 @@ export default function Product({
               styles.product_price_sale,
             )}
           >
-            {priceBeforeDiscount}
+            ${priceBeforeDiscount}
           </span>
         )}
       </div>
