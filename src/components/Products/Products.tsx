@@ -37,8 +37,6 @@ export default function Products({
 
   const emptyState = searchQuery && !searchArray.length
 
-  //TODO: figure out displaying favorites
-
   const filters = categories?.length ? [...categories] : []
   const filteredArray = filters?.length
     ? searchArray.filter((searchArrayItem) =>

@@ -1,0 +1,29 @@
+.breadcrumb {
+  list-style-type: none;
+  display: flex;
+  margin-top: 20px;
+}
+
+.breadcrumb li + li:before {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 32px;
+  color: #000000;
+  content: '/\00a0';
+}
+
+.list_link {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 32px;
+  color: #000000;
+  padding: 10px;
+  transition: 0.4s;
+
+  &:hover {
+    text-decoration: underline;
+    color: #888888;
+  }
+}
