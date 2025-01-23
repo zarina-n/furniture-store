@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import styles from './Filters.module.css'
-import { categories as filters } from '@/mockedData/categories'
+import { filters } from '@/mockedData/categories'
 import Button from '../Button/Button'
 
 // TODO: change namings for filters and categories
