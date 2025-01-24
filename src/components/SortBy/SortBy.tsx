@@ -1,13 +1,15 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import styles from './SortBy.module.css'
 import cn from 'classnames'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { sortByOptions } from '@/mockedData/sortByOptions'
+import { TiArrowSortedUp, TiArrowSortedDown } from 'react-icons/ti'
 
 export default function SortBy() {
   const [areOptionsOpen, setAreOptionsOpen] = useState(false)
+  const dropdownRef = useRef<HTMLDivElement | null>(null)
 
   const searchParams = useSearchParams()
   const router = useRouter()
@@ -16,7 +18,7 @@ export default function SortBy() {
   const params = new URLSearchParams(searchParams)
   const existingSortOption = params.get('sort')
 
-  const onnSortOptionHandler = (name: string, value: string) => {
+  const onnSortOptionHandler = (value: string) => {
     if (existingSortOption === value) {
       params.delete('sort')
     } else {
@@ -26,29 +28,53 @@ export default function SortBy() {
     router.replace(`${pathName}?${params.toString()}`)
   }
 
+  useEffect(() => {
+    const onOutsideClickHandler = (e: MouseEvent) => {
+      if (!dropdownRef.current?.contains(e.target as Node)) {
+        setAreOptionsOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', onOutsideClickHandler)
+
+    return () => {
+      document.removeEventListener('mousedown', onOutsideClickHandler)
+    }
+  }, [])
+
   return (
     <>
-      <div className={styles.select}>
+      <div className={styles.dropdown} ref={dropdownRef}>
         <button
           className={cn(styles.toggle_button, styles.button)}
           onClick={() => setAreOptionsOpen((prev) => !prev)}
         >
           Sort by
+          {areOptionsOpen ? (
+            <TiArrowSortedUp className={styles.toggle_button_icon} />
+          ) : (
+            <TiArrowSortedDown className={styles.toggle_button_icon} />
+          )}
         </button>
-      </div>
-      <div className={cn(styles.option_box, areOptionsOpen && styles.visible)}>
-        {sortByOptions.map(({ name, value }) => (
-          <button
-            key={name}
-            className={cn(
-              styles.button,
-              existingSortOption == value && styles.active_option,
-            )}
-            onClick={() => onnSortOptionHandler(name, value)}
-          >
-            {name}
-          </button>
-        ))}
+        <div
+          className={cn(
+            styles.dropdown_content,
+            areOptionsOpen && styles.visible,
+          )}
+        >
+          {sortByOptions.map(({ name, value }) => (
+            <button
+              key={name}
+              className={cn(
+                styles.button,
+                existingSortOption == value && styles.active_option,
+              )}
+              onClick={() => onnSortOptionHandler(value)}
+            >
+              {name}
+            </button>
+          ))}
+        </div>
       </div>
     </>
   )

@@ -1,25 +1,22 @@
 .breadcrumb {
   list-style-type: none;
   display: flex;
-  margin-top: 20px;
+  margin: 20px 0;
 }
 
-.breadcrumb li + li:before {
-  font-style: normal;
-  font-weight: normal;
-  font-size: 16px;
+.breadcrumb li + li::before {
   line-height: 32px;
   color: #000000;
   content: '/\00a0';
+  padding: 0 5px;
+  text-decoration: none;
+  display: inline-block;
 }
 
 .list_link {
-  font-style: normal;
-  font-weight: normal;
-  font-size: 16px;
   line-height: 32px;
   color: #000000;
-  padding: 10px;
+  padding: 10px 0;
   transition: 0.4s;
 
   &:hover {

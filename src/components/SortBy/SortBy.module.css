@@ -1,15 +1,14 @@
-.select {
-  font-style: normal;
-  font-weight: normal;
+.dropdown {
   color: #000000;
   border: 1px solid #c4c4c4;
   box-sizing: border-box;
   border-radius: 20px;
   width: 200px;
-  padding: 10px 15px;
+  padding: 0 15px;
   display: flex;
-  flex-direction: column;
+  align-items: center;
   position: relative;
+  height: 41px;
 }
 
 .button {
@@ -19,44 +18,56 @@
   font-size: 16px;
   line-height: 20px;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 10px;
   padding: 4px;
-  transition: all 0.4s;
+
+  transform: translateY(0);
+  transition: all 2s;
 }
 
-.button:hover {
-  background-color: lightgray;
-}
-
+.button:hover,
 .button.active_option {
-  background-color: darkgray;
-  color: #fff;
+  background-color: #ede4e4;
 }
 
 .toggle_button {
-  background-image: url(/assets/images/arrow.png);
-  background-repeat: no-repeat;
-  background-position: center right 25px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.option_box {
+.toggle_button:hover {
+  background-color: transparent;
+}
+
+.toggle_button_icon {
+  width: 24px;
+  height: 24px;
+}
+
+.dropdown_content {
   display: none;
+  position: absolute;
+  z-index: 1000;
+  transform: translateY(0);
+  transition: all 2s;
 }
 
-.visible {
+.dropdown_content.visible {
+  left: 0;
+  top: 50px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  position: absolute;
-  right: 50;
-  top: 520;
-  z-index: 1000;
-  background-color: #fff;
   gap: 10px;
-
+  background-color: #fff;
   border: 1px solid #c4c4c4;
   box-sizing: border-box;
   border-radius: 20px;
   width: 200px;
   padding: 10px 15px;
+
+  transform: translateY(0);
+  transition: all 2s;
 }

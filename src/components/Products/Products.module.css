@@ -1,6 +1,6 @@
 .product_box {
   margin-top: 12px;
-  margin-bottom: 12px;
+  margin-bottom: 48px;
 }
 
 .searched_product_box {
@@ -8,6 +8,7 @@
 }
 
 .empty_search {
+  letter-spacing: 1px;
 }
 
 .product_content {
@@ -24,11 +25,12 @@
 
 .product {
   width: 370px;
+  min-height: 384px;
   display: flex;
   flex-direction: column;
   transition: all 0.3s;
   position: relative;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
 }
 
@@ -37,30 +39,12 @@
   box-shadow: 1px 1px 20px 5px #888888;
 }
 
-.product_icons {
-  position: absolute;
-  gap: 26px;
-  left: 80%;
-  padding: 13px 12px 0px 0px;
-  display: none;
-  transition: 0.4s;
-}
-
-svg.cart_icon {
-  fill: #c4c4c4;
-  &:hover {
-    fill: white;
-    filter: brightness(100%);
-  }
-}
-
-.product:hover .product_icons {
-  display: flex;
+.product_img {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 }
 
 .heading {
-  font-style: normal;
-  font-weight: 600;
   font-size: 48px;
   line-height: 59px;
   color: #000000;
@@ -69,7 +53,6 @@ svg.cart_icon {
 }
 
 .product_name {
-  font-style: normal;
   font-weight: 500;
   font-size: 24px;
   line-height: 29px;
@@ -79,21 +62,21 @@ svg.cart_icon {
 }
 
 .product_text {
-  font-style: normal;
-  font-weight: normal;
   font-size: 14px;
   line-height: 17px;
+  letter-spacing: 1px;
   color: #888888;
   margin-bottom: 13px;
   margin-top: 9px;
-  width: 379px;
   padding-left: 5px;
 }
 
 .product_price_box {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   gap: 32px;
-  padding-left: 5px;
+  padding: 0 5px 20px;
 }
 
 .product_price {
@@ -102,6 +85,7 @@ svg.cart_icon {
   font-size: 24px;
   line-height: 29px;
   color: #050505;
+  padding-right: 32px;
 }
 
 .product_price_sale {
@@ -112,3 +96,19 @@ svg.cart_icon {
   text-decoration-line: line-through;
   color: #888888;
 }
+
+.product_icons {
+  display: flex;
+  gap: 12px;
+  padding-right: 5px;
+  transition: 0.4s;
+}
+
+.product_icon {
+  width: 20px;
+  height: 20px;
+  fill: #000;
+}
+
+/* .product_icon:hover {
+} */
