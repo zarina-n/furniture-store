@@ -4,4 +4,5 @@
   flex-wrap: wrap;
   align-items: center;
   margin-bottom: 40px;
+  gap: 20px;
 }

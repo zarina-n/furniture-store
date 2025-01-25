@@ -4,6 +4,7 @@ import { Product as ProductType } from '@/lib/types'
 import Product from './Product'
 import styles from './Products.module.css'
 import cn from 'classnames'
+import { processProducts } from '@/utils/processProducts'
 
 interface Props {
   heading?: string
@@ -18,19 +19,12 @@ export default function Products({
   numberOfProductsToDisplay,
   searchQuery,
 }: Props) {
-  const reducedArray = numberOfProductsToDisplay
-    ? products.slice(0, numberOfProductsToDisplay)
-    : products
-
-  const searchArray = searchQuery
-    ? reducedArray.filter(
-        (item) =>
-          item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          item.description.toLowerCase().includes(searchQuery.toLowerCase()),
-      )
-    : reducedArray
-
-  const emptyState = searchQuery && !searchArray.length
+  const processedProducts = processProducts(
+    products,
+    numberOfProductsToDisplay,
+    searchQuery,
+  )
+  const emptyState = searchQuery && !processedProducts.length
 
   return (
     <div
@@ -44,8 +38,17 @@ export default function Products({
         {emptyState ? (
           <div className={styles.empty_search}>No results are found</div>
         ) : (
-          searchArray.map(
-            ({ name, imgSrc, description, price, priceBeforeDiscount, id }) => (
+          processedProducts.map(
+            ({
+              name,
+              imgSrc,
+              description,
+              price,
+              priceBeforeDiscount,
+              id,
+              favorite,
+              inTheCart,
+            }) => (
               <Product
                 name={name}
                 imgSrc={imgSrc}
@@ -54,6 +57,8 @@ export default function Products({
                 price={price}
                 priceBeforeDiscount={priceBeforeDiscount}
                 id={id}
+                favorite={favorite}
+                inTheCart={inTheCart}
               />
             ),
           )
