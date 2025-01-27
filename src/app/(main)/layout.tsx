@@ -3,18 +3,21 @@ import Wrapper from '@/components/Wrapper/Wrapper'
 import styles from './page.module.css'
 import Header from '@/components/Header/Header'
 import Modal from '@/components/Modal/Modal'
+import Providers from '@/providers/Providers'
 
-export default function Layout({
+export default async function Layout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
   return (
-    <Wrapper>
-      <Header />
-      <main className={styles.main}>{children}</main>
-      <Footer />
-      <Modal />
-    </Wrapper>
+    <Providers>
+      <Wrapper>
+        <Header />
+        <main className={styles.main}>{children}</main>
+        <Footer />
+        <Modal />
+      </Wrapper>
+    </Providers>
   )
 }

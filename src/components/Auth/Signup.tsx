@@ -10,8 +10,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { SignupFormDataSchema } from '@/lib/schemas'
 import { z } from 'zod'
 import { signUpInputs } from '@/lib/authInputs'
-import { signupUser } from '@/api/actions/actions'
+import { signUserUp } from '@/api/actions/actions'
 import { EMAIL_ALREADY_IN_USE } from '@/lib/firebaseErrorCodes'
+import { ACCOUNT_URL } from '@/lib/constants'
 
 export type SignupFormValues = z.infer<typeof SignupFormDataSchema>
 
@@ -30,12 +31,12 @@ export default function Signup() {
   })
 
   const onSubmit: SubmitHandler<SignupFormValues> = async (data) => {
-    const { success, error, message } = await signupUser(data)
+    const { success, error, message } = await signUserUp(data)
 
     reset()
 
     if (success) {
-      router.replace(`${pathName}`)
+      router.push(ACCOUNT_URL)
 
       // TODO: add a popup
     } else {

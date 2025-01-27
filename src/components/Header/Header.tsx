@@ -7,26 +7,33 @@ import classNames from 'classnames'
 import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 import Title from './Title'
 import { ChangeEvent } from 'react'
+import { signUserOut } from '@/api/actions/actions'
+import { useUserProvider } from '@/providers/UserProvider'
+import { ROOT_URL } from '@/lib/constants'
 
 const pageList = [
+  // TODO: move to the separate file
   {
     pageName: '/',
     title: 'Everything your home deserves',
     titleDescription: 'Our furniture is your reflection',
     className: 'home_header',
-    inTheMenu: false,
   },
   {
     pageName: 'catalog',
     title: 'Catalog',
     className: 'catalog_header',
-    inTheMenu: true,
   },
   {
     pageName: 'cart',
     title: 'Cart',
     className: 'cart_header',
-    inTheMenu: true,
+  },
+
+  {
+    pageName: 'account',
+    title: 'Account',
+    className: 'account_header',
   },
 ]
 
@@ -34,12 +41,19 @@ export default function Header() {
   const pathName = usePathname()
   const searchParams = useSearchParams()
   const router = useRouter()
+  const { user } = useUserProvider()
+  const isUserLoggedIn = !!user?.email
+
+  const signOut = async () => {
+    await signUserOut()
+    router.push(ROOT_URL)
+  }
 
   const currentPage = pageList.filter((page) =>
     page.pageName.includes(pathName.slice(1).split('/')[0]),
   ) // TODO: refactor
 
-  const currentPageClassName = currentPage[0]?.className || 'catalog_header'
+  const currentPageClassName = currentPage[0]?.className
 
   const onSearchHandle = (e: ChangeEvent<HTMLInputElement>) => {
     const params = new URLSearchParams(searchParams)
@@ -61,7 +75,13 @@ export default function Header() {
   }
 
   return (
-    <header className={classNames(styles[currentPageClassName], 'center')}>
+    <header
+      className={classNames(
+        styles[currentPageClassName],
+        styles.header_background,
+        'center',
+      )}
+    >
       <div className={styles.header}>
         <Link href={'/'} className="logo logo_invert">
           <Image
@@ -79,35 +99,42 @@ export default function Header() {
           defaultValue={searchParams.get('query')?.toString()}
         />
         <nav className={styles.header_navigation}>
-          {pageList.map(
-            (page) =>
-              page.inTheMenu && (
-                <Link
-                  key={page.pageName}
-                  className={styles.nav_link}
-                  href={`/${page.pageName}`}
-                >
-                  {page.title}
-                </Link>
-              ),
+          <Link className={styles.nav_link} href={'/catalog'}>
+            Catalog
+          </Link>
+          <Link className={styles.nav_link} href={'/cart'}>
+            Cart
+          </Link>
+
+          {isUserLoggedIn ? (
+            <>
+              <Link href={`/catalog/favorites`} className={styles.nav_link}>
+                Favorites
+              </Link>
+              <Link href={`/account`} className={styles.nav_link}>
+                My account
+              </Link>
+              <Link
+                href={`${pathName}`}
+                // replace
+                // shallow
+                className={styles.nav_link}
+                onClick={signOut}
+              >
+                Sign Out
+              </Link>
+            </>
+          ) : (
+            <Link
+              href={`${pathName}?modal=login`}
+              replace
+              shallow
+              className={styles.nav_link}
+              onClick={onLoginHandle}
+            >
+              Login
+            </Link>
           )}
-          <Link
-            href={`/catalog/favorites`}
-            replace
-            shallow
-            className={styles.nav_link}
-          >
-            Favorites
-          </Link>
-          <Link
-            href={`${pathName}?modal=login`}
-            replace
-            shallow
-            className={styles.nav_link}
-            onClick={onLoginHandle}
-          >
-            Login
-          </Link>
         </nav>
       </div>
       <Title

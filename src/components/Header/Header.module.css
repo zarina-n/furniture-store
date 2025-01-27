@@ -1,20 +1,28 @@
-.home_header {
+/* .home_header {
   height: 735px;
   background-image: url(/assets/images/top_background.jpg);
   background-repeat: no-repeat;
   background-size: cover;
+} */
+
+.home_header {
+  background-image: url(/assets/images/top_background.jpg);
 }
 
 .catalog_header {
-  height: 400px;
   background-image: url(/assets/images/catalog_background.jpg);
-  background-repeat: no-repeat;
-  background-size: cover;
 }
 
 .cart_header {
-  height: 400px;
   background-image: url(/assets/images/cart_background.jpg);
+}
+
+.account_header {
+  background-image: url(/assets/images/cart_background.jpg); /*TODO: replace with a custom image*/
+}
+
+.header_background {
+  height: 400px;
   background-repeat: no-repeat;
   background-size: cover;
 }
