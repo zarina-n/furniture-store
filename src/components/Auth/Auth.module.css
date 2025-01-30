@@ -55,10 +55,7 @@
   display: flex;
   gap: 10px;
   justify-content: center;
-
   font-weight: 400;
-  font-size: 18px;
-  line-height: 38px;
   color: #050505;
 }
 
@@ -66,8 +63,6 @@
   border: 1px solid #040404;
   box-sizing: border-box;
   border-radius: 20px;
-  font-style: normal;
-  font-weight: normal;
   font-size: 16px;
   line-height: 20px;
   color: #fff;
@@ -80,6 +75,10 @@
     color: #000;
     cursor: pointer;
   }
+}
+
+.signup_text {
+  font-size: 14px;
 }
 
 .signup_link {

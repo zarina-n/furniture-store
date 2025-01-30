@@ -8,7 +8,7 @@ import {
 
 const protectedRoutes = [ACCOUNT_URL, FAVORITES_ROUTE]
 
-export default function middleware(req: NextRequest) {
+export async function middleware(req: NextRequest) {
   const session = req.cookies.get(SESSION_COOKIE)?.value || ''
 
   if (!session && protectedRoutes.includes(req.nextUrl.pathname)) {

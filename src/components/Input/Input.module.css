@@ -1,6 +1,6 @@
 .error {
   color: salmon;
-  padding-left: 10px;
+  padding-left: 5px;
   font-size: 14px;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px; /**todo: figure out*/
 }

@@ -26,7 +26,12 @@ export default function Signup() {
     setError,
     formState: { errors, isSubmitting, isLoading },
   } = useForm<SignupFormValues>({
-    defaultValues: { email: '', password: '', repeat_password: '' },
+    defaultValues: {
+      username: '',
+      email: '',
+      password: '',
+      repeat_password: '',
+    },
     resolver: zodResolver(SignupFormDataSchema),
   })
 
@@ -63,7 +68,7 @@ export default function Signup() {
           />
         ))}
       </div>
-      <p>
+      <p className={styles.signup_text}>
         By signing up, I agree to the Privacy Police and the Terms of Services.
       </p>
 

@@ -7,14 +7,16 @@ import {
   PathValue,
 } from 'react-hook-form'
 import styles from './Input.module.css'
+import { AuthInputName } from '@/lib/types'
 
 interface Props<T extends FieldValues> {
-  name: 'email' | 'password' | 'name' | 'repeat_password'
+  name: AuthInputName
   placeholder: string
   type: string
   className: string
   control: Control<T>
   errors: FieldErrors<T>
+  id?: string
 }
 
 export default function Input<T extends FieldValues>({

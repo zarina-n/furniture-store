@@ -37,15 +37,25 @@ const pageList = [
   },
 ]
 
-export default function Header() {
+export default function Header({
+  isSessionCookie,
+}: {
+  isSessionCookie: boolean
+}) {
   const pathName = usePathname()
   const searchParams = useSearchParams()
   const router = useRouter()
   const { user } = useUserProvider()
-  const isUserLoggedIn = !!user?.email
+  const isUserLoggedIn = !!user?.email && isSessionCookie
 
   const signOut = async () => {
-    await signUserOut()
+    if (!user?.uid) {
+      console.error('User ID is missing')
+      return
+    }
+    await signUserOut(user.uid)
+    // todo: add popup
+
     router.push(ROOT_URL)
   }
 

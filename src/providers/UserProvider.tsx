@@ -21,6 +21,7 @@ export const UserProvider = ({ children, user }: Props) => {
     }),
     [user],
   )
+
   return (
     <UserProviderContext.Provider value={providerValue}>
       {children}

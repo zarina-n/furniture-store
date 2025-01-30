@@ -39,7 +39,6 @@ export async function getCurrentUser() {
 
   const decodedIdToken = await adminAuth.verifySessionCookie(session!)
   const currentUser = await adminAuth.getUser(decodedIdToken.uid)
-
   return currentUser
 }
 
