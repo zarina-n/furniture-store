@@ -23,10 +23,11 @@ export async function isUserAuthenticated(
 
   try {
     const isRevoked = !(await adminAuth.verifySessionCookie(_session, true))
+
     return !isRevoked
   } catch (error) {
-    console.log(error) // todo: add error popup
-    return false
+    // todo: add error popup
+    return error && false
   }
 }
 
@@ -46,6 +47,7 @@ async function getSession() {
   try {
     return (await cookies()).get(SESSION_COOKIE)?.value
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.log('error', error) // todo: add error popup
     return undefined
   }

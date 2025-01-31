@@ -50,7 +50,6 @@ export default function Header({
 
   const signOut = async () => {
     if (!user?.uid) {
-      console.error('User ID is missing')
       return
     }
     await signUserOut(user.uid)
@@ -126,7 +125,7 @@ export default function Header({
               </Link>
               <Link
                 href={`${pathName}`}
-                // replace
+                replace
                 // shallow
                 className={styles.nav_link}
                 onClick={signOut}
