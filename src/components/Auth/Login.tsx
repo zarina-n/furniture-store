@@ -7,7 +7,7 @@ import Input from '../Input/Input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { LoginFormDataSchema } from '@/lib/schemas'
 import { z } from 'zod'
-import { loginUser } from '@/api/actions/actions'
+import { loginUser } from '@/api/actions'
 import { loginInputs } from '@/lib/authData'
 import AuthForm from './AuthForm'
 

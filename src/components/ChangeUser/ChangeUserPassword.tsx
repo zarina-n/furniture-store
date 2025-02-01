@@ -7,7 +7,7 @@ import { z } from 'zod'
 import { UpdatePasswordFormDataSchema } from '@/lib/schemas'
 import Input from '../Input/Input'
 import styles from './ChangeUser.module.css'
-import { changeUserPassword } from '@/api/actions/actions'
+import { changeUserPassword } from '@/api/actions'
 import ChangeUserDataForm from './ChangeUserDataForm'
 
 export type UpdateUserPasswordFormValues = z.infer<

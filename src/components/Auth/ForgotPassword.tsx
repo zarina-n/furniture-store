@@ -4,7 +4,7 @@ import styles from './Auth.module.css'
 import { z } from 'zod'
 import { ForgotPasswordFormDataSchema } from '@/lib/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { sendResetPasswordLink } from '@/api/actions/actions'
+import { sendResetPasswordLink } from '@/api/actions'
 import { usePathname, useRouter } from 'next/navigation'
 import AuthForm from './AuthForm'
 

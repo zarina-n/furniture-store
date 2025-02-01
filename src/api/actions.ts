@@ -9,8 +9,6 @@ import {
   signOut,
 } from 'firebase/auth'
 import { auth } from '@/firebase/firebase'
-import { FirebaseError } from 'firebase/app'
-import { firebaseErrorMessages, UNKNOWN_ERROR } from '@/lib/firebaseErrorCodes'
 import {
   adminAuth,
   createSessionCookie,
@@ -19,6 +17,7 @@ import {
 import { cookies } from 'next/headers'
 import { SESSION_COOKIE } from '@/lib/constants'
 import { revalidatePath } from 'next/cache'
+import { checkErrors } from './errors-check'
 
 type LoginFormValues = z.infer<typeof LoginFormDataSchema>
 type SignupFormValues = z.infer<typeof SignupFormDataSchema>
@@ -47,16 +46,7 @@ export async function loginUser(data: LoginFormValues) {
 
     return { success: true }
   } catch (error) {
-    if (error instanceof FirebaseError) {
-      const message = firebaseErrorMessages[error.code] || UNKNOWN_ERROR
-      return { success: false, error: error.code, message }
-    } else {
-      return {
-        success: false,
-        error: 'unknown',
-        message: 'Something went wrong.',
-      }
-    }
+    checkErrors(error)
   }
 }
 
@@ -88,16 +78,7 @@ export async function signUserUp(data: SignupFormValues) {
 
     return { success: true }
   } catch (error: unknown) {
-    if (error instanceof FirebaseError) {
-      const message = firebaseErrorMessages[error.code] || UNKNOWN_ERROR
-      return { success: false, error: error.code, message }
-    } else {
-      return {
-        success: false,
-        error: 'unknown',
-        message: 'Something went wrong.',
-      }
-    }
+    checkErrors(error)
   }
 }
 
@@ -132,16 +113,7 @@ export async function changeUserName(uid: string, userName: string) {
 
     return { success: true }
   } catch (error: unknown) {
-    if (error instanceof FirebaseError) {
-      const message = firebaseErrorMessages[error.code] || UNKNOWN_ERROR
-      return { success: false, error: error.code, message }
-    } else {
-      return {
-        success: false,
-        error: 'unknown',
-        message: 'Something went wrong.',
-      }
-    }
+    checkErrors(error)
   }
 }
 
@@ -153,16 +125,7 @@ export async function changeUserEmail(uid: string, email: string) {
 
     return { success: true }
   } catch (error: unknown) {
-    if (error instanceof FirebaseError) {
-      const message = firebaseErrorMessages[error.code] || UNKNOWN_ERROR
-      return { success: false, error: error.code, message }
-    } else {
-      return {
-        success: false,
-        error: 'unknown',
-        message: 'Something went wrong.',
-      }
-    }
+    checkErrors(error)
   }
 }
 
@@ -172,16 +135,7 @@ export async function changeUserPassword(uid: string, password: string) {
 
     return { success: true }
   } catch (error) {
-    if (error instanceof FirebaseError) {
-      const message = firebaseErrorMessages[error.code] || UNKNOWN_ERROR
-      return { success: false, error: error.code, message }
-    } else {
-      return {
-        success: false,
-        error: 'unknown',
-        message: 'Something went wrong.',
-      }
-    }
+    checkErrors(error)
   }
 }
 
@@ -191,15 +145,6 @@ export async function sendResetPasswordLink(email: string) {
     await sendPasswordResetEmail(auth, email)
     return { success: true }
   } catch (error) {
-    if (error instanceof FirebaseError) {
-      const message = firebaseErrorMessages[error.code] || UNKNOWN_ERROR
-      return { success: false, error: error.code, message }
-    } else {
-      return {
-        success: false,
-        error: 'unknown',
-        message: 'Something went wrong.',
-      }
-    }
+    checkErrors(error)
   }
 }

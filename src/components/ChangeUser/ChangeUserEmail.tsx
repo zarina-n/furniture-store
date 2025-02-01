@@ -1,7 +1,7 @@
 'use client'
 
 import { useUserProvider } from '@/providers/UserProvider'
-import { changeUserEmail } from '@/api/actions/actions'
+import { changeUserEmail } from '@/api/actions'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'

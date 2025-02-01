@@ -7,7 +7,7 @@ import classNames from 'classnames'
 import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 import Title from './Title'
 import { ChangeEvent } from 'react'
-import { signUserOut } from '@/api/actions/actions'
+import { signUserOut } from '@/api/actions'
 import { useUserProvider } from '@/providers/UserProvider'
 import { ROOT_URL } from '@/lib/constants'
 
