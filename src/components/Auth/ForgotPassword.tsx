@@ -36,7 +36,10 @@ export default function ForgotPassword() {
       router.replace(`${pathName}`)
       // TODO: add a popup
     } else {
-      setError('email', { type: 'manual', message })
+      setError('email', {
+        type: 'manual',
+        message: message ?? 'An error occurred',
+      })
     }
   }
 

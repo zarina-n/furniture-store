@@ -47,7 +47,10 @@ export default function Signup() {
       if (error === EMAIL_ALREADY_IN_USE) {
         setError('email', { type: 'manual', message })
       } else {
-        setError('repeat_password', { type: 'manual', message })
+        setError('repeat_password', {
+          type: 'manual',
+          message: message ?? 'An error occurred',
+        })
       }
     }
   }

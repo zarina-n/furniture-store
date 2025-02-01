@@ -33,9 +33,7 @@ export async function loginUser(data: LoginFormValues) {
     const idToken = await userCredential.user.getIdToken()
     const expiresIn = 60 * 60 * 24 * 5 * 1000 // 5 days
 
-    const sessionCookie = await createSessionCookie(idToken, {
-      expiresIn: 60 * 60 * 24 * 5 * 1000,
-    })
+    const sessionCookie = await createSessionCookie(idToken, { expiresIn })
 
     const nextCookies = await cookies()
     nextCookies.set(SESSION_COOKIE, sessionCookie, {
@@ -44,9 +42,9 @@ export async function loginUser(data: LoginFormValues) {
       secure: true,
     })
 
-    return { success: true }
+    return { success: true, error: null, message: null }
   } catch (error) {
-    checkErrors(error)
+    return checkErrors(error)
   }
 }
 
@@ -76,9 +74,9 @@ export async function signUserUp(data: SignupFormValues) {
       secure: true,
     })
 
-    return { success: true }
+    return { success: true, error: null, message: null }
   } catch (error: unknown) {
-    checkErrors(error)
+    return checkErrors(error)
   }
 }
 
@@ -97,7 +95,7 @@ export async function signUserOut(uid: string) {
     await revokeAllSessions(sessionCookie)
     nextCookies.delete('_session')
     revalidatePath('/', 'page')
-    return { success: true }
+    return { success: true, error: null, message: null }
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Error signing user out:', error)
@@ -111,9 +109,9 @@ export async function changeUserName(uid: string, userName: string) {
       displayName: userName,
     })
 
-    return { success: true }
+    return { success: true, error: null, message: null }
   } catch (error: unknown) {
-    checkErrors(error)
+    return checkErrors(error)
   }
 }
 
@@ -123,9 +121,9 @@ export async function changeUserEmail(uid: string, email: string) {
       email: email || undefined,
     })
 
-    return { success: true }
+    return { success: true, error: null, message: null }
   } catch (error: unknown) {
-    checkErrors(error)
+    return checkErrors(error)
   }
 }
 
@@ -133,18 +131,17 @@ export async function changeUserPassword(uid: string, password: string) {
   try {
     await adminAuth.updateUser(uid, { password })
 
-    return { success: true }
+    return { success: true, error: null, message: null }
   } catch (error) {
-    checkErrors(error)
+    return checkErrors(error)
   }
 }
 
 export async function sendResetPasswordLink(email: string) {
-  // todo: add forgot password link
   try {
     await sendPasswordResetEmail(auth, email)
-    return { success: true }
+    return { success: true, error: null, message: null }
   } catch (error) {
-    checkErrors(error)
+    return checkErrors(error)
   }
 }

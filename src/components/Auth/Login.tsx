@@ -37,7 +37,10 @@ export default function Login() {
       router.replace(`${pathName}`)
       // TODO: add a popup
     } else {
-      setError('password', { type: 'manual', message })
+      setError('password', {
+        type: 'manual',
+        message: message ?? 'An error occurred',
+      })
     }
   }
 
