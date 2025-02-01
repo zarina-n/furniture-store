@@ -17,7 +17,7 @@ export default function Modal() {
     if (
       modal === 'login' ||
       modal === 'signup' ||
-      modal === 'forgot-password'
+      modal === 'forgot-password' // todo: refactor
     ) {
       dialogRef.current?.showModal()
     } else {
