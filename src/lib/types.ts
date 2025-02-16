@@ -21,8 +21,15 @@ export type SearchParamProps = {
   }>
 }
 
+export type AuthInputName =
+  | 'username'
+  | 'email'
+  | 'password'
+  | 'repeat_password'
+
 export type AuthInputs = {
-  name: 'email' | 'password' | 'repeat_password'
+  name: AuthInputName
   type: string
   placeholder: string
+  label?: string
 }

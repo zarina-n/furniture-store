@@ -14,7 +14,7 @@
 .cart_content_top {
   display: flex;
   justify-content: space-between;
-  margin-top: 64px;
+  margin-top: 20px;
 }
 
 .cart_text {

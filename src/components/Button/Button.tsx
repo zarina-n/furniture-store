@@ -6,9 +6,10 @@ type ButtonSize = 'sm' | 'md' | 'lg'
 interface Props {
   title: string
   type?: 'button' | 'submit' | 'reset' | undefined
-  active: boolean | undefined
-  onButtonClick: () => void
+  active?: boolean | undefined
+  onButtonClick?: () => void
   size?: ButtonSize
+  disabled?: boolean
 }
 
 export default function Button({
@@ -17,6 +18,7 @@ export default function Button({
   active,
   onButtonClick,
   size = 'md',
+  disabled = false,
 }: Props) {
   return (
     <button
@@ -24,6 +26,7 @@ export default function Button({
         styles.button,
         styles[size],
         active && styles.button_active,
+        disabled && styles.button_disabled,
       )}
       type={type}
       onClick={onButtonClick}
