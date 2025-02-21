@@ -26,3 +26,12 @@ export type AuthInputs = {
   type: string
   placeholder: string
 }
+
+export type NavbarPagesType = {
+  href: string
+  title: string
+  titleDescription?: string
+  className: string
+  inTheMenu: boolean
+  requiresAuth?: boolean
+}

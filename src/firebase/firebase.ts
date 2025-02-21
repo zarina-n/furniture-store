@@ -1,5 +1,4 @@
 import { getApp, getApps, initializeApp } from 'firebase/app'
-import { getAuth } from 'firebase/auth'
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -10,17 +9,11 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 }
 
-// code below if using firestore in the client component
+let app
+if (typeof window !== 'undefined' && !getApps().length) {
+  app = initializeApp(firebaseConfig)
+} else {
+  app = getApp()
+}
 
-// let app
-// if (typeof window !== 'undefined' && !getApps().length) {
-//   app = initializeApp(firebaseConfig)
-// } else {
-//   app = getApp()
-// }
-
-const app = !getApps().length ? initializeApp(firebaseConfig) : getApp()
-
-const auth = getAuth(app)
-
-export { app, auth }
+export { app }
