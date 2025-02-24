@@ -36,7 +36,7 @@ export default async function Cart(props: SearchParamProps) {
                   ({
                     name,
                     imgSrc,
-                    description,
+                    shortDescription,
                     price,
                     priceBeforeDiscount,
                     id,
@@ -45,7 +45,7 @@ export default async function Cart(props: SearchParamProps) {
                       key={id}
                       name={name}
                       imgSrc={imgSrc}
-                      description={description}
+                      description={shortDescription}
                       price={price}
                       priceBeforeDiscount={priceBeforeDiscount}
                       id={id}

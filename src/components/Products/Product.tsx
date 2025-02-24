@@ -10,10 +10,10 @@ interface Props {
   // TODO: replace with type from types.ts
   name: string
   imgSrc: string
-  description: string
+  shortDescription: string
   price: number
   priceBeforeDiscount?: number | null | undefined
-  id: number
+  id: string
   favorite: boolean
   inTheCart: boolean
 }
@@ -21,7 +21,7 @@ interface Props {
 export default function Product({
   name,
   imgSrc,
-  description,
+  shortDescription,
   price,
   priceBeforeDiscount,
   id,
@@ -46,7 +46,7 @@ export default function Product({
         className={styles.product_img}
       />
       <div className={styles.product_name}>{name}</div>
-      <p className={styles.product_text}>{description}</p>
+      <p className={styles.product_text}>{shortDescription}</p>
       <div className={styles.product_price_box}>
         <div>
           <span className={styles.product_price}>${price}</span>

@@ -2,11 +2,11 @@ export type Product = {
   name: string
   imgSrc: string
   cartImgSrc: string
-  description: string
+  shortDescription: string
   price: number
   discount?: boolean
   priceBeforeDiscount?: number | null | undefined
-  id: number
+  id: string
   categories?: string[]
   inTheCart: boolean
   cartAmount: number | null

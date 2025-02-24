@@ -42,7 +42,7 @@ export default function Products({
             ({
               name,
               imgSrc,
-              description,
+              shortDescription,
               price,
               priceBeforeDiscount,
               id,
@@ -53,7 +53,7 @@ export default function Products({
                 name={name}
                 imgSrc={imgSrc}
                 key={id}
-                description={description}
+                shortDescription={shortDescription}
                 price={price}
                 priceBeforeDiscount={priceBeforeDiscount}
                 id={id}
