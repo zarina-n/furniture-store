@@ -6,11 +6,11 @@ export const products: Product[] = [
   {
     name: 'Chandelier VODA',
     imgSrc: '/assets/images/top_background.jpg',
-    description:
+    shortDescription:
       'The base made of polished stainless steel gives an original floating effect.',
     price: 450,
     priceBeforeDiscount: 670,
-    id: 1,
+    id: '1',
     discount: true,
     categories: ['kitchen', 'bath'],
     cartImgSrc: '/assets/images/cart_1.jpg',
@@ -21,11 +21,11 @@ export const products: Product[] = [
   {
     name: 'Sofa RONALD',
     imgSrc: '/assets/images/top_background.jpg',
-    description:
+    shortDescription:
       'The model is characterized by simplicity of lines and shapes, without flashy decor.',
     price: 1560,
     priceBeforeDiscount: 1980,
-    id: 2,
+    id: '2',
     discount: true,
     categories: ['rest', 'children', 'work'],
     cartImgSrc: '/assets/images/cart_1.jpg',
@@ -36,10 +36,10 @@ export const products: Product[] = [
   {
     name: 'Chest of Drawers VENT',
     imgSrc: '/assets/images/top_background.jpg',
-    description: 'European oak is particularly strong and stable.',
+    shortDescription: 'European oak is particularly strong and stable.',
     price: 340,
     priceBeforeDiscount: 450,
-    id: 3,
+    id: '3',
     discount: true,
     categories: ['rest', 'work', 'children'],
     cartImgSrc: '/assets/images/cart_1.jpg',
@@ -50,11 +50,11 @@ export const products: Product[] = [
   {
     name: 'Bed TATRAN',
     imgSrc: '/assets/images/top_background.jpg',
-    description:
+    shortDescription:
       'The base made of polished stainless steel gives an original floating effect.',
     price: 1200,
     priceBeforeDiscount: null,
-    id: 4,
+    id: '4',
     discount: false,
     categories: ['rest', 'children'],
     cartImgSrc: '/assets/images/cart_1.jpg',
@@ -65,11 +65,11 @@ export const products: Product[] = [
   {
     name: 'Armchair VILORA',
     imgSrc: '/assets/images/top_background.jpg',
-    description:
+    shortDescription:
       'Soft and cozy, neat and stylish. Resilient seat cushions and pleasant-to-touch fabric.',
     price: 210,
     priceBeforeDiscount: null,
-    id: 5,
+    id: '5',
     discount: false,
     categories: ['rest', 'work', 'children'],
     cartImgSrc: '/assets/images/cart_1.jpg',
@@ -80,10 +80,11 @@ export const products: Product[] = [
   {
     name: 'Table MENU',
     imgSrc: '/assets/images/top_background.jpg',
-    description: 'To make dining enjoyable, you need the right dining table.',
+    shortDescription:
+      'To make dining enjoyable, you need the right dining table.',
     price: 340,
     priceBeforeDiscount: null,
-    id: 6,
+    id: '6',
     discount: false,
     categories: ['kitchen'],
     cartImgSrc: '/assets/images/cart_1.jpg',
@@ -94,11 +95,11 @@ export const products: Product[] = [
   {
     name: 'Armchair ASKESTA',
     imgSrc: '/assets/images/top_background.jpg',
-    description:
+    shortDescription:
       'Highly elastic polyurethane foam inside the chair is reliable and durable.',
     price: 680,
     priceBeforeDiscount: null,
-    id: 7,
+    id: '7',
     discount: false,
     categories: ['rest', 'work', 'children'],
     cartImgSrc: '/assets/images/cart_1.jpg',
@@ -109,11 +110,11 @@ export const products: Product[] = [
   {
     name: 'Table NORMAN',
     imgSrc: '/assets/images/top_background.jpg',
-    description:
+    shortDescription:
       'Perfectly withstands sunlight, humidity changes, and any precipitation.',
     price: 400,
     priceBeforeDiscount: null,
-    id: 8,
+    id: '8',
     discount: false,
     categories: ['kitchen'],
     cartImgSrc: '/assets/images/cart_1.jpg',
@@ -124,11 +125,11 @@ export const products: Product[] = [
   {
     name: 'Sofa NASTAN',
     imgSrc: '/assets/images/top_background.jpg',
-    description:
+    shortDescription:
       'The model is characterized by simplicity of lines and shapes, without flashy decor.',
     price: 800,
     priceBeforeDiscount: null,
-    id: 9,
+    id: '9',
     discount: false,
     categories: ['rest', 'work', 'children'],
     cartImgSrc: '/assets/images/cart_1.jpg',
@@ -139,11 +140,11 @@ export const products: Product[] = [
   {
     name: 'Sofa ASKETA',
     imgSrc: '/assets/images/top_background.jpg',
-    description:
+    shortDescription:
       'Thanks to the snap mechanism, the sofa easily transforms into a comfortable bed.',
     price: 680,
     priceBeforeDiscount: null,
-    id: 10,
+    id: '10',
     discount: false,
     categories: ['rest', 'work', 'children'],
     cartImgSrc: '/assets/images/cart_1.jpg',
@@ -154,11 +155,11 @@ export const products: Product[] = [
   {
     name: 'Armchair LUNAR',
     imgSrc: '/assets/images/top_background.jpg',
-    description:
+    shortDescription:
       'Perfectly withstands sunlight, humidity changes, and any precipitation.',
     price: 400,
     priceBeforeDiscount: null,
-    id: 11,
+    id: '11',
     discount: false,
     categories: ['rest', 'work', 'children'],
     cartImgSrc: '/assets/images/cart_1.jpg',
@@ -169,11 +170,11 @@ export const products: Product[] = [
   {
     name: 'Wardrobe Nastan',
     imgSrc: '/assets/images/top_background.jpg',
-    description:
+    shortDescription:
       'The furniture can be equipped with a variety of lighting systems.',
     price: 800,
     priceBeforeDiscount: null,
-    id: 12,
+    id: '12',
     discount: false,
     categories: ['rest', 'work', 'children'],
     cartImgSrc: '/assets/images/cart_1.jpg',
@@ -187,11 +188,11 @@ export const cartList: Product[] = [
   {
     name: 'Chandelier VODA',
     imgSrc: '/assets/images/top_background.jpg',
-    description:
+    shortDescription:
       'The base made of polished stainless steel gives an original floating effect.',
     price: 450,
     priceBeforeDiscount: 670,
-    id: 1,
+    id: '1',
     discount: true,
     categories: ['kitchen', 'bath'],
     cartImgSrc: '/assets/images/cart_1.jpg',
@@ -202,11 +203,11 @@ export const cartList: Product[] = [
   {
     name: 'Sofa RONALD',
     imgSrc: '/assets/images/top_background.jpg',
-    description:
+    shortDescription:
       'The model is characterized by simplicity of lines and shapes, without flashy decor.',
     price: 1560,
     priceBeforeDiscount: 1980,
-    id: 2,
+    id: '2',
     discount: true,
     categories: ['rest', 'children', 'work'],
     cartImgSrc: '/assets/images/cart_1.jpg',

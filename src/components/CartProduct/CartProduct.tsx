@@ -11,7 +11,7 @@ interface Props {
   description: string
   price: number
   priceBeforeDiscount?: number | null | undefined
-  id: number
+  id: string
 }
 
 export default function CartProduct({

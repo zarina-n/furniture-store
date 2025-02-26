@@ -3,13 +3,15 @@ import styles from './page.module.css'
 import Link from 'next/link'
 import Categories from '@/components/Categories/Categories'
 import classNames from 'classnames'
-import { products } from '../../mockedData/products'
 import { Suspense } from 'react'
 import { SearchParamProps } from '@/lib/types'
+import { getProducts } from '../api/actions'
 
 export default async function Home(props: SearchParamProps) {
   const searchParams = await props.searchParams
   const query = searchParams?.query || ''
+
+  const products = await getProducts()
 
   return (
     <div className={classNames(styles.home, 'center')}>

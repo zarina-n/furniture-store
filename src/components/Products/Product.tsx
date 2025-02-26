@@ -4,36 +4,38 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { FaHeart, FaRegHeart } from 'react-icons/fa6'
 import { BiShoppingBag, BiSolidShoppingBag } from 'react-icons/bi'
+import {
+  addToCart,
+  addToFavorites,
+  removeFromFavorites,
+} from '@/app/api/actions'
+import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
+import { Product as ProductType } from '@/lib/types'
+import { useUser } from '@/providers/UserProvider'
 import { MouseEventHandler } from 'react'
 
-interface Props {
-  // TODO: replace with type from types.ts
-  name: string
-  imgSrc: string
-  description: string
-  price: number
-  priceBeforeDiscount?: number | null | undefined
-  id: number
-  favorite: boolean
-  inTheCart: boolean
-}
+export default function Product({ product }: { product: ProductType }) {
+  const { user } = useKindeBrowserClient()
+  const { firebaseUser } = useUser()
+  const {
+    name,
+    imgSrc,
+    shortDescription,
+    price,
+    priceBeforeDiscount,
+    id,
+    favorite,
+  } = product
 
-export default function Product({
-  name,
-  imgSrc,
-  description,
-  price,
-  priceBeforeDiscount,
-  id,
-  favorite,
-  inTheCart,
-}: Props) {
-  const onCartHandle: MouseEventHandler<SVGElement> = (e) => {
-    e.preventDefault()
-  }
+  const cartItem = firebaseUser?.cart?.filter(
+    (cartItem: { itemId: string }) => cartItem.itemId === id,
+  )
 
-  const onFavoritesHandle: MouseEventHandler<SVGElement> = (e) => {
+  const handleCart: MouseEventHandler<SVGElement> = async (e) => {
     e.preventDefault()
+    const selectedCartItem = cartItem?.[0] ?? { amount: 1, itemId: id }
+
+    await addToCart(user.id, selectedCartItem, id)
   }
 
   return (
@@ -46,7 +48,7 @@ export default function Product({
         className={styles.product_img}
       />
       <div className={styles.product_name}>{name}</div>
-      <p className={styles.product_text}>{description}</p>
+      <p className={styles.product_text}>{shortDescription}</p>
       <div className={styles.product_price_box}>
         <div>
           <span className={styles.product_price}>${price}</span>
@@ -62,26 +64,32 @@ export default function Product({
           )}
         </div>
         <div className={styles.product_icons}>
-          {inTheCart ? (
+          {cartItem?.length ? (
             <BiSolidShoppingBag
               className={styles.product_icon}
-              onClick={onCartHandle}
+              onClick={handleCart}
             />
           ) : (
             <BiShoppingBag
               className={styles.product_icon}
-              onClick={onCartHandle}
+              onClick={handleCart}
             />
           )}
           {favorite ? (
             <FaHeart
               className={styles.product_icon}
-              onClick={onFavoritesHandle}
+              onClick={async (e) => {
+                e.preventDefault()
+                await removeFromFavorites(user.id, id)
+              }}
             />
           ) : (
             <FaRegHeart
               className={styles.product_icon}
-              onClick={onFavoritesHandle}
+              onClick={async (e) => {
+                e.preventDefault()
+                await addToFavorites(user.id, id)
+              }}
             />
           )}
         </div>

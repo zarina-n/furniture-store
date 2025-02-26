@@ -77,6 +77,7 @@
   align-items: center;
   gap: 32px;
   padding: 0 5px 20px;
+  flex-grow: 1;
 }
 
 .product_price {
@@ -108,7 +109,13 @@
   width: 20px;
   height: 20px;
   fill: #000;
+  transition: all 0.4s;
 }
 
-/* .product_icon:hover {
-} */
+.product_icon:hover {
+  transform: scale(1.5);
+}
+
+.product_icon:active {
+  /*add animation on onLoading*/
+}

@@ -38,30 +38,9 @@ export default function Products({
         {emptyState ? (
           <div className={styles.empty_search}>No results are found</div>
         ) : (
-          processedProducts.map(
-            ({
-              name,
-              imgSrc,
-              description,
-              price,
-              priceBeforeDiscount,
-              id,
-              favorite,
-              inTheCart,
-            }) => (
-              <Product
-                name={name}
-                imgSrc={imgSrc}
-                key={id}
-                description={description}
-                price={price}
-                priceBeforeDiscount={priceBeforeDiscount}
-                id={id}
-                favorite={favorite}
-                inTheCart={inTheCart}
-              />
-            ),
-          )
+          processedProducts.map((product) => (
+            <Product product={product} key={product.name} />
+          ))
         )}
       </div>
     </div>
