@@ -8,9 +8,9 @@ const filterBySearchQuery = (
 
   const lowerCaseQuery = query.toLowerCase()
   return products.filter(
-    ({ name, description }) =>
+    ({ name, shortDescription }) =>
       name.toLowerCase().includes(lowerCaseQuery) ||
-      description.toLowerCase().includes(lowerCaseQuery),
+      shortDescription.toLowerCase().includes(lowerCaseQuery),
   )
 }
 

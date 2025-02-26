@@ -3,10 +3,11 @@ import styles from './page.module.css'
 import CartForm from '@/components/CartForm/CartForm'
 import CartProduct from '@/components/CartProduct/CartProduct'
 import classNames from 'classnames'
-import { products, cartList } from '../../../mockedData/products'
+import { cartList } from '../../../mockedData/products'
 import { Metadata } from 'next'
 import { Suspense } from 'react'
 import { SearchParamProps } from '@/lib/types'
+import { getProducts } from '@/app/api/actions'
 
 export const metadata: Metadata = {
   title: 'Interior - Cart',
@@ -16,6 +17,7 @@ export const metadata: Metadata = {
 export default async function Cart(props: SearchParamProps) {
   const searchParams = await props.searchParams
   const query = searchParams?.query || ''
+  const products = await getProducts()
 
   return (
     <>

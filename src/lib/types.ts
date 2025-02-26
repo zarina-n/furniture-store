@@ -35,3 +35,14 @@ export type NavbarPagesType = {
   inTheMenu: boolean
   requiresAuth?: boolean
 }
+
+export type FirebaseUser = {
+  name: string
+  id: string
+  favorites: string[]
+  cart: { amount: number; itemId: string }[]
+} | null
+
+export type UserContextType = {
+  firebaseUser: FirebaseUser
+}
