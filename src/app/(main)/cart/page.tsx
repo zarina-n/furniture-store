@@ -1,13 +1,12 @@
 import Products from '@/components/Products/Products'
 import styles from './page.module.css'
 import CartForm from '@/components/CartForm/CartForm'
-import CartProduct from '@/components/CartProduct/CartProduct'
 import classNames from 'classnames'
-import { cartList } from '../../../mockedData/products'
 import { Metadata } from 'next'
 import { Suspense } from 'react'
 import { SearchParamProps } from '@/lib/types'
 import { getProducts } from '@/app/api/actions'
+import CartList from '@/components/CartProduct/CartList'
 
 export const metadata: Metadata = {
   title: 'Interior - Cart',
@@ -34,34 +33,7 @@ export default async function Cart(props: SearchParamProps) {
                   <p className={styles.cart_text}>Product</p>
                   <p className={styles.cart_text}>Quantity</p>
                 </div>
-                {cartList.map(
-                  ({
-                    name,
-                    imgSrc,
-                    shortDescription,
-                    price,
-                    priceBeforeDiscount,
-                    id,
-                  }) => (
-                    <CartProduct
-                      key={id}
-                      name={name}
-                      imgSrc={imgSrc}
-                      description={shortDescription}
-                      price={price}
-                      priceBeforeDiscount={priceBeforeDiscount}
-                      id={id}
-                    />
-                  ),
-                )}
-                <div className={styles.cart_button_box}>
-                  <button className={styles.cart_button} type="reset">
-                    Empty the cart
-                  </button>
-                  <button className={styles.cart_button}>
-                    Continue shopping
-                  </button>
-                </div>
+                <CartList products={products} />
               </div>
               <CartForm />
             </div>

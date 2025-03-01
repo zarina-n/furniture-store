@@ -3,39 +3,70 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import styles from './CartProduct.module.css'
-
-interface Props {
-  // TODO: replace with type from types.ts
-  name: string
-  imgSrc: string
-  description: string
-  price: number
-  priceBeforeDiscount?: number | null | undefined
-  id: string
-}
+import { Product } from '@/lib/types'
+import { FaHeart, FaRegHeart } from 'react-icons/fa6'
+import {
+  addToFavorites,
+  removeFromFavorites,
+  addToCart,
+} from '@/app/api/actions'
+import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
+import { RiDeleteBin6Line } from 'react-icons/ri'
 
 export default function CartProduct({
   // TODO: add form for input
-  name,
-  imgSrc,
-  description,
-  price,
-  id,
-}: Props) {
+  // todo: add skeleton
+  cartItem,
+}: {
+  cartItem: Product
+}) {
+  const { name, imgSrc, shortDescription, price, id, favorite } = cartItem
+  const { user } = useKindeBrowserClient()
+  const selectedCartItem = { itemId: id, amount: 1 } // todo: replace amount
+
   return (
     <div className={styles.cart_item}>
       <div className={styles.cart_item_info}>
         <div className={styles.cart_item_box}>
           <Link href={`/catalog/${id}`}>
-            <Image src={imgSrc} width={173} height={173} alt={name} />
+            <Image
+              src={imgSrc} // todo: remove cartImgSrc
+              width={173}
+              height={173}
+              alt={name}
+              style={{ objectFit: 'cover' }} // todo: add image loader
+              loading="lazy"
+            />
           </Link>
           <div>
             <h3 className={styles.cart_product_name}>{name}</h3>
-            <p className={styles.cart_product_text}>{description}</p>
-            <span className={styles.cart_product_price}>{price}</span>
+            <p className={styles.cart_product_text}>{shortDescription}</p>
+            <span className={styles.cart_product_price}>${price}</span>
             <div className={styles.cart_link_box}>
-              <p className={styles.cart_link}>Favorites</p>
-              <p className={styles.cart_link}>Remove</p>
+              {favorite ? (
+                <FaHeart
+                  className={styles.product_icon} // todo: add button, repeated element from Product
+                  onClick={async (e) => {
+                    e.preventDefault()
+                    await removeFromFavorites(user.id, id)
+                  }}
+                />
+              ) : (
+                <FaRegHeart
+                  className={styles.product_icon} // todo: add button, repeated element from Product
+                  onClick={async (e) => {
+                    e.preventDefault()
+                    await addToFavorites(user.id, id)
+                  }}
+                />
+              )}
+              <RiDeleteBin6Line
+                className={styles.product_icon}
+                onClick={async (e) => {
+                  e.preventDefault() // todo: add button, repeated element from Product
+                  await addToCart(user.id, selectedCartItem, id)
+                }}
+              />
             </div>
           </div>
         </div>

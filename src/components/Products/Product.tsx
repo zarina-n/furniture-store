@@ -66,12 +66,12 @@ export default function Product({ product }: { product: ProductType }) {
         <div className={styles.product_icons}>
           {cartItem?.length ? (
             <BiSolidShoppingBag
-              className={styles.product_icon}
+              className={styles.product_icon} // todo: add button
               onClick={handleCart}
             />
           ) : (
             <BiShoppingBag
-              className={styles.product_icon}
+              className={styles.product_icon} // todo: add button
               onClick={handleCart}
             />
           )}
@@ -80,7 +80,7 @@ export default function Product({ product }: { product: ProductType }) {
               className={styles.product_icon}
               onClick={async (e) => {
                 e.preventDefault()
-                await removeFromFavorites(user.id, id)
+                await removeFromFavorites(user.id, id) // todo: add button
               }}
             />
           ) : (
@@ -88,7 +88,7 @@ export default function Product({ product }: { product: ProductType }) {
               className={styles.product_icon}
               onClick={async (e) => {
                 e.preventDefault()
-                await addToFavorites(user.id, id)
+                await addToFavorites(user.id, id) // todo: add button
               }}
             />
           )}

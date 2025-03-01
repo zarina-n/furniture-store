@@ -1,7 +1,7 @@
 'use server'
 
 import db from '@/firebase/firebase'
-import { Product } from '@/lib/types'
+import { FirebaseUser, Product } from '@/lib/types'
 import {
   arrayRemove,
   arrayUnion,
@@ -31,7 +31,7 @@ export const getProducts = async () => {
   if (isUserAuthenticated) {
     const firebaseUser = await getFirebaseUser()
 
-    const favoriteProductsIds: string[] = firebaseUser?.favorites
+    const favoriteProductsIds: string[] = firebaseUser?.favorites ?? []
 
     const processedProducts = products.map((product) => {
       const isFavorite = favoriteProductsIds.find((id) => product.id === id)
@@ -58,13 +58,14 @@ export const getFirebaseUser = async () => {
     const user = await getDoc(doc(db, 'users', kindeUser.id))
 
     if (user.exists()) {
-      firebaseUser = user.data()
+      firebaseUser = { ...user.data(), id: kindeUser.id } as FirebaseUser
     } else {
       await setDoc(doc(db, 'users', kindeUser.id), {
         name: kindeUser.given_name,
         email: kindeUser.email,
         cart: [],
         favorites: [],
+        id: kindeUser.id,
       })
     }
   }
@@ -122,4 +123,14 @@ export const addToCart = async (
   }
 }
 
-export const removeFromCart = async () => {}
+export const removeAllFromCart = async (userId: string) => {
+  try {
+    const userRef = doc(db, 'users', userId)
+
+    await updateDoc(userRef, { cart: [] }) // todo: refactor
+
+    revalidatePath('/', 'layout')
+  } catch (error) {
+    console.error('Error clearing cart:', error)
+  }
+}
