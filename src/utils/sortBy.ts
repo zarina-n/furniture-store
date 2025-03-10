@@ -1,5 +1,5 @@
 import { Product } from '@/lib/types'
-import { sortByOptions } from '@/mockedData/sortByOptions'
+import { sortByOptions } from '@/utils/sortByOptions'
 
 export const sortBy = (option: string | undefined, arrayToSort: Product[]) => {
   const chosenOption = sortByOptions?.find(

@@ -13,7 +13,7 @@
   margin-top: 42px;
   margin-bottom: 35px;
   font-family: Poppins;
-  font-style: normal;
+
   font-weight: 600;
   font-size: 24px;
   line-height: 36px;
@@ -37,8 +37,6 @@
 }
 
 .form_input::placeholder {
-  font-style: normal;
-  font-weight: normal;
   font-size: 14px;
   line-height: 17px;
   color: #000000;
@@ -54,8 +52,7 @@
   border: 1px solid #040404;
   box-sizing: border-box;
   border-radius: 20px;
-  font-style: normal;
-  font-weight: normal;
+
   font-size: 16px;
   line-height: 20px;
   color: #000000;
@@ -72,8 +69,6 @@
 }
 
 .form_text {
-  font-style: normal;
-  font-weight: normal;
   font-size: 24px;
   line-height: 29px;
   color: #000000;

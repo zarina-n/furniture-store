@@ -1,11 +1,11 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import styles from './Footer.module.css'
-import classNames from 'classnames'
+import cn from 'classnames'
 
 export default function Footer() {
   return (
-    <footer className={classNames(styles.footer, 'center')}>
+    <footer className={cn(styles.footer, 'center')}>
       <Link href={'/'} className="logo">
         <Image src="/assets/svg/logo.svg" width={193} height={33} alt="logo" />
       </Link>

@@ -1,37 +1,28 @@
+'use client'
+
+import { TAX } from '@/utils/constants'
 import styles from './CartForm.module.css'
+import { useCart } from '@/providers/CartProvider'
 
 export default function CartForm() {
+  const { total } = useCart()
+  const tax = total * TAX
+
   return (
     <div className={styles.form}>
-      <h3 className={styles.form_heading}>Place an order</h3>
-      <form className={styles.cart_info} action="#">
+      <h3 className={styles.form_heading}>Order summary</h3>
+      <div className={styles.cart_info}>
         <div className={styles.form_input_box}>
-          <input
-            className={styles.form_input}
-            type="text"
-            name="username"
-            placeholder="Jane Doe"
-          />
-          <input
-            className={styles.form_input}
-            type="tel"
-            name="userphone"
-            placeholder="+ 1 904 000 8080"
-          />
-          <input
-            className={styles.form_input}
-            type="text"
-            name="useraddress"
-            placeholder="Shipping address"
-          />
+          <p>Cart subtotal: {total}</p>
+          <p>Tax: {tax}</p>
         </div>
         <div className={styles.submit}>
-          <p className={styles.form_text}>Total: amount</p>
+          <p className={styles.form_text}>{`Order total: $${total + tax}`}</p>
           <button className={styles.form_button} type="submit">
-            Place an order
+            Checkout
           </button>
         </div>
-      </form>
+      </div>
     </div>
   )
 }

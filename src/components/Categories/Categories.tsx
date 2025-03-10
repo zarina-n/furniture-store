@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import styles from './Categories.module.css'
-import { categories as categoriesList } from '@/mockedData/categories'
+import { categories as categoriesList } from '@/utils/categories'
 
 export default function Categories() {
   return (
