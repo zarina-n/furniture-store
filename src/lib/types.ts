@@ -9,8 +9,8 @@ export type Product = {
   id: string
   categories?: string[]
   inTheCart: boolean
-  cartAmount: number | null
   favorite: boolean
+  amount?: number
 }
 
 export type SearchParamProps = {
@@ -45,4 +45,15 @@ export type FirebaseUser = {
 
 export type UserContextType = {
   firebaseUser: FirebaseUser
+}
+
+export type CartItem = { itemId: string; amount: number; price?: number }
+
+export type CartContextType = {
+  cart: CartItem[]
+  total: number
+  addToCart: (item: CartItem) => void
+  removeFromCart: (id: string) => void
+  updateAmount: (id: string, amount: number) => void
+  updateLocalStorage: (updatedCart: CartItem[]) => void
 }

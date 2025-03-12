@@ -33,8 +33,7 @@
   border-radius: 20px;
   background-color: transparent;
   outline: none;
-  font-style: normal;
-  font-weight: normal;
+
   font-size: 16px;
   line-height: 20px;
   color: #fff;
@@ -53,8 +52,6 @@
 }
 
 .nav_link {
-  font-style: normal;
-  font-weight: normal;
   font-size: 16px;
   line-height: 20px;
   color: #fff;
@@ -66,7 +63,6 @@
 }
 
 .title {
-  font-style: normal;
   font-weight: 600;
   font-size: 64px;
   line-height: 70px;
@@ -76,8 +72,6 @@
 }
 
 .title_text {
-  font-style: normal;
-  font-weight: normal;
   font-size: 24px;
   line-height: 32px;
   color: #fff;
@@ -86,8 +80,6 @@
 }
 
 .title_link {
-  font-style: normal;
-  font-weight: normal;
   font-size: 16px;
   line-height: 24px;
   text-decoration-line: underline;

@@ -1,21 +1,23 @@
-import classNames from 'classnames'
+'use client'
+
+import cn from 'classnames'
 import styles from './Products.module.css'
 import Image from 'next/image'
 import Link from 'next/link'
 import { FaHeart, FaRegHeart } from 'react-icons/fa6'
 import { BiShoppingBag, BiSolidShoppingBag } from 'react-icons/bi'
 import {
-  addToCart,
+  addToFireStoreCart,
   addToFavorites,
   removeFromFavorites,
 } from '@/app/api/actions'
 import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
 import { Product as ProductType } from '@/lib/types'
 import { useUser } from '@/providers/UserProvider'
-import { MouseEventHandler } from 'react'
+import { useCart } from '@/providers/CartProvider'
 
 export default function Product({ product }: { product: ProductType }) {
-  const { user } = useKindeBrowserClient()
+  const { user, isAuthenticated } = useKindeBrowserClient()
   const { firebaseUser } = useUser()
   const {
     name,
@@ -27,15 +29,36 @@ export default function Product({ product }: { product: ProductType }) {
     favorite,
   } = product
 
-  const cartItem = firebaseUser?.cart?.filter(
-    (cartItem: { itemId: string }) => cartItem.itemId === id,
-  )
+  const { cart, addToCart, removeFromCart } = useCart()
 
-  const handleCart: MouseEventHandler<SVGElement> = async (e) => {
-    e.preventDefault()
-    const selectedCartItem = cartItem?.[0] ?? { amount: 1, itemId: id }
+  const cartItem =
+    isAuthenticated && firebaseUser
+      ? firebaseUser?.cart.find((cartItem) => cartItem.itemId === id)
+      : cart.find((cartItem) => cartItem.itemId === id)
 
-    await addToCart(user.id, selectedCartItem, id)
+  const handleCart = async () => {
+    if (cartItem) {
+      if (isAuthenticated) {
+        await addToFireStoreCart(user.id, cartItem)
+      } else {
+        removeFromCart(id)
+      }
+    } else {
+      const newCartItem = { amount: 1, itemId: id, price }
+      if (isAuthenticated) {
+        await addToFireStoreCart(user.id, newCartItem)
+      } else {
+        addToCart(newCartItem)
+      }
+    }
+  }
+
+  const handleFavoriteToggle = async () => {
+    if (favorite) {
+      await removeFromFavorites(user.id, id)
+    } else {
+      await addToFavorites(user.id, id)
+    }
   }
 
   return (
@@ -54,42 +77,33 @@ export default function Product({ product }: { product: ProductType }) {
           <span className={styles.product_price}>${price}</span>
           {priceBeforeDiscount && (
             <span
-              className={classNames(
-                styles.product_price,
-                styles.product_price_sale,
-              )}
+              className={cn(styles.product_price, styles.product_price_sale)}
             >
               ${priceBeforeDiscount}
             </span>
           )}
         </div>
         <div className={styles.product_icons}>
-          {cartItem?.length ? (
+          {cartItem ? (
             <BiSolidShoppingBag
-              className={styles.product_icon}
+              className={styles.product_icon} // todo: add button
               onClick={handleCart}
             />
           ) : (
             <BiShoppingBag
-              className={styles.product_icon}
+              className={styles.product_icon} // todo: add button
               onClick={handleCart}
             />
           )}
           {favorite ? (
             <FaHeart
-              className={styles.product_icon}
-              onClick={async (e) => {
-                e.preventDefault()
-                await removeFromFavorites(user.id, id)
-              }}
+              className={styles.product_icon} // todo: add button
+              onClick={handleFavoriteToggle}
             />
           ) : (
             <FaRegHeart
-              className={styles.product_icon}
-              onClick={async (e) => {
-                e.preventDefault()
-                await addToFavorites(user.id, id)
-              }}
+              className={styles.product_icon} // todo: add button
+              onClick={handleFavoriteToggle}
             />
           )}
         </div>

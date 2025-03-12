@@ -4,7 +4,6 @@
 }
 
 .heading {
-  font-style: normal;
   font-weight: 600;
   font-size: 48px;
   line-height: 59px;
@@ -23,7 +22,7 @@
 .category_item {
   height: 415px;
   grid-column: span 4;
-  font-style: normal;
+
   font-weight: 600;
   font-size: 34px;
   line-height: 41px;
@@ -45,7 +44,6 @@
 }
 
 .category_name {
-  font-style: normal;
   font-weight: 600;
   font-size: 34px;
   line-height: 41px;

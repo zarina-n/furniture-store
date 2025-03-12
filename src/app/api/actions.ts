@@ -1,7 +1,7 @@
 'use server'
 
 import db from '@/firebase/firebase'
-import { Product } from '@/lib/types'
+import { CartItem, FirebaseUser, Product } from '@/lib/types'
 import {
   arrayRemove,
   arrayUnion,
@@ -15,61 +15,56 @@ import {
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
 import { revalidatePath } from 'next/cache'
 
+// todo: handle all errors
+
 export const getProducts = async () => {
   const collectionRef = collection(db, 'products')
+  const productSnapshot = await getDocs(collectionRef)
 
-  const postCollectionSnapshot = await getDocs(collectionRef)
-
-  const products = postCollectionSnapshot.docs.map((doc) => ({
+  const products = productSnapshot.docs.map((doc) => ({
     ...(doc.data() as Product),
     id: doc.id,
   }))
 
   const { isAuthenticated } = getKindeServerSession()
-  const isUserAuthenticated = await isAuthenticated()
 
-  if (isUserAuthenticated) {
+  if (await isAuthenticated()) {
     const firebaseUser = await getFirebaseUser()
+    const favoriteProductsIds = firebaseUser?.favorites ?? []
 
-    const favoriteProductsIds: string[] = firebaseUser?.favorites
-
-    const processedProducts = products.map((product) => {
-      const isFavorite = favoriteProductsIds.find((id) => product.id === id)
-
-      if (isFavorite) return { ...product, favorite: true }
-
-      return product
-    })
-
-    return processedProducts
+    return products.map((product) => ({
+      ...product,
+      favorite: favoriteProductsIds.includes(product.id),
+    }))
   }
 
-  return products
+  return products.map((product) => ({ ...product, favorite: false }))
 }
 
 export const getFirebaseUser = async () => {
   const { isAuthenticated, getUser } = getKindeServerSession()
-  const isUserAuthenticated = await isAuthenticated()
+
+  if (!(await isAuthenticated())) return null
+
   const kindeUser = await getUser()
+  const userRef = doc(db, 'users', kindeUser.id)
+  const userSnap = await getDoc(userRef)
 
-  let firebaseUser
-
-  if (isUserAuthenticated) {
-    const user = await getDoc(doc(db, 'users', kindeUser.id))
-
-    if (user.exists()) {
-      firebaseUser = user.data()
-    } else {
-      await setDoc(doc(db, 'users', kindeUser.id), {
-        name: kindeUser.given_name,
-        email: kindeUser.email,
-        cart: [],
-        favorites: [],
-      })
-    }
+  if (userSnap.exists()) {
+    return { ...userSnap.data(), id: kindeUser.id } as FirebaseUser
   }
 
-  return firebaseUser
+  const newUser = {
+    name: kindeUser.given_name,
+    email: kindeUser.email,
+    cart: [],
+    favorites: [],
+    id: kindeUser.id,
+  }
+
+  await setDoc(userRef, newUser)
+
+  return newUser
 }
 
 export const addToFavorites = async (userId: string, itemId: string) => {
@@ -92,34 +87,68 @@ export const removeFromFavorites = async (userId: string, itemId: string) => {
   revalidatePath('/', 'layout')
 }
 
-export const addToCart = async (
+export const addToFireStoreCart = async (userId: string, newItem: CartItem) => {
+  const userRef = doc(db, 'users', userId)
+  const userSnap = await getDoc(userRef)
+
+  if (!userSnap.exists()) return
+
+  const userData = userSnap.data()
+  const cart: CartItem[] = userData.cart || []
+
+  const itemExists = cart.some((cartItem) => cartItem.itemId === newItem.itemId)
+
+  const updatedCart = itemExists
+    ? cart.filter((cartItem) => cartItem.itemId !== newItem.itemId)
+    : [...cart, { ...newItem, amount: 1, price: newItem.price }]
+
+  await updateDoc(userRef, { cart: updatedCart })
+
+  revalidatePath('/', 'layout')
+}
+
+export const updateCartItemAmount = async (
   userId: string,
-  newItem: { itemId: string; amount: number },
-  itemId: string,
+  newItem: CartItem,
 ) => {
   const userRef = doc(db, 'users', userId)
-  const userSnap = await getDoc(doc(db, 'users', userId))
 
-  if (userSnap.exists()) {
+  try {
+    const userSnap = await getDoc(userRef)
+
+    if (!userSnap.exists()) {
+      throw new Error('User document not found')
+    }
+
     const userData = userSnap.data()
-    const cart = userData.cart || []
+    const cart: CartItem[] = userData.cart || []
 
-    const cartItem = cart.filter(
-      (item: { itemId: string }) => item?.itemId === newItem?.itemId, // todo: rename
+    const cartItemIndex = cart.findIndex(
+      (item) => item.itemId === newItem.itemId,
     )
 
-    if (cartItem.length) {
-      await updateDoc(userRef, {
-        cart: arrayRemove(newItem),
-      })
+    if (cartItemIndex !== -1) {
+      cart[cartItemIndex].amount = newItem.amount
+      await updateDoc(userRef, { cart })
     } else {
-      await updateDoc(userRef, {
-        cart: arrayUnion({ itemId, amount: 1 }),
-      })
+      console.warn('Item not found in cart')
     }
 
     revalidatePath('/', 'layout')
+  } catch (error) {
+    console.error('Error updating cart item amount:', error)
   }
 }
 
-export const removeFromCart = async () => {}
+export const removeAllFromCart = async (userId: string) => {
+  try {
+    const userRef = doc(db, 'users', userId)
+
+    await updateDoc(userRef, { cart: [] }) // todo: refactor
+
+    revalidatePath('/', 'layout')
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Error clearing cart:', error) // todo: refactor
+  }
+}

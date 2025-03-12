@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import styles from './SortBy.module.css'
 import cn from 'classnames'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { sortByOptions } from '@/mockedData/sortByOptions'
+import { sortByOptions } from '@/utils/sortByOptions'
 import { TiArrowSortedUp, TiArrowSortedDown } from 'react-icons/ti'
 
 export default function SortBy() {
