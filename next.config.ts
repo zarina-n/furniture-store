@@ -1,4 +1,4 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   images: {
@@ -8,11 +8,11 @@ const nextConfig: NextConfig = {
         hostname: 'lh3.googleusercontent.com',
       },
       {
-        protocol: "https",
-        hostname: "ik.imagekit.io",
+        protocol: 'https',
+        hostname: 'ik.imagekit.io',
       },
     ],
   },
-  };
+};
 
 export default nextConfig;
