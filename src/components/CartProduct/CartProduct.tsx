@@ -63,6 +63,7 @@ export default function CartProduct({
               alt={name}
               style={{ objectFit: 'cover' }} // todo: add image loader
               loading="lazy"
+              unoptimized
             />
           </Link>
           <div>

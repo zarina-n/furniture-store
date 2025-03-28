@@ -69,6 +69,7 @@ export default function Product({ product }: { product: ProductType }) {
         height={240}
         alt={name}
         className={styles.product_img}
+        unoptimized
       />
       <div className={styles.product_name}>{name}</div>
       <p className={styles.product_text}>{shortDescription}</p>

@@ -19,6 +19,7 @@ export default function AccountHeader() {
             width={30}
             height={30}
             alt="Profile Picture"
+            unoptimized
           />
           Hello, {user?.given_name || user?.email}!
         </div>
