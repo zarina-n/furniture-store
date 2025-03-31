@@ -6,12 +6,6 @@
 
 The project is still under development, and you can track the progress through the detailed checklist in the [CHECKLIST.md](./CHECKLIST.md) file.
 
-## Website URL
-
-[theinterior.site](https://theinterior.site) _(Note: Data is mocked and not functional for real purchases.)_
-
----
-
 ## 🚀 Features
 
 ### Public Routes
