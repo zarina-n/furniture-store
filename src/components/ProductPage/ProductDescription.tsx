@@ -50,7 +50,12 @@ export default function ProductDescription({ product }: { product: Product }) {
       </div>
 
       <div className={styles.cart_info}>
-        <input type="number" value={product.amount} min={1} />
+        <input
+          type="number"
+          value={product.amount}
+          min={1}
+          className={styles.amount_input}
+        />
         <Button title="ADD TO CART" active onButtonClick={() => {}} size="lg" />
       </div>
     </div>
