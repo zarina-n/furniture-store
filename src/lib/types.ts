@@ -1,7 +1,6 @@
 export type Product = {
   name: string
-  imgSrc: string
-  cartImgSrc: string
+  imgSrc: string[]
   shortDescription: string
   price: number
   discount?: boolean
@@ -11,6 +10,15 @@ export type Product = {
   inTheCart: boolean
   favorite: boolean
   amount?: number
+  details: ProductDetail[]
+  productHighlights: string[]
+  longDescription: string[]
+  availability: string
+}
+
+type ProductDetail = {
+  label: string
+  value: string
 }
 
 export type SearchParamProps = {

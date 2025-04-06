@@ -15,7 +15,6 @@ import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
 import { RiDeleteBin6Line } from 'react-icons/ri'
 import { useState } from 'react'
 import { useCart } from '@/providers/CartProvider'
-import { debounce } from '@/utils/debounce'
 
 export default function CartProduct({
   // TODO: add form for input
@@ -46,7 +45,7 @@ export default function CartProduct({
     if (isAuthenticated)
       await updateCartItemAmount(user.id, {
         itemId: id,
-        amount: Number(e.target.value),
+        amount: newAmount,
       })
     updateAmount(id, newAmount)
   }
@@ -57,7 +56,7 @@ export default function CartProduct({
         <div className={styles.cart_item_box}>
           <Link href={`/catalog/${id}`}>
             <Image
-              src={imgSrc} // todo: remove cartImgSrc
+              src={imgSrc[0]}
               width={173}
               height={173}
               alt={name}
@@ -96,12 +95,12 @@ export default function CartProduct({
         <div className={styles.cart_product_price_box}>
           <p className={styles.cart_product_price}>${price * cartAmount}</p>
           <div className={styles.cart_input}>
-            <input // todo: add debounce
+            <input
               className={styles.cart_quantity}
               type="number"
               min="1"
               value={cartAmount}
-              onChange={debounce(handleChange, 1000)}
+              onChange={handleChange}
             />
           </div>
         </div>

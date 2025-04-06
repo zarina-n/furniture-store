@@ -24,3 +24,12 @@
     color: #888888;
   }
 }
+
+.lastItem {
+  pointer-events: none;
+
+  &:hover {
+    text-decoration: none;
+    color: #000000;
+  }
+}

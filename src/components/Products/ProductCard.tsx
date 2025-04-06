@@ -1,7 +1,6 @@
 'use client'
 
 import cn from 'classnames'
-import styles from './Products.module.css'
 import Image from 'next/image'
 import Link from 'next/link'
 import { FaHeart, FaRegHeart } from 'react-icons/fa6'
@@ -15,9 +14,12 @@ import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
 import { Product as ProductType } from '@/lib/types'
 import { useUser } from '@/providers/UserProvider'
 import { useCart } from '@/providers/CartProvider'
+import { MouseEventHandler } from 'react'
+import styles from './Products.module.css'
 
-export default function Product({ product }: { product: ProductType }) {
+export default function ProductCard({ product }: { product: ProductType }) {
   const { user, isAuthenticated } = useKindeBrowserClient()
+
   const { firebaseUser } = useUser()
   const {
     name,
@@ -36,7 +38,8 @@ export default function Product({ product }: { product: ProductType }) {
       ? firebaseUser?.cart.find((cartItem) => cartItem.itemId === id)
       : cart.find((cartItem) => cartItem.itemId === id)
 
-  const handleCart = async () => {
+  const handleCart: MouseEventHandler<SVGElement> = async (e) => {
+    e.preventDefault()
     if (cartItem) {
       if (isAuthenticated) {
         await addToFireStoreCart(user.id, cartItem)
@@ -53,18 +56,24 @@ export default function Product({ product }: { product: ProductType }) {
     }
   }
 
-  const handleFavoriteToggle = async () => {
-    if (favorite) {
-      await removeFromFavorites(user.id, id)
+  const handleFavoriteToggle: MouseEventHandler<SVGElement> = async (e) => {
+    // todo: repeated function
+    e.preventDefault()
+    if (isAuthenticated) {
+      if (favorite) {
+        await removeFromFavorites(user.id, id)
+      } else {
+        await addToFavorites(user.id, id)
+      }
     } else {
-      await addToFavorites(user.id, id)
+      alert('please login or signup')
     }
   }
 
   return (
     <Link className={styles.product} href={`/catalog/${id}`}>
       <Image
-        src={imgSrc}
+        src={imgSrc[0]}
         width={370}
         height={240}
         alt={name}

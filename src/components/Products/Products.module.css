@@ -30,7 +30,7 @@
   flex-direction: column;
   transition: all 0.3s;
   position: relative;
-  border-radius: 10px;
+  border-radius: 6px;
   cursor: pointer;
 }
 
@@ -40,8 +40,8 @@
 }
 
 .product_img {
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
 }
 
 .heading {
@@ -104,6 +104,7 @@
 }
 
 .product_icon {
+  /*todo: repeated element*/
   width: 20px;
   height: 20px;
   fill: #000;

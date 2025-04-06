@@ -30,6 +30,7 @@ export const getProducts = async () => {
 
   if (await isAuthenticated()) {
     const firebaseUser = await getFirebaseUser()
+
     const favoriteProductsIds = firebaseUser?.favorites ?? []
 
     return products.map((product) => ({
@@ -45,12 +46,13 @@ export const getFirebaseUser = async () => {
   const { isAuthenticated, getUser } = getKindeServerSession()
 
   if (!(await isAuthenticated())) return null
-
   const kindeUser = await getUser()
+
   const userRef = doc(db, 'users', kindeUser.id)
   const userSnap = await getDoc(userRef)
 
   if (userSnap.exists()) {
+    console.log(userSnap.data())
     return { ...userSnap.data(), id: kindeUser.id } as FirebaseUser
   }
 
@@ -150,5 +152,33 @@ export const removeAllFromCart = async (userId: string) => {
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Error clearing cart:', error) // todo: refactor
+  }
+}
+
+export const getProduct = async (productId: string) => {
+  const productsRef = doc(db, 'products', productId)
+  const product = (await getDoc(productsRef)).data()
+
+  return product
+}
+
+export const updateProductOnce = async (
+  productId: string,
+  newData: Product,
+) => {
+  const productsRef = doc(db, 'products', productId)
+
+  try {
+    const productSnap = await getDoc(productsRef)
+
+    if (!productSnap.exists()) {
+      console.error('Product not found')
+      return
+    }
+
+    await updateDoc(productsRef, newData)
+    console.log('Product updated successfully')
+  } catch (error) {
+    console.error('Error updating product:', error)
   }
 }
