@@ -87,11 +87,11 @@
   background-color: transparent;
   border: none;
   border-bottom: 1px solid black;
+}
 
-  svg {
-    width: 24px;
-    height: 24px;
-  }
+.description_icon {
+  width: 24px;
+  height: 24px;
 }
 
 .description_text {

@@ -22,7 +22,11 @@ function ToggleSection({
     <div>
       <button className={styles.description} onClick={toggle}>
         <h4 className={styles.title}>{title}</h4>
-        {isOpen ? <TiArrowSortedUp /> : <TiArrowSortedDown />}
+        {isOpen ? (
+          <TiArrowSortedUp className={styles.description_icon} />
+        ) : (
+          <TiArrowSortedDown className={styles.description_icon} />
+        )}
       </button>
       {isOpen && renderContent(content)}
     </div>
