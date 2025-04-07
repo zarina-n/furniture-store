@@ -15,6 +15,7 @@ import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
 import { RiDeleteBin6Line } from 'react-icons/ri'
 import { useState } from 'react'
 import { useCart } from '@/providers/CartProvider'
+import { MouseEventHandler } from 'react'
 
 export default function CartProduct({
   // TODO: add form for input
@@ -28,14 +29,20 @@ export default function CartProduct({
 
   const { user, isAuthenticated } = useKindeBrowserClient()
   const [cartAmount, setCartAmount] = useState(amount ?? 1)
-  const { updateAmount } = useCart()
+  const { updateAmount, removeFromCart } = useCart()
   const selectedCartItem = { itemId: id, amount: cartAmount, price }
 
+  //todo: merge localStorage with existing cart after signin
+
   const handleFavoriteToggle = async () => {
-    if (favorite) {
-      await removeFromFavorites(user.id, id)
+    if (isAuthenticated) {
+      if (favorite) {
+        await removeFromFavorites(user.id, id)
+      } else {
+        await addToFavorites(user.id, id)
+      }
     } else {
-      await addToFavorites(user.id, id)
+      alert('please login') // todo: add notification
     }
   }
 
@@ -48,6 +55,15 @@ export default function CartProduct({
         amount: newAmount,
       })
     updateAmount(id, newAmount)
+  }
+
+  const handleDelete: MouseEventHandler<SVGElement> = async (e) => {
+    e.preventDefault()
+    if (isAuthenticated) {
+      await addToFireStoreCart(user.id, selectedCartItem)
+    } else {
+      removeFromCart(id)
+    }
   }
 
   return (
@@ -83,11 +99,7 @@ export default function CartProduct({
               )}
               <RiDeleteBin6Line
                 className={styles.product_icon}
-                onClick={async (e) => {
-                  e.preventDefault() // todo: add button, repeated element from Product
-                  if (isAuthenticated)
-                    await addToFireStoreCart(user.id, selectedCartItem)
-                }}
+                onClick={handleDelete} // todo: add button, repeated element from Product
               />
             </div>
           </div>

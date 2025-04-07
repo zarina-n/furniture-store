@@ -9,8 +9,10 @@ import {
   doc,
   getDoc,
   getDocs,
+  query,
   setDoc,
   updateDoc,
+  where,
 } from 'firebase/firestore'
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
 import { revalidatePath } from 'next/cache'
@@ -31,15 +33,31 @@ export const getProducts = async () => {
   if (await isAuthenticated()) {
     const firebaseUser = await getFirebaseUser()
 
-    const favoriteProductsIds = firebaseUser?.favorites ?? []
+    const favoriteSet = new Set(firebaseUser?.favorites ?? [])
+    const cartMap = new Map(
+      (firebaseUser?.cart ?? []).map((item) => [item.itemId, item]),
+    )
 
-    return products.map((product) => ({
-      ...product,
-      favorite: favoriteProductsIds.includes(product.id),
-    }))
+    return products.map((product) => {
+      const cartItem = cartMap.get(product.id)
+
+      return {
+        ...product,
+        favorite: favoriteSet.has(product.id),
+        inTheCart: !!cartItem,
+        amount: cartItem?.amount ?? 0,
+        cartPrice: cartItem?.price ?? null,
+      }
+    })
   }
 
-  return products.map((product) => ({ ...product, favorite: false }))
+  return products.map((product) => ({
+    ...product,
+    favorite: false,
+    inTheCart: false,
+    amount: 0,
+    cartPrice: null,
+  }))
 }
 
 export const getFirebaseUser = async () => {
@@ -52,8 +70,12 @@ export const getFirebaseUser = async () => {
   const userSnap = await getDoc(userRef)
 
   if (userSnap.exists()) {
-    console.log(userSnap.data())
-    return { ...userSnap.data(), id: kindeUser.id } as FirebaseUser
+    return {
+      ...userSnap.data(),
+      id: kindeUser.id,
+      favorites: userSnap.data()?.favorites ?? [],
+      cart: userSnap.data()?.cart ?? [],
+    } as FirebaseUser
   }
 
   const newUser = {
@@ -67,6 +89,35 @@ export const getFirebaseUser = async () => {
   await setDoc(userRef, newUser)
 
   return newUser
+}
+
+function chunkArray<T>(array: T[], size: number): T[][] {
+  return Array.from({ length: Math.ceil(array.length / size) }, (_, i) =>
+    array.slice(i * size, i * size + size),
+  )
+} // todo: move to a different file
+
+export const getFavoriteProducts = async () => {
+  const user = await getFirebaseUser()
+  const favoriteIds = user?.favorites ?? []
+
+  if (!favoriteIds.length) return []
+
+  const chunks = chunkArray(favoriteIds, 10) // firestore where('in), [...] can only only handle 10 items max
+
+  const productDocs = await Promise.all(
+    chunks.map((chunk) =>
+      getDocs(query(collection(db, 'products'), where('id', 'in', chunk))),
+    ),
+  )
+
+  return productDocs
+    .flatMap((snap) => snap.docs)
+    .map((doc) => ({
+      ...(doc.data() as Product),
+      id: doc.id,
+      favorite: true,
+    }))
 }
 
 export const addToFavorites = async (userId: string, itemId: string) => {
@@ -142,6 +193,32 @@ export const updateCartItemAmount = async (
   }
 }
 
+export const addOrUpdateCartItem = async (
+  userId: string,
+  item: { itemId: string; amount: number; price: number },
+) => {
+  const userRef = doc(db, 'users', userId)
+  const userSnap = await getDoc(userRef)
+
+  if (!userSnap.exists()) return
+
+  const userData = userSnap.data()
+  const cart: CartItem[] = userData.cart || []
+
+  const existingItemIndex = cart.findIndex(
+    (cartItem) => cartItem.itemId === item.itemId,
+  )
+
+  if (existingItemIndex !== -1) {
+    cart[existingItemIndex].amount = item.amount
+  } else {
+    cart.push({ ...item })
+  }
+
+  await updateDoc(userRef, { cart })
+  revalidatePath('/', 'layout')
+}
+
 export const removeAllFromCart = async (userId: string) => {
   try {
     const userRef = doc(db, 'users', userId)
@@ -156,10 +233,36 @@ export const removeAllFromCart = async (userId: string) => {
 }
 
 export const getProduct = async (productId: string) => {
-  const productsRef = doc(db, 'products', productId)
-  const product = (await getDoc(productsRef)).data()
+  const productRef = doc(db, 'products', productId)
+  const productSnap = await getDoc(productRef)
 
-  return product
+  if (!productSnap.exists()) return null
+
+  const product = {
+    ...(productSnap.data() as Product),
+    id: productSnap.id,
+  }
+
+  const { isAuthenticated } = getKindeServerSession()
+
+  if (await isAuthenticated()) {
+    const user = (await getFirebaseUser()) as FirebaseUser
+    const isFavorite = user?.favorites.includes(productId) ?? false
+    const cartItem = user?.cart.find((item) => item.itemId === productId)
+    const amount = cartItem?.amount ?? 1
+
+    return {
+      ...product,
+      favorite: isFavorite,
+      amount,
+    }
+  }
+
+  return {
+    ...product,
+    favorite: false,
+    amount: 0,
+  }
 }
 
 export const updateProductOnce = async (
@@ -177,7 +280,6 @@ export const updateProductOnce = async (
     }
 
     await updateDoc(productsRef, newData)
-    console.log('Product updated successfully')
   } catch (error) {
     console.error('Error updating product:', error)
   }

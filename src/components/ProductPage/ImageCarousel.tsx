@@ -35,6 +35,7 @@ export default function ImageCarousel({
           key={i}
           className={cn(styles.image, styles[`image_${i + 1}`])}
           onClick={() => handleImageClick(i)}
+          unoptimized
         />
       ))}
     </div>

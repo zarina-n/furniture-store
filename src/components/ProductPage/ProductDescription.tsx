@@ -4,12 +4,19 @@ import { Product } from '@/lib/types'
 import Button from '../Button/Button'
 import { FaHeart, FaRegHeart } from 'react-icons/fa6'
 import styles from './ProductPage.module.css'
-import { addToFavorites, removeFromFavorites } from '@/app/api/actions'
-import { MouseEventHandler } from 'react'
+import {
+  addOrUpdateCartItem,
+  addToFavorites,
+  removeFromFavorites,
+} from '@/app/api/actions'
+import { MouseEventHandler, useState } from 'react'
 import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
+import { useCart } from '@/providers/CartProvider'
 
 export default function ProductDescription({ product }: { product: Product }) {
   const { user, isAuthenticated } = useKindeBrowserClient()
+  const [cartAmount, setCartAmount] = useState(product.amount ?? 1)
+  const { addToCart } = useCart()
 
   const handleFavoriteToggle: MouseEventHandler<SVGElement> = async (e) => {
     // todo: repeated function (ProductCard)
@@ -24,6 +31,21 @@ export default function ProductDescription({ product }: { product: Product }) {
       alert('please login or signup') // todo: add toast
     }
   }
+
+  const handleCart = async () => {
+    const cartItem = { amount: 1, itemId: product.id, price: product.price }
+
+    if (isAuthenticated) {
+      await addOrUpdateCartItem(user.id, {
+        itemId: product.id,
+        amount: cartAmount,
+        price: product.price,
+      })
+    } else {
+      addToCart(cartItem)
+    }
+  }
+
   return (
     <div>
       <h1 className={styles.product_name}>{product.name}</h1>
@@ -52,11 +74,17 @@ export default function ProductDescription({ product }: { product: Product }) {
       <div className={styles.cart_info}>
         <input
           type="number"
-          value={product.amount}
+          value={cartAmount}
           min={1}
           className={styles.amount_input}
+          onChange={(e) => setCartAmount(Number(e.target.value))}
         />
-        <Button title="ADD TO CART" active onButtonClick={() => {}} size="lg" />
+        <Button
+          title="ADD TO CART"
+          active
+          onButtonClick={handleCart}
+          size="lg"
+        />
       </div>
     </div>
   )

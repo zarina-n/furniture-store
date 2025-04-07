@@ -5,7 +5,7 @@ import { Product as ProductType } from '@/lib/types'
 export default async function Product({
   params,
 }: {
-  params: { productId: string }
+  params: Promise<{ productId: string }>
 }) {
   const { productId } = await params
   const product = (await getProduct(productId)) as ProductType

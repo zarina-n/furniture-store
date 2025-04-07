@@ -48,7 +48,7 @@ export type FirebaseUser = {
   name: string
   id: string
   favorites: string[]
-  cart: { amount: number; itemId: string }[]
+  cart: { amount: number; itemId: string; price: number }[]
 } | null
 
 export type UserContextType = {
