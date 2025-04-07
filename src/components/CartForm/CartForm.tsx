@@ -2,10 +2,8 @@
 
 import { TAX } from '@/utils/constants'
 import styles from './CartForm.module.css'
-import { useCart } from '@/providers/CartProvider'
 
-export default function CartForm() {
-  const { total } = useCart()
+export default function CartForm({ total }: { total: number }) {
   const tax = total * TAX
 
   return (

@@ -34,6 +34,7 @@ function ToggleSection({
 }
 
 export default function ProductDetails({ product }: { product: Product }) {
+  // todo: add animation
   const [showDescription, setShowDescription] = useState(false)
   const [showDetails, setShowDetails] = useState(false)
   // todo: add animation
