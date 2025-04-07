@@ -21,6 +21,7 @@ jobs:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_INTERIOR_92B55 }}
           projectId: interior-92b55
+          firebaseToolsVersion: 13.35.1
         env:
           FIREBASE_CLI_EXPERIMENTS: webframeworks
           KINDE_ISSUER_URL: ${{ secrets.KINDE_ISSUER_URL }}

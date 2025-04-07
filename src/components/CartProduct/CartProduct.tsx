@@ -15,7 +15,7 @@ import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
 import { RiDeleteBin6Line } from 'react-icons/ri'
 import { useState } from 'react'
 import { useCart } from '@/providers/CartProvider'
-import { debounce } from '@/utils/debounce'
+import { MouseEventHandler } from 'react'
 
 export default function CartProduct({
   // TODO: add form for input
@@ -29,14 +29,20 @@ export default function CartProduct({
 
   const { user, isAuthenticated } = useKindeBrowserClient()
   const [cartAmount, setCartAmount] = useState(amount ?? 1)
-  const { updateAmount } = useCart()
+  const { updateAmount, removeFromCart } = useCart()
   const selectedCartItem = { itemId: id, amount: cartAmount, price }
 
+  //todo: merge localStorage with existing cart after signin
+
   const handleFavoriteToggle = async () => {
-    if (favorite) {
-      await removeFromFavorites(user.id, id)
+    if (isAuthenticated) {
+      if (favorite) {
+        await removeFromFavorites(user.id, id)
+      } else {
+        await addToFavorites(user.id, id)
+      }
     } else {
-      await addToFavorites(user.id, id)
+      alert('please login') // todo: add notification
     }
   }
 
@@ -46,9 +52,18 @@ export default function CartProduct({
     if (isAuthenticated)
       await updateCartItemAmount(user.id, {
         itemId: id,
-        amount: Number(e.target.value),
+        amount: newAmount,
       })
     updateAmount(id, newAmount)
+  }
+
+  const handleDelete: MouseEventHandler<SVGElement> = async (e) => {
+    e.preventDefault()
+    if (isAuthenticated) {
+      await addToFireStoreCart(user.id, selectedCartItem)
+    } else {
+      removeFromCart(id)
+    }
   }
 
   return (
@@ -57,12 +72,13 @@ export default function CartProduct({
         <div className={styles.cart_item_box}>
           <Link href={`/catalog/${id}`}>
             <Image
-              src={imgSrc} // todo: remove cartImgSrc
+              src={imgSrc[0]}
               width={173}
               height={173}
               alt={name}
               style={{ objectFit: 'cover' }} // todo: add image loader
               loading="lazy"
+              unoptimized
             />
           </Link>
           <div>
@@ -83,11 +99,7 @@ export default function CartProduct({
               )}
               <RiDeleteBin6Line
                 className={styles.product_icon}
-                onClick={async (e) => {
-                  e.preventDefault() // todo: add button, repeated element from Product
-                  if (isAuthenticated)
-                    await addToFireStoreCart(user.id, selectedCartItem)
-                }}
+                onClick={handleDelete} // todo: add button, repeated element from Product
               />
             </div>
           </div>
@@ -95,12 +107,12 @@ export default function CartProduct({
         <div className={styles.cart_product_price_box}>
           <p className={styles.cart_product_price}>${price * cartAmount}</p>
           <div className={styles.cart_input}>
-            <input // todo: add debounce
+            <input
               className={styles.cart_quantity}
               type="number"
               min="1"
               value={cartAmount}
-              onChange={debounce(handleChange, 1000)}
+              onChange={handleChange}
             />
           </div>
         </div>

@@ -1,4 +1,5 @@
 import Breadcrumbs from '@/components/Breadcrumbs/Breadcrumbs'
+import { ProductProvider } from '@/providers/ProductProvider'
 
 export default function CatalogLayout({
   children,
@@ -6,9 +7,11 @@ export default function CatalogLayout({
   children: React.ReactNode
 }>) {
   return (
-    <div className="center">
-      <Breadcrumbs />
-      {children}
-    </div>
+    <ProductProvider>
+      <div className="center">
+        <Breadcrumbs />
+        {children}
+      </div>
+    </ProductProvider>
   )
 }

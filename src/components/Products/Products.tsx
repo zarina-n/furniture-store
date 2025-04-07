@@ -1,7 +1,7 @@
 'use client'
 
 import { Product as ProductType } from '@/lib/types'
-import Product from './Product'
+import ProductCard from './ProductCard'
 import styles from './Products.module.css'
 import cn from 'classnames'
 import { processProducts } from '@/utils/processProducts'
@@ -39,7 +39,7 @@ export default function Products({
           <div className={styles.empty_search}>No results are found</div>
         ) : (
           processedProducts.map((product) => (
-            <Product product={product} key={product.name} />
+            <ProductCard product={product} key={product.name} />
           ))
         )}
       </div>
