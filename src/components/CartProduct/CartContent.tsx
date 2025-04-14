@@ -4,22 +4,34 @@ import cn from 'classnames'
 import CartForm from '../CartForm/CartForm'
 import Products from '../Products/Products'
 import styles from './CartProduct.module.css'
-import { Product } from '@/lib/types'
 import CartProduct from './CartProduct'
 import { useUser } from '@/providers/UserProvider'
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
-import { useCart } from '@/providers/CartProvider'
 import { removeAllFromCart } from '@/app/api/actions'
 import Link from 'next/link'
+import { syncCartsOnLogin } from '@/utils/syncCartsOnLogin'
+import { useProducts } from '@/providers/ProductsProvider'
 
-export default function CartContent({ products }: { products: Product[] }) {
+export default function CartContent() {
   const { firebaseUser } = useUser()
   const { isAuthenticated } = useKindeBrowserClient()
-  const { cart, updateLocalStorage } = useCart()
+  const [merge] = useState(false) //todo: add modal to it
 
-  const cartItems = products.filter((product) => product.amount !== 0)
-  const emptyState = cartItems.length > 0
+  const { setCart, products, cart } = useProducts()
+
+  const cartMap = new Map(cart.map((item) => [item.id, item]))
+
+  const cartItems = products
+    .filter((product) => cartMap.has(product.id))
+    .map((product) => {
+      const cartItem = cartMap.get(product.id)!
+      return {
+        ...product,
+        amount: cartItem.amount,
+        price: cartItem.price ?? product.price,
+      }
+    })
 
   const total = useMemo(() => {
     return cartItems.reduce((acc, item) => {
@@ -28,18 +40,24 @@ export default function CartContent({ products }: { products: Product[] }) {
     }, 0)
   }, [cartItems])
 
+  const emptyState = cartItems.length > 0
+
   const removeItemsHandler = async () => {
-    updateLocalStorage([])
+    setCart([])
     if (firebaseUser?.id) await removeAllFromCart(firebaseUser?.id)
   }
 
   useEffect(() => {
-    if (isAuthenticated && firebaseUser?.cart) {
-      updateLocalStorage(firebaseUser.cart)
-    } else {
-      updateLocalStorage(cart)
-    }
-  }, [isAuthenticated, firebaseUser?.cart, cart, updateLocalStorage])
+    if (!isAuthenticated || !firebaseUser) return
+
+    syncCartsOnLogin({
+      userId: firebaseUser.id,
+      localCart: cart,
+      userCart: firebaseUser.cart || [],
+      merge,
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isAuthenticated, firebaseUser, merge])
 
   return (
     <form onSubmit={() => {}}>

@@ -1,5 +1,5 @@
 import { AuthProvider } from './AuthProvider'
-import { CartProvider } from './CartProvider'
+import { ProductsProvider } from './ProductsProvider'
 import { UserProvider } from './UserProvider'
 import { getFirebaseUser } from '@/app/api/actions'
 import { FirebaseUser } from '@/lib/types'
@@ -14,7 +14,7 @@ export default async function Providers({
   return (
     <AuthProvider>
       <UserProvider user={firebaseUser}>
-        <CartProvider>{children}</CartProvider>
+        <ProductsProvider>{children}</ProductsProvider>
       </UserProvider>
     </AuthProvider>
   )

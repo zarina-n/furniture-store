@@ -48,14 +48,14 @@ export type FirebaseUser = {
   name: string
   id: string
   favorites: string[]
-  cart: { amount: number; itemId: string; price: number }[]
+  cart: { amount: number; id: string; price: number }[]
 } | null
 
 export type UserContextType = {
   firebaseUser: FirebaseUser
 }
 
-export type CartItem = { itemId: string; amount: number; price?: number }
+export type CartItem = { id: string; amount: number; price: number }
 
 export type CartContextType = {
   cart: CartItem[]
@@ -63,5 +63,19 @@ export type CartContextType = {
   addToCart: (item: CartItem) => void
   removeFromCart: (id: string) => void
   updateAmount: (id: string, amount: number) => void
+  updateLocalStorage: (updatedCart: CartItem[]) => void
+}
+
+export interface LocalState {
+  cart: CartItem[]
+  products: Product[]
+  favorites: string[]
+  setProducts: (products: Product[]) => void
+  setFavorites: (ids: string[]) => void
+  setCart: (items: CartItem[]) => void
+  getProductById: (id: string) => Product | undefined
+  addToCart: (item: CartItem) => void
+  removeFromCart: (id: string) => void
+  updateAmount: (itemId: string, amount: number) => void
   updateLocalStorage: (updatedCart: CartItem[]) => void
 }

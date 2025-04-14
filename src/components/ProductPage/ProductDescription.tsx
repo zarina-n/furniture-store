@@ -11,12 +11,14 @@ import {
 } from '@/app/api/actions'
 import { MouseEventHandler, useState } from 'react'
 import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
-import { useCart } from '@/providers/CartProvider'
+import { useProducts } from '@/providers/ProductsProvider'
 
 export default function ProductDescription({ product }: { product: Product }) {
   const { user, isAuthenticated } = useKindeBrowserClient()
-  const [cartAmount, setCartAmount] = useState(product.amount ?? 1)
-  const { addToCart } = useCart()
+  const [cartAmount, setCartAmount] = useState(
+    !product.amount ? 1 : product.amount,
+  )
+  const { addToCart, updateAmount } = useProducts()
 
   const handleFavoriteToggle: MouseEventHandler<SVGElement> = async (e) => {
     // todo: repeated function (ProductCard)
@@ -33,16 +35,21 @@ export default function ProductDescription({ product }: { product: Product }) {
   }
 
   const handleCart = async () => {
-    const cartItem = { amount: 1, itemId: product.id, price: product.price }
+    const cartItem = {
+      amount: cartAmount,
+      id: product.id,
+      price: product.price,
+    }
 
     if (isAuthenticated) {
       await addOrUpdateCartItem(user.id, {
-        itemId: product.id,
+        id: product.id,
         amount: cartAmount,
         price: product.price,
       })
     } else {
       addToCart(cartItem)
+      updateAmount(product.id, cartAmount) // todo : add check to not run 2 functions
     }
   }
 

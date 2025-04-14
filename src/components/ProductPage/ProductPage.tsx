@@ -1,6 +1,5 @@
 'use client'
 
-import { Product } from '@/lib/types'
 import styles from './ProductPage.module.css'
 import { useProduct } from '@/providers/ProductProvider'
 import { useEffect } from 'react'
@@ -8,19 +7,19 @@ import ProductDescription from './ProductDescription'
 import ImageCarousel from './ImageCarousel'
 import Products from '../Products/Products'
 import ProductDetails from './ProductDetails'
+import { useProducts } from '@/providers/ProductsProvider'
 
-export default function ProductPage({
-  product,
-  products,
-}: {
-  product: Product
-  products: Product[]
-}) {
+export default function ProductPage({ productId }: { productId: string }) {
   const { setProductName } = useProduct()
+  const { products, getProductById } = useProducts()
+
+  const product = getProductById(productId)
 
   useEffect(() => {
-    setProductName(product.name)
+    if (product) setProductName(product.name)
   }, [product, setProductName])
+
+  if (!product) return <div>Loading or product not found</div>
 
   return (
     <div className={styles.product_wrapper}>

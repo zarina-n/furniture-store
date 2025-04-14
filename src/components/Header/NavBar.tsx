@@ -5,7 +5,7 @@ import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
 import styles from './Header.module.css'
 import Link from 'next/link'
 import { NavbarPagesType } from '@/lib/types'
-import { useCart } from '@/providers/CartProvider'
+import { useProducts } from '@/providers/ProductsProvider'
 
 export default function NavBar({
   navbarPages,
@@ -13,7 +13,7 @@ export default function NavBar({
   navbarPages: NavbarPagesType[]
 }) {
   const { isAuthenticated, isLoading } = useKindeBrowserClient() // todo: add user provider
-  const { updateLocalStorage } = useCart()
+  const { setCart } = useProducts()
 
   return (
     <nav className={styles.navbar_navigation}>
@@ -39,10 +39,7 @@ export default function NavBar({
             )
           })}
           {isAuthenticated ? (
-            <LogoutLink
-              className={styles.nav_link}
-              onClick={() => updateLocalStorage([])}
-            >
+            <LogoutLink className={styles.nav_link} onClick={() => setCart([])}>
               Logout
             </LogoutLink>
           ) : (
