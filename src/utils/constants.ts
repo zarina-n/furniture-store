@@ -1,4 +1,4 @@
-export const CART = 'cart'
+export const LOCALSTORAGE_NAME = 'products-storage'
 
 export const DEFAULT_CLASSNAME = 'home_header'
 

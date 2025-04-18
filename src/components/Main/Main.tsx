@@ -5,9 +5,11 @@ import React from 'react'
 import Categories from '../Categories/Categories'
 import Products from '../Products/Products'
 import styles from './Main.module.css'
-import { Product } from '@/lib/types'
+import { useProducts } from '@/providers/ProductsProvider'
 
-export default function Main({ products }: { products: Product[] }) {
+export default function Main() {
+  const { products } = useProducts()
+
   return (
     <>
       <Categories />

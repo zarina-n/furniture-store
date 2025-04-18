@@ -1,14 +1,11 @@
 import { Suspense } from 'react'
-import Products from '@/components/Products/Products'
 import { Metadata } from 'next'
 import { SearchParamProps } from '@/lib/types'
 import Filters from '@/components/Filters/Filters'
 import SortBy from '@/components/SortBy/SortBy'
 import styles from './page.module.css'
-import { filterBy } from '@/utils/filterBy'
-import { sortBy } from '@/utils/sortBy'
 
-import { getProducts } from '@/app/api/actions'
+import CatalogProducts from '@/components/CatalogProducts/CatalogContent'
 
 export const metadata: Metadata = {
   title: 'Interior - Catalog',
@@ -21,18 +18,17 @@ export default async function Catalog(props: SearchParamProps) {
   const categories = searchParams?.category?.split(',') || []
   const sortOption = searchParams?.sort || ''
 
-  const products = await getProducts()
-
-  const filteredArray = filterBy(categories, products)
-  const sortedArray = sortBy(sortOption, filteredArray)
-
   return (
     <Suspense key={query} fallback={<div>Searching ..</div>}>
       <div className={styles.menu}>
         <Filters />
         <SortBy />
       </div>
-      <Products products={sortedArray} searchQuery={query} />
+      <CatalogProducts
+        categories={categories}
+        sortOption={sortOption}
+        query={query}
+      />
     </Suspense>
   )
 }

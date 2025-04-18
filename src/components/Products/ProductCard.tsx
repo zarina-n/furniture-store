@@ -13,9 +13,9 @@ import {
 import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
 import { Product as ProductType } from '@/lib/types'
 import { useUser } from '@/providers/UserProvider'
-import { useCart } from '@/providers/CartProvider'
 import { MouseEventHandler } from 'react'
 import styles from './Products.module.css'
+import { useProducts } from '@/providers/ProductsProvider'
 
 export default function ProductCard({ product }: { product: ProductType }) {
   const { user, isAuthenticated } = useKindeBrowserClient()
@@ -31,12 +31,12 @@ export default function ProductCard({ product }: { product: ProductType }) {
     favorite,
   } = product
 
-  const { cart, addToCart, removeFromCart } = useCart()
+  const { cart, addToCart, removeFromCart } = useProducts()
 
   const cartItem =
     isAuthenticated && firebaseUser
-      ? firebaseUser?.cart.find((cartItem) => cartItem.itemId === id)
-      : cart.find((cartItem) => cartItem.itemId === id)
+      ? firebaseUser?.cart.find((cartItem) => cartItem.id === id)
+      : cart.find((cartItem) => cartItem.id === id)
 
   const handleCart: MouseEventHandler<SVGElement> = async (e) => {
     e.preventDefault()
@@ -47,7 +47,7 @@ export default function ProductCard({ product }: { product: ProductType }) {
         removeFromCart(id)
       }
     } else {
-      const newCartItem = { amount: 1, itemId: id, price }
+      const newCartItem = { amount: 1, id, price }
       if (isAuthenticated) {
         await addToFireStoreCart(user.id, newCartItem)
       } else {

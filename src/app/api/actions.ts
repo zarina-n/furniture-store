@@ -35,7 +35,7 @@ export const getProducts = async () => {
 
     const favoriteSet = new Set(firebaseUser?.favorites ?? [])
     const cartMap = new Map(
-      (firebaseUser?.cart ?? []).map((item) => [item.itemId, item]),
+      (firebaseUser?.cart ?? []).map((item) => [item.id, item]),
     )
 
     return products.map((product) => {
@@ -120,21 +120,21 @@ export const getFavoriteProducts = async () => {
     }))
 }
 
-export const addToFavorites = async (userId: string, itemId: string) => {
+export const addToFavorites = async (userId: string, id: string) => {
   const userRef = doc(db, 'users', userId)
 
   await updateDoc(userRef, {
-    favorites: arrayUnion(itemId),
+    favorites: arrayUnion(id),
   })
 
   revalidatePath('/', 'layout') // todo: add loader to the icon and errors check
 }
 
-export const removeFromFavorites = async (userId: string, itemId: string) => {
+export const removeFromFavorites = async (userId: string, id: string) => {
   const userRef = doc(db, 'users', userId)
 
   await updateDoc(userRef, {
-    favorites: arrayRemove(itemId),
+    favorites: arrayRemove(id),
   })
 
   revalidatePath('/', 'layout')
@@ -149,10 +149,10 @@ export const addToFireStoreCart = async (userId: string, newItem: CartItem) => {
   const userData = userSnap.data()
   const cart: CartItem[] = userData.cart || []
 
-  const itemExists = cart.some((cartItem) => cartItem.itemId === newItem.itemId)
+  const itemExists = cart.some((cartItem) => cartItem.id === newItem.id)
 
   const updatedCart = itemExists
-    ? cart.filter((cartItem) => cartItem.itemId !== newItem.itemId)
+    ? cart.filter((cartItem) => cartItem.id !== newItem.id)
     : [...cart, { ...newItem, amount: 1, price: newItem.price }]
 
   await updateDoc(userRef, { cart: updatedCart })
@@ -176,9 +176,7 @@ export const updateCartItemAmount = async (
     const userData = userSnap.data()
     const cart: CartItem[] = userData.cart || []
 
-    const cartItemIndex = cart.findIndex(
-      (item) => item.itemId === newItem.itemId,
-    )
+    const cartItemIndex = cart.findIndex((item) => item.id === newItem.id)
 
     if (cartItemIndex !== -1) {
       cart[cartItemIndex].amount = newItem.amount
@@ -195,7 +193,7 @@ export const updateCartItemAmount = async (
 
 export const addOrUpdateCartItem = async (
   userId: string,
-  item: { itemId: string; amount: number; price: number },
+  item: { id: string; amount: number; price: number },
 ) => {
   const userRef = doc(db, 'users', userId)
   const userSnap = await getDoc(userRef)
@@ -206,7 +204,7 @@ export const addOrUpdateCartItem = async (
   const cart: CartItem[] = userData.cart || []
 
   const existingItemIndex = cart.findIndex(
-    (cartItem) => cartItem.itemId === item.itemId,
+    (cartItem) => cartItem.id === item.id,
   )
 
   if (existingItemIndex !== -1) {
@@ -248,7 +246,7 @@ export const getProduct = async (productId: string) => {
   if (await isAuthenticated()) {
     const user = (await getFirebaseUser()) as FirebaseUser
     const isFavorite = user?.favorites.includes(productId) ?? false
-    const cartItem = user?.cart.find((item) => item.itemId === productId)
+    const cartItem = user?.cart.find((item) => item.id === productId)
     const amount = cartItem?.amount ?? 1
 
     return {

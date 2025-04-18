@@ -14,8 +14,8 @@ import {
 import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
 import { RiDeleteBin6Line } from 'react-icons/ri'
 import { useState } from 'react'
-import { useCart } from '@/providers/CartProvider'
 import { MouseEventHandler } from 'react'
+import { useProducts } from '@/providers/ProductsProvider'
 
 export default function CartProduct({
   // TODO: add form for input
@@ -29,10 +29,8 @@ export default function CartProduct({
 
   const { user, isAuthenticated } = useKindeBrowserClient()
   const [cartAmount, setCartAmount] = useState(amount ?? 1)
-  const { updateAmount, removeFromCart } = useCart()
-  const selectedCartItem = { itemId: id, amount: cartAmount, price }
-
-  //todo: merge localStorage with existing cart after signin
+  const { removeFromCart, updateAmount } = useProducts()
+  const selectedCartItem = { id, amount: cartAmount, price }
 
   const handleFavoriteToggle = async () => {
     if (isAuthenticated) {
@@ -51,8 +49,9 @@ export default function CartProduct({
     setCartAmount(newAmount)
     if (isAuthenticated)
       await updateCartItemAmount(user.id, {
-        itemId: id,
+        id,
         amount: newAmount,
+        price,
       })
     updateAmount(id, newAmount)
   }
