@@ -10,11 +10,11 @@ import {
   removeFromFavorites,
 } from '@/app/api/actions'
 import { MouseEventHandler, useState } from 'react'
-import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
 import { useProducts } from '@/providers/ProductsProvider'
+import { useUser } from '@/providers/UserProvider'
 
 export default function ProductDescription({ product }: { product: Product }) {
-  const { user, isAuthenticated } = useKindeBrowserClient()
+  const { firebaseUser, isAuthenticated } = useUser()
   const [cartAmount, setCartAmount] = useState(
     !product.amount ? 1 : product.amount,
   )
@@ -23,11 +23,11 @@ export default function ProductDescription({ product }: { product: Product }) {
   const handleFavoriteToggle: MouseEventHandler<SVGElement> = async (e) => {
     // todo: repeated function (ProductCard)
     e.preventDefault()
-    if (isAuthenticated) {
+    if (isAuthenticated && firebaseUser) {
       if (product.favorite) {
-        await removeFromFavorites(user.id, product.id)
+        await removeFromFavorites(firebaseUser.id, product.id)
       } else {
-        await addToFavorites(user.id, product.id)
+        await addToFavorites(firebaseUser.id, product.id)
       }
     } else {
       alert('please login or signup') // todo: add toast
@@ -41,8 +41,8 @@ export default function ProductDescription({ product }: { product: Product }) {
       price: product.price,
     }
 
-    if (isAuthenticated) {
-      await addOrUpdateCartItem(user.id, {
+    if (isAuthenticated && firebaseUser) {
+      await addOrUpdateCartItem(firebaseUser.id, {
         id: product.id,
         amount: cartAmount,
         price: product.price,

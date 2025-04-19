@@ -4,7 +4,7 @@ export const navbarPages: NavbarPagesType[] = [
   {
     href: '',
     title: 'Everything your home deserves',
-    titleDescription: 'Our furniture isLoading your reflection',
+    titleDescription: 'Our furniture is your reflection',
     className: 'home_header',
     inTheMenu: false,
   },

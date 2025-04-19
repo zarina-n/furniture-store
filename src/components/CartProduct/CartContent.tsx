@@ -7,7 +7,6 @@ import styles from './CartProduct.module.css'
 import CartProduct from './CartProduct'
 import { useUser } from '@/providers/UserProvider'
 import { useEffect, useMemo, useState } from 'react'
-import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
 import { removeAllFromCart } from '@/app/api/actions'
 import Link from 'next/link'
 import { syncCartsOnLogin } from '@/utils/syncCartsOnLogin'
@@ -15,7 +14,7 @@ import { useProducts } from '@/providers/ProductsProvider'
 
 export default function CartContent() {
   const { firebaseUser } = useUser()
-  const { isAuthenticated } = useKindeBrowserClient()
+  const { isAuthenticated } = useUser()
   const [merge] = useState(false) //todo: add modal to it
 
   const { setCart, products, cart } = useProducts()

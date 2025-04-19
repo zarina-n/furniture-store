@@ -11,11 +11,11 @@ import {
   addToFireStoreCart,
   updateCartItemAmount,
 } from '@/app/api/actions'
-import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
 import { RiDeleteBin6Line } from 'react-icons/ri'
 import { useState } from 'react'
 import { MouseEventHandler } from 'react'
 import { useProducts } from '@/providers/ProductsProvider'
+import { useUser } from '@/providers/UserProvider'
 
 export default function CartProduct({
   // TODO: add form for input
@@ -27,17 +27,17 @@ export default function CartProduct({
   const { name, imgSrc, shortDescription, price, id, favorite, amount } =
     cartItem
 
-  const { user, isAuthenticated } = useKindeBrowserClient()
+  const { firebaseUser, isAuthenticated } = useUser()
   const [cartAmount, setCartAmount] = useState(amount ?? 1)
   const { removeFromCart, updateAmount } = useProducts()
   const selectedCartItem = { id, amount: cartAmount, price }
 
   const handleFavoriteToggle = async () => {
-    if (isAuthenticated) {
+    if (isAuthenticated && firebaseUser) {
       if (favorite) {
-        await removeFromFavorites(user.id, id)
+        await removeFromFavorites(firebaseUser.id, id)
       } else {
-        await addToFavorites(user.id, id)
+        await addToFavorites(firebaseUser.id, id)
       }
     } else {
       alert('please login') // todo: add notification
@@ -47,8 +47,8 @@ export default function CartProduct({
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const newAmount = Number(e.target.value)
     setCartAmount(newAmount)
-    if (isAuthenticated)
-      await updateCartItemAmount(user.id, {
+    if (isAuthenticated && firebaseUser)
+      await updateCartItemAmount(firebaseUser.id, {
         id,
         amount: newAmount,
         price,
@@ -58,8 +58,8 @@ export default function CartProduct({
 
   const handleDelete: MouseEventHandler<SVGElement> = async (e) => {
     e.preventDefault()
-    if (isAuthenticated) {
-      await addToFireStoreCart(user.id, selectedCartItem)
+    if (isAuthenticated && firebaseUser) {
+      await addToFireStoreCart(firebaseUser.id, selectedCartItem)
     } else {
       removeFromCart(id)
     }

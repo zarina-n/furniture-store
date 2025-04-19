@@ -10,7 +10,6 @@ import {
   addToFavorites,
   removeFromFavorites,
 } from '@/app/api/actions'
-import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
 import { Product as ProductType } from '@/lib/types'
 import { useUser } from '@/providers/UserProvider'
 import { MouseEventHandler } from 'react'
@@ -18,9 +17,8 @@ import styles from './Products.module.css'
 import { useProducts } from '@/providers/ProductsProvider'
 
 export default function ProductCard({ product }: { product: ProductType }) {
-  const { user, isAuthenticated } = useKindeBrowserClient()
+  const { firebaseUser, isAuthenticated } = useUser()
 
-  const { firebaseUser } = useUser()
   const {
     name,
     imgSrc,
@@ -41,15 +39,15 @@ export default function ProductCard({ product }: { product: ProductType }) {
   const handleCart: MouseEventHandler<SVGElement> = async (e) => {
     e.preventDefault()
     if (cartItem) {
-      if (isAuthenticated) {
-        await addToFireStoreCart(user.id, cartItem)
+      if (isAuthenticated && firebaseUser) {
+        await addToFireStoreCart(firebaseUser.id, cartItem)
       } else {
         removeFromCart(id)
       }
     } else {
       const newCartItem = { amount: 1, id, price }
-      if (isAuthenticated) {
-        await addToFireStoreCart(user.id, newCartItem)
+      if (isAuthenticated && firebaseUser) {
+        await addToFireStoreCart(firebaseUser.id, newCartItem)
       } else {
         addToCart(newCartItem)
       }
@@ -59,11 +57,11 @@ export default function ProductCard({ product }: { product: ProductType }) {
   const handleFavoriteToggle: MouseEventHandler<SVGElement> = async (e) => {
     // todo: repeated function
     e.preventDefault()
-    if (isAuthenticated) {
+    if (isAuthenticated && firebaseUser) {
       if (favorite) {
-        await removeFromFavorites(user.id, id)
+        await removeFromFavorites(firebaseUser.id, id)
       } else {
-        await addToFavorites(user.id, id)
+        await addToFavorites(firebaseUser.id, id)
       }
     } else {
       alert('please login or signup')

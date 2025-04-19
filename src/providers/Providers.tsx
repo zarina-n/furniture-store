@@ -3,6 +3,7 @@ import { ProductsProvider } from './ProductsProvider'
 import { UserProvider } from './UserProvider'
 import { getFirebaseUser } from '@/app/api/actions'
 import { FirebaseUser } from '@/lib/types'
+import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
 
 export default async function Providers({
   children,
@@ -10,10 +11,14 @@ export default async function Providers({
   children: React.ReactNode
 }) {
   const firebaseUser = (await getFirebaseUser()) as FirebaseUser
+  const { isAuthenticated } = getKindeServerSession()
 
   return (
     <AuthProvider>
-      <UserProvider user={firebaseUser}>
+      <UserProvider
+        user={firebaseUser}
+        isUserAuthenticated={await isAuthenticated()}
+      >
         <ProductsProvider>{children}</ProductsProvider>
       </UserProvider>
     </AuthProvider>

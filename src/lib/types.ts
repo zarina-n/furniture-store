@@ -53,6 +53,7 @@ export type FirebaseUser = {
 
 export type UserContextType = {
   firebaseUser: FirebaseUser
+  isAuthenticated: boolean
 }
 
 export type CartItem = { id: string; amount: number; price: number }
