@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { LocalState } from '@/lib/types'
-import { LOCALSTORAGE_NAME } from '@/utils/constants'
+import { LOCALSTORAGE_NAME } from '@/lib/constants'
 
 export const useProductsStore = create<LocalState>()(
   persist(

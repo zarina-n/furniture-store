@@ -5,17 +5,13 @@ import Image from 'next/image'
 import styles from './CartProduct.module.css'
 import { Product } from '@/lib/types'
 import { FaHeart, FaRegHeart } from 'react-icons/fa6'
-import {
-  addToFavorites,
-  removeFromFavorites,
-  addToFireStoreCart,
-  updateCartItemAmount,
-} from '@/app/api/actions'
+import { addToFireStoreCart, updateCartItemAmount } from '@/app/api/actions'
 import { RiDeleteBin6Line } from 'react-icons/ri'
 import { useState } from 'react'
 import { MouseEventHandler } from 'react'
 import { useProducts } from '@/providers/ProductsProvider'
 import { useUser } from '@/providers/UserProvider'
+import { handleFavoriteToggle } from '@/utils/handleFavoriteToggle'
 
 export default function CartProduct({
   // TODO: add form for input
@@ -32,19 +28,8 @@ export default function CartProduct({
   const { removeFromCart, updateAmount } = useProducts()
   const selectedCartItem = { id, amount: cartAmount, price }
 
-  const handleFavoriteToggle = async () => {
-    if (isAuthenticated && firebaseUser) {
-      if (favorite) {
-        await removeFromFavorites(firebaseUser.id, id)
-      } else {
-        await addToFavorites(firebaseUser.id, id)
-      }
-    } else {
-      alert('please login') // todo: add notification
-    }
-  }
-
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    // todo: check if there is any other repeated logic
     const newAmount = Number(e.target.value)
     setCartAmount(newAmount)
     if (isAuthenticated && firebaseUser)
@@ -87,13 +72,27 @@ export default function CartProduct({
             <div className={styles.cart_link_box}>
               {favorite ? (
                 <FaHeart
-                  className={styles.product_icon} // todo: add button, repeated element from Product, move logic to a separate
-                  onClick={handleFavoriteToggle}
+                  className={styles.product_icon} // todo: add button
+                  onClick={(e) =>
+                    handleFavoriteToggle({
+                      e,
+                      isAuthenticated,
+                      firebaseUser,
+                      product: cartItem,
+                    })
+                  }
                 />
               ) : (
                 <FaRegHeart
-                  className={styles.product_icon} // todo: add button, repeated element from Product
-                  onClick={handleFavoriteToggle}
+                  className={styles.product_icon} // todo: add button
+                  onClick={(e) =>
+                    handleFavoriteToggle({
+                      e,
+                      isAuthenticated,
+                      firebaseUser,
+                      product: cartItem,
+                    })
+                  }
                 />
               )}
               <RiDeleteBin6Line

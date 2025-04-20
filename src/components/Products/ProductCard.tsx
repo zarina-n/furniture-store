@@ -5,16 +5,13 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { FaHeart, FaRegHeart } from 'react-icons/fa6'
 import { BiShoppingBag, BiSolidShoppingBag } from 'react-icons/bi'
-import {
-  addToFireStoreCart,
-  addToFavorites,
-  removeFromFavorites,
-} from '@/app/api/actions'
+import { addToFireStoreCart } from '@/app/api/actions'
 import { Product as ProductType } from '@/lib/types'
 import { useUser } from '@/providers/UserProvider'
 import { MouseEventHandler } from 'react'
 import styles from './Products.module.css'
 import { useProducts } from '@/providers/ProductsProvider'
+import { handleFavoriteToggle } from '@/utils/handleFavoriteToggle'
 
 export default function ProductCard({ product }: { product: ProductType }) {
   const { firebaseUser, isAuthenticated } = useUser()
@@ -51,20 +48,6 @@ export default function ProductCard({ product }: { product: ProductType }) {
       } else {
         addToCart(newCartItem)
       }
-    }
-  }
-
-  const handleFavoriteToggle: MouseEventHandler<SVGElement> = async (e) => {
-    // todo: repeated function
-    e.preventDefault()
-    if (isAuthenticated && firebaseUser) {
-      if (favorite) {
-        await removeFromFavorites(firebaseUser.id, id)
-      } else {
-        await addToFavorites(firebaseUser.id, id)
-      }
-    } else {
-      alert('please login or signup')
     }
   }
 
@@ -106,12 +89,26 @@ export default function ProductCard({ product }: { product: ProductType }) {
           {favorite ? (
             <FaHeart
               className={styles.product_icon} // todo: add button
-              onClick={handleFavoriteToggle}
+              onClick={(e) =>
+                handleFavoriteToggle({
+                  e,
+                  isAuthenticated,
+                  firebaseUser,
+                  product,
+                })
+              }
             />
           ) : (
             <FaRegHeart
               className={styles.product_icon} // todo: add button
-              onClick={handleFavoriteToggle}
+              onClick={(e) =>
+                handleFavoriteToggle({
+                  e,
+                  isAuthenticated,
+                  firebaseUser,
+                  product,
+                })
+              }
             />
           )}
         </div>

@@ -16,6 +16,7 @@ import {
 } from 'firebase/firestore'
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
 import { revalidatePath } from 'next/cache'
+import { chunkArray } from '@/utils/chunkArray'
 
 // todo: handle all errors
 
@@ -90,12 +91,6 @@ export const getFirebaseUser = async () => {
 
   return newUser
 }
-
-function chunkArray<T>(array: T[], size: number): T[][] {
-  return Array.from({ length: Math.ceil(array.length / size) }, (_, i) =>
-    array.slice(i * size, i * size + size),
-  )
-} // todo: move to a different file
 
 export const getFavoriteProducts = async () => {
   const user = await getFirebaseUser()

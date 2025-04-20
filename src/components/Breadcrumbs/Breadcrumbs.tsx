@@ -4,18 +4,19 @@ import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import styles from './Breadcrumbs.module.css'
 import { useProduct } from '@/providers/ProductProvider'
+import { CATALOG, FAVORITES } from '@/lib/constants'
 
 export default function Breadcrumbs() {
   const paths = usePathname() ?? ''
   const pathNames = paths.split('/').filter((path) => path)
   const { productName } = useProduct()
 
-  const isFavoritesPage = pathNames.length === 2 && pathNames[1] === 'favorites' // todo: move to constant
+  const isFavoritesPage = pathNames.length === 2 && pathNames[1] === FAVORITES
 
   const isProductPage =
     pathNames.length === 2 &&
-    pathNames[0] === 'catalog' && // todo: move to constant
-    pathNames[1] !== 'favorites' // todo: move to constant
+    pathNames[0] === CATALOG &&
+    pathNames[1] !== FAVORITES
 
   return (
     <ul className={styles.breadcrumb}>

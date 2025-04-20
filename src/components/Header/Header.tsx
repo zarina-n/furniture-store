@@ -9,7 +9,7 @@ import Title from './Title'
 import Search from './Search'
 import NavBar from './NavBar'
 import { navbarPages } from '@/lib/navbarPages'
-import { DEFAULT_CLASSNAME } from '@/utils/constants'
+import { DEFAULT_CLASSNAME } from '@/lib/constants'
 
 export default function Header() {
   const pathName = usePathname().slice(1).split('/')[0]

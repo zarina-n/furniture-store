@@ -1,6 +1,6 @@
 'use client'
 
-import { TAX } from '@/utils/constants'
+import { TAX } from '@/lib/constants'
 import styles from './CartForm.module.css'
 
 export default function CartForm({ total }: { total: number }) {
