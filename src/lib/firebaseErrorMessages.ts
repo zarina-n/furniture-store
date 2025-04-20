@@ -9,9 +9,19 @@ export const USER_NOT_FOUND = 'auth/user-not-found'
 export const UNKNOWN_ERROR = 'Something went wrong'
 
 export const firebaseErrorMessages: Record<string, string> = {
-  [USER_NOT_FOUND]: 'No account found with this email.',
+  // Auth errors
+  [EMAIL_ALREADY_EXISTS]: 'An account with this email already exists.',
+  [EMAIL_ALREADY_IN_USE]: 'This email is already in use.',
   [INVALID_CREDENTIAL]: 'Email or password is invalid.',
+  [INVALID_EMAIL]: 'Please enter a valid email address.',
   [INVALID_PASSWORD]: 'Incorrect password. Please try again.',
   [TOO_MANY_REQUESTS]: 'Too many failed login attempts. Try again later.',
-  [EMAIL_ALREADY_IN_USE]: 'This email already exists',
+  [USER_NOT_FOUND]: 'No account found with this email.',
+
+  // Firestore/other Firebase errors
+  'permission-denied': 'You don’t have permission to do this.',
+  'not-found': 'The requested document does not exist.',
+  unavailable: 'The server is currently unavailable. Try again later.',
+  'deadline-exceeded': 'The request took too long. Please try again.',
+  unauthenticated: 'Please log in to perform this action.',
 }

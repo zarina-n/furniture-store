@@ -12,13 +12,11 @@ export default async function Providers({
 }) {
   const firebaseUser = (await getFirebaseUser()) as FirebaseUser
   const { isAuthenticated } = getKindeServerSession()
+  const isAuth = await isAuthenticated()
 
   return (
     <AuthProvider>
-      <UserProvider
-        user={firebaseUser}
-        isUserAuthenticated={await isAuthenticated()}
-      >
+      <UserProvider user={firebaseUser} isUserAuthenticated={isAuth}>
         <ProductsProvider>{children}</ProductsProvider>
       </UserProvider>
     </AuthProvider>

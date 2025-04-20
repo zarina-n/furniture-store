@@ -12,6 +12,8 @@ import { MouseEventHandler } from 'react'
 import styles from './Products.module.css'
 import { useProducts } from '@/providers/ProductsProvider'
 import { handleFavoriteToggle } from '@/utils/handleFavoriteToggle'
+import { showToast } from '@/utils/showToast'
+import { toast } from 'sonner'
 
 export default function ProductCard({ product }: { product: ProductType }) {
   const { firebaseUser, isAuthenticated } = useUser()
@@ -37,16 +39,20 @@ export default function ProductCard({ product }: { product: ProductType }) {
     e.preventDefault()
     if (cartItem) {
       if (isAuthenticated && firebaseUser) {
-        await addToFireStoreCart(firebaseUser.id, cartItem)
+        const result = await addToFireStoreCart(firebaseUser.id, cartItem)
+        showToast(result)
       } else {
         removeFromCart(id)
+        toast.success('Todo: add message')
       }
     } else {
       const newCartItem = { amount: 1, id, price }
       if (isAuthenticated && firebaseUser) {
-        await addToFireStoreCart(firebaseUser.id, newCartItem)
+        const result = await addToFireStoreCart(firebaseUser.id, newCartItem)
+        showToast(result)
       } else {
         addToCart(newCartItem)
+        toast.success('Todo: add message')
       }
     }
   }

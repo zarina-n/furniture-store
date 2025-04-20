@@ -16,6 +16,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Toaster richColors position="top-right" />
+        {/* // todo: check if need to add more properties */}
         <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
       </body>
     </html>

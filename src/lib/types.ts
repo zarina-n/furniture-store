@@ -51,6 +51,10 @@ export type FirebaseUser = {
   cart: { amount: number; id: string; price: number }[]
 } | null
 
+export type FirebaseUserResult =
+  | FirebaseUser
+  | { success: false; message: string }
+
 export type UserContextType = {
   firebaseUser: FirebaseUser
   isAuthenticated: boolean

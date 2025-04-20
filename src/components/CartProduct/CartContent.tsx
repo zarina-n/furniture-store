@@ -11,6 +11,8 @@ import { removeAllFromCart } from '@/app/api/actions'
 import Link from 'next/link'
 import { syncCartsOnLogin } from '@/utils/syncCartsOnLogin'
 import { useProducts } from '@/providers/ProductsProvider'
+import { toast } from 'sonner'
+import { showToast } from '@/utils/showToast'
 
 export default function CartContent() {
   const { firebaseUser } = useUser()
@@ -43,7 +45,13 @@ export default function CartContent() {
 
   const removeItemsHandler = async () => {
     setCart([])
-    if (firebaseUser?.id) await removeAllFromCart(firebaseUser?.id)
+
+    if (firebaseUser?.id) {
+      const result = await removeAllFromCart(firebaseUser?.id)
+      showToast(result)
+    } else {
+      toast.success('Cart is empty!') // todo: add success message
+    }
   }
 
   useEffect(() => {

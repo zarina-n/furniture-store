@@ -9,6 +9,8 @@ import { useState } from 'react'
 import { useProducts } from '@/providers/ProductsProvider'
 import { useUser } from '@/providers/UserProvider'
 import { handleFavoriteToggle } from '@/utils/handleFavoriteToggle'
+import { toast } from 'sonner'
+import { showToast } from '@/utils/showToast'
 
 export default function ProductDescription({ product }: { product: Product }) {
   const { firebaseUser, isAuthenticated } = useUser()
@@ -25,14 +27,16 @@ export default function ProductDescription({ product }: { product: Product }) {
     }
 
     if (isAuthenticated && firebaseUser) {
-      await addOrUpdateCartItem(firebaseUser.id, {
+      const result = await addOrUpdateCartItem(firebaseUser.id, {
         id: product.id,
         amount: cartAmount,
         price: product.price,
       })
+      showToast(result)
     } else {
       addToCart(cartItem)
       updateAmount(product.id, cartAmount) // todo : add check to not run 2 functions
+      toast.success('Todo: edit the text')
     }
   }
 

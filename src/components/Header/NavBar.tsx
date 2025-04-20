@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { NavbarPagesType } from '@/lib/types'
 import { useProducts } from '@/providers/ProductsProvider'
 import { useUser } from '@/providers/UserProvider'
+// import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
 
 export default function NavBar({
   // todo: add loader to login/logout links
@@ -15,6 +16,7 @@ export default function NavBar({
 }) {
   const { isAuthenticated } = useUser()
   const { setCart } = useProducts()
+  // const { isLoading } = useKindeBrowserClient() // todo: add user provider
 
   return (
     <nav className={styles.navbar_navigation}>
@@ -35,6 +37,7 @@ export default function NavBar({
           )
         )
       })}
+
       {isAuthenticated ? (
         <LogoutLink className={styles.nav_link} onClick={() => setCart([])}>
           Logout

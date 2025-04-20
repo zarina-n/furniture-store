@@ -12,6 +12,8 @@ import { MouseEventHandler } from 'react'
 import { useProducts } from '@/providers/ProductsProvider'
 import { useUser } from '@/providers/UserProvider'
 import { handleFavoriteToggle } from '@/utils/handleFavoriteToggle'
+import { showToast } from '@/utils/showToast'
+import { toast } from 'sonner'
 
 export default function CartProduct({
   // TODO: add form for input
@@ -32,21 +34,28 @@ export default function CartProduct({
     // todo: check if there is any other repeated logic
     const newAmount = Number(e.target.value)
     setCartAmount(newAmount)
-    if (isAuthenticated && firebaseUser)
-      await updateCartItemAmount(firebaseUser.id, {
+    if (isAuthenticated && firebaseUser) {
+      const result = await updateCartItemAmount(firebaseUser.id, {
         id,
         amount: newAmount,
         price,
       })
-    updateAmount(id, newAmount)
+      showToast(result)
+      updateAmount(id, newAmount)
+    } else {
+      updateAmount(id, newAmount)
+      toast.success('Todo: add message')
+    }
   }
 
   const handleDelete: MouseEventHandler<SVGElement> = async (e) => {
     e.preventDefault()
     if (isAuthenticated && firebaseUser) {
-      await addToFireStoreCart(firebaseUser.id, selectedCartItem)
+      const result = await addToFireStoreCart(firebaseUser.id, selectedCartItem)
+      showToast(result)
     } else {
       removeFromCart(id)
+      toast.success('Todo: add message') // todo: check if message is missed somewhere where user is not logged in
     }
   }
 

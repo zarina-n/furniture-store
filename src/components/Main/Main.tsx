@@ -17,11 +17,6 @@ export default function Main() {
         heading="Special Offers"
         products={products.filter((product) => product.priceBeforeDiscount)}
       />
-      <Products
-        heading="Products Catalog"
-        products={products.filter((product) => !product.priceBeforeDiscount)}
-        numberOfProductsToDisplay={6}
-      />
       <Link className={styles.catalog_link} href={'/catalog'}>
         Go to Catalog
       </Link>
