@@ -58,7 +58,7 @@
   box-sizing: border-box;
 }
 
-input::-webkit-search-cancel-button {
+.navbar_input::-webkit-search-cancel-button {
   -webkit-appearance: none;
   appearance: none;
   display: none;
