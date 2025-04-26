@@ -1,10 +1,9 @@
 import { usePathname, useSearchParams, useRouter } from 'next/navigation'
 import { ChangeEvent, useEffect, useState } from 'react'
 import styles from './Header.module.css'
-import { RxCross2 } from 'react-icons/rx'
+import { RxCross2, RxMagnifyingGlass } from 'react-icons/rx'
 
 export default function Search() {
-  // todo: add form and request for a product
   const pathName = usePathname()
   const searchParams = useSearchParams()
   const router = useRouter()
@@ -40,6 +39,9 @@ export default function Search() {
         onChange={onSearchHandle}
         value={value}
       />
+      <div className={styles.search_icon}>
+        <RxMagnifyingGlass />
+      </div>
       {value && (
         <button
           type="button"

@@ -6,7 +6,10 @@ import Link from 'next/link'
 import { NavbarPagesType } from '@/lib/types'
 import { useProducts } from '@/providers/ProductsProvider'
 import { useUser } from '@/providers/UserProvider'
-// import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
+import { FaRegCircleUser } from 'react-icons/fa6'
+import { TbLogout } from 'react-icons/tb'
+import { useCartSyncStore } from '@/stores/cartSyncStore'
+import cn from 'classnames'
 
 export default function NavBar({
   // todo: add loader to login/logout links
@@ -14,9 +17,15 @@ export default function NavBar({
 }: {
   navbarPages: NavbarPagesType[]
 }) {
-  const { isAuthenticated } = useUser()
-  const { setCart } = useProducts()
-  // const { isLoading } = useKindeBrowserClient() // todo: add user provider
+  const { isAuthenticated, firebaseUser } = useUser()
+  const { setCart, cart } = useProducts()
+  const { setHasSynced } = useCartSyncStore()
+  const itemsInTheCart = !!cart.length || !!firebaseUser?.cart.length
+
+  const logoutHandler = () => {
+    setCart([])
+    setHasSynced(false)
+  }
 
   return (
     <nav className={styles.navbar_navigation}>
@@ -29,21 +38,26 @@ export default function NavBar({
           page.inTheMenu && (
             <Link
               key={page.href}
-              className={styles.nav_link}
+              className={cn(
+                styles.nav_link,
+                page.extraStyle && itemsInTheCart && styles.items_in_the_cart,
+              )}
               href={`/${page.href}`}
             >
-              {page.title}
+              {page.icon}
             </Link>
           )
         )
       })}
 
       {isAuthenticated ? (
-        <LogoutLink className={styles.nav_link} onClick={() => setCart([])}>
-          Logout
+        <LogoutLink className={styles.nav_link} onClick={logoutHandler}>
+          <TbLogout />
         </LogoutLink>
       ) : (
-        <LoginLink className={styles.nav_link}>Login</LoginLink>
+        <LoginLink className={styles.nav_link}>
+          <FaRegCircleUser />
+        </LoginLink>
       )}
     </nav>
   )

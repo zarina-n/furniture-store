@@ -42,6 +42,8 @@ export type NavbarPagesType = {
   className: string
   inTheMenu: boolean
   requiresAuth?: boolean
+  icon?: React.ReactElement
+  extraStyle?: boolean
 }
 
 export type FirebaseUser = {
