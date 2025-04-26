@@ -42,16 +42,18 @@ export default function ProductCard({ product }: { product: ProductType }) {
         const result = await addToFireStoreCart(firebaseUser.id, cartItem)
         showToast(result)
       }
-      removeFromCart(id) // todo: fix double toast
-      toast.success('The item was removed from the cart') // todo: repeated text
+      removeFromCart(id)
+      if (!isAuthenticated && !firebaseUser)
+        toast.success('The item was removed from the cart') // todo: repeated text
     } else {
       const newCartItem = { amount: 1, id, price }
       if (isAuthenticated && firebaseUser) {
         const result = await addToFireStoreCart(firebaseUser.id, newCartItem)
         showToast(result)
-      } // todo: fix double toast
+      }
       addToCart(newCartItem)
-      toast.success('The item was added to the cart') // todo: repeated text
+      if (!isAuthenticated && !firebaseUser)
+        toast.success('The item was added to the cart') // todo: repeated text
     }
   }
 

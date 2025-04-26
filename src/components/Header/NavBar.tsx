@@ -27,6 +27,8 @@ export default function NavBar({
     setHasSynced(false)
   }
 
+  // todo: add alt for svg
+
   return (
     <nav className={styles.navbar_navigation}>
       {navbarPages.map((page) => {

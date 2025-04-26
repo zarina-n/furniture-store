@@ -54,8 +54,9 @@ export default function CartContent() {
     if (firebaseUser?.id) {
       const result = await removeAllFromCart(firebaseUser?.id)
       showToast(result)
-    } // todo: fix double toast
-    toast.success('Cart is empty!')
+    } else {
+      toast.success('The cart is empty!') // todo: repeated text
+    }
   }
 
   useEffect(() => {

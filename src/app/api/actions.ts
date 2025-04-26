@@ -247,7 +247,7 @@ export const updateCartItemAmount = async (
       await updateDoc(userRef, { cart })
 
       revalidatePath('/', 'layout')
-      return { success: true, message: 'Item amount was updated' } // todo: check for other places where message might be needed
+      return { success: true, message: 'Item amount was updated' }
     }
 
     return { success: false, message: 'Item not found in cart.' }

@@ -55,7 +55,7 @@ export const syncCartsOnLogin = async ({
 
       const hasError = results.some((res) => !res.success)
       if (hasError) {
-        toast.error('Some items in your cart could not be merged.') // todo: edit text
+        toast.error('Some items in your cart could not be merged.')
       }
       return
     }
@@ -78,7 +78,7 @@ export const syncCartsOnLogin = async ({
     }
 
     if (!userHasItems && !localHasItems) {
-      setCart([]) // Optional: explicitly clear
+      setCart([])
     }
   } catch (error) {
     toast.error(`An error occurred while syncing your cart: ${error}`)

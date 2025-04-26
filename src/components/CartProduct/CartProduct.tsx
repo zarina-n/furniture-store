@@ -44,7 +44,7 @@ export default function CartProduct({
       updateAmount(id, newAmount)
     } else {
       updateAmount(id, newAmount)
-      toast.success('Todo: add message')
+      toast.success('Item amount was updated') // todo: repeated text
     }
   }
 
@@ -56,7 +56,8 @@ export default function CartProduct({
     }
 
     removeFromCart(id)
-    toast.success('Item was removed from cart') // todo: repeated text
+    if (!isAuthenticated && !firebaseUser)
+      toast.success('Item was removed from cart') // todo: repeated text
   }
 
   return (

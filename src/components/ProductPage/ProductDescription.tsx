@@ -17,7 +17,7 @@ export default function ProductDescription({ product }: { product: Product }) {
   const [cartAmount, setCartAmount] = useState(
     !product.amount ? 1 : product.amount,
   )
-  const { addToCart, updateAmount } = useProducts()
+  const { addToCart, updateAmount, cart } = useProducts()
 
   const handleCart = async () => {
     const cartItem = {
@@ -34,9 +34,13 @@ export default function ProductDescription({ product }: { product: Product }) {
       })
       showToast(result)
     } else {
-      addToCart(cartItem)
-      updateAmount(product.id, cartAmount) // todo : add check to not run 2 functions
-      toast.success('Todo: edit the text')
+      if (cart.some((item) => cartItem.id === item.id)) {
+        updateAmount(product.id, cartAmount)
+        toast.success('The item amount was updated')
+      } else {
+        addToCart(cartItem)
+        toast.success('The item was added to the cart')
+      }
     }
   }
 

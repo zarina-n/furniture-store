@@ -11,6 +11,7 @@ interface Props {
 }
 
 export const handleFavoriteToggle = async ({
+  // todo: fix revalidate path updating
   e,
   isAuthenticated,
   firebaseUser,
