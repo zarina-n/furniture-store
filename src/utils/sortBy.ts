@@ -7,7 +7,7 @@ export const sortBy = (option: string | undefined, arrayToSort: Product[]) => {
   )?.value
 
   switch (
-    chosenOption //TODO: add more sort options
+    chosenOption // todo: add more sort options
   ) {
     // case 'newest': {
     //   console.log('newest')

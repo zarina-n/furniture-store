@@ -5,17 +5,15 @@ import Image from 'next/image'
 import styles from './CartProduct.module.css'
 import { Product } from '@/lib/types'
 import { FaHeart, FaRegHeart } from 'react-icons/fa6'
-import {
-  addToFavorites,
-  removeFromFavorites,
-  addToFireStoreCart,
-  updateCartItemAmount,
-} from '@/app/api/actions'
-import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
+import { addToFireStoreCart, updateCartItemAmount } from '@/app/api/actions'
 import { RiDeleteBin6Line } from 'react-icons/ri'
 import { useState } from 'react'
 import { MouseEventHandler } from 'react'
 import { useProducts } from '@/providers/ProductsProvider'
+import { useUser } from '@/providers/UserProvider'
+import { handleFavoriteToggle } from '@/utils/handleFavoriteToggle'
+import { showToast } from '@/utils/showToast'
+import { toast } from 'sonner'
 
 export default function CartProduct({
   // TODO: add form for input
@@ -27,42 +25,39 @@ export default function CartProduct({
   const { name, imgSrc, shortDescription, price, id, favorite, amount } =
     cartItem
 
-  const { user, isAuthenticated } = useKindeBrowserClient()
+  const { firebaseUser, isAuthenticated } = useUser()
   const [cartAmount, setCartAmount] = useState(amount ?? 1)
   const { removeFromCart, updateAmount } = useProducts()
   const selectedCartItem = { id, amount: cartAmount, price }
 
-  const handleFavoriteToggle = async () => {
-    if (isAuthenticated) {
-      if (favorite) {
-        await removeFromFavorites(user.id, id)
-      } else {
-        await addToFavorites(user.id, id)
-      }
-    } else {
-      alert('please login') // todo: add notification
-    }
-  }
-
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    // todo: check if there is any other repeated logic
     const newAmount = Number(e.target.value)
     setCartAmount(newAmount)
-    if (isAuthenticated)
-      await updateCartItemAmount(user.id, {
+    if (isAuthenticated && firebaseUser) {
+      const result = await updateCartItemAmount(firebaseUser.id, {
         id,
         amount: newAmount,
         price,
       })
-    updateAmount(id, newAmount)
+      showToast(result)
+      updateAmount(id, newAmount)
+    } else {
+      updateAmount(id, newAmount)
+      toast.success('Item amount was updated') // todo: repeated text
+    }
   }
 
   const handleDelete: MouseEventHandler<SVGElement> = async (e) => {
     e.preventDefault()
-    if (isAuthenticated) {
-      await addToFireStoreCart(user.id, selectedCartItem)
-    } else {
-      removeFromCart(id)
+    if (isAuthenticated && firebaseUser) {
+      const result = await addToFireStoreCart(firebaseUser.id, selectedCartItem)
+      showToast(result)
     }
+
+    removeFromCart(id)
+    if (!isAuthenticated && !firebaseUser)
+      toast.success('Item was removed from cart') // todo: repeated text
   }
 
   return (
@@ -87,13 +82,27 @@ export default function CartProduct({
             <div className={styles.cart_link_box}>
               {favorite ? (
                 <FaHeart
-                  className={styles.product_icon} // todo: add button, repeated element from Product, move logic to a separate
-                  onClick={handleFavoriteToggle}
+                  className={styles.product_icon} // todo: add button
+                  onClick={(e) =>
+                    handleFavoriteToggle({
+                      e,
+                      isAuthenticated,
+                      firebaseUser,
+                      product: cartItem,
+                    })
+                  }
                 />
               ) : (
                 <FaRegHeart
-                  className={styles.product_icon} // todo: add button, repeated element from Product
-                  onClick={handleFavoriteToggle}
+                  className={styles.product_icon} // todo: add button
+                  onClick={(e) =>
+                    handleFavoriteToggle({
+                      e,
+                      isAuthenticated,
+                      firebaseUser,
+                      product: cartItem,
+                    })
+                  }
                 />
               )}
               <RiDeleteBin6Line

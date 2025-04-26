@@ -42,6 +42,8 @@ export type NavbarPagesType = {
   className: string
   inTheMenu: boolean
   requiresAuth?: boolean
+  icon?: React.ReactElement
+  extraStyle?: boolean
 }
 
 export type FirebaseUser = {
@@ -51,8 +53,13 @@ export type FirebaseUser = {
   cart: { amount: number; id: string; price: number }[]
 } | null
 
+export type FirebaseUserResult =
+  | FirebaseUser
+  | { success: false; message: string }
+
 export type UserContextType = {
   firebaseUser: FirebaseUser
+  isAuthenticated: boolean
 }
 
 export type CartItem = { id: string; amount: number; price: number }

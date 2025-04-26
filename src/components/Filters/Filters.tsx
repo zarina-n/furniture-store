@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import styles from './Filters.module.css'
-import { filters } from '@/utils/categories'
+import { filters } from '@/lib/categories'
 import Button from '../Button/Button'
 
 // TODO: change namings for filters and categories
@@ -31,7 +31,7 @@ export default function Filters() {
     }
 
     if (!categories.length) {
-      //TODO: refactor conditions
+      // todo: refactor conditions
       params.delete('category')
     } else {
       params.set('category', categories?.join(','))

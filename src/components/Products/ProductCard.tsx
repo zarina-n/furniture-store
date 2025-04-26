@@ -5,22 +5,19 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { FaHeart, FaRegHeart } from 'react-icons/fa6'
 import { BiShoppingBag, BiSolidShoppingBag } from 'react-icons/bi'
-import {
-  addToFireStoreCart,
-  addToFavorites,
-  removeFromFavorites,
-} from '@/app/api/actions'
-import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
+import { addToFireStoreCart } from '@/app/api/actions'
 import { Product as ProductType } from '@/lib/types'
 import { useUser } from '@/providers/UserProvider'
 import { MouseEventHandler } from 'react'
 import styles from './Products.module.css'
 import { useProducts } from '@/providers/ProductsProvider'
+import { handleFavoriteToggle } from '@/utils/handleFavoriteToggle'
+import { showToast } from '@/utils/showToast'
+import { toast } from 'sonner'
 
 export default function ProductCard({ product }: { product: ProductType }) {
-  const { user, isAuthenticated } = useKindeBrowserClient()
+  const { firebaseUser, isAuthenticated } = useUser()
 
-  const { firebaseUser } = useUser()
   const {
     name,
     imgSrc,
@@ -41,32 +38,22 @@ export default function ProductCard({ product }: { product: ProductType }) {
   const handleCart: MouseEventHandler<SVGElement> = async (e) => {
     e.preventDefault()
     if (cartItem) {
-      if (isAuthenticated) {
-        await addToFireStoreCart(user.id, cartItem)
-      } else {
-        removeFromCart(id)
+      if (isAuthenticated && firebaseUser) {
+        const result = await addToFireStoreCart(firebaseUser.id, cartItem)
+        showToast(result)
       }
+      removeFromCart(id)
+      if (!isAuthenticated && !firebaseUser)
+        toast.success('The item was removed from the cart') // todo: repeated text
     } else {
       const newCartItem = { amount: 1, id, price }
-      if (isAuthenticated) {
-        await addToFireStoreCart(user.id, newCartItem)
-      } else {
-        addToCart(newCartItem)
+      if (isAuthenticated && firebaseUser) {
+        const result = await addToFireStoreCart(firebaseUser.id, newCartItem)
+        showToast(result)
       }
-    }
-  }
-
-  const handleFavoriteToggle: MouseEventHandler<SVGElement> = async (e) => {
-    // todo: repeated function
-    e.preventDefault()
-    if (isAuthenticated) {
-      if (favorite) {
-        await removeFromFavorites(user.id, id)
-      } else {
-        await addToFavorites(user.id, id)
-      }
-    } else {
-      alert('please login or signup')
+      addToCart(newCartItem)
+      if (!isAuthenticated && !firebaseUser)
+        toast.success('The item was added to the cart') // todo: repeated text
     }
   }
 
@@ -108,12 +95,26 @@ export default function ProductCard({ product }: { product: ProductType }) {
           {favorite ? (
             <FaHeart
               className={styles.product_icon} // todo: add button
-              onClick={handleFavoriteToggle}
+              onClick={(e) =>
+                handleFavoriteToggle({
+                  e,
+                  isAuthenticated,
+                  firebaseUser,
+                  product,
+                })
+              }
             />
           ) : (
             <FaRegHeart
               className={styles.product_icon} // todo: add button
-              onClick={handleFavoriteToggle}
+              onClick={(e) =>
+                handleFavoriteToggle({
+                  e,
+                  isAuthenticated,
+                  firebaseUser,
+                  product,
+                })
+              }
             />
           )}
         </div>
