@@ -1,6 +1,7 @@
+'use client'
+
 import { addOrUpdateCartItem } from '@/app/api/actions'
 import { CartItem } from '@/lib/types'
-import { useProductsStore } from '@/stores/productsStore'
 import { toast } from 'sonner'
 
 export const syncCartsOnLogin = async ({
@@ -9,28 +10,20 @@ export const syncCartsOnLogin = async ({
   localCart,
   userCart,
   merge,
+  setCart,
 }: {
   userId: string
   localCart: CartItem[]
   userCart: CartItem[]
   merge: boolean
+  setCart: (items: CartItem[]) => void
 }) => {
-  const setCart = useProductsStore.getState().setCart
-
   const localHasItems = localCart.length > 0
   const userHasItems = userCart.length > 0
 
   try {
-    if (!userHasItems && localHasItems) {
-      const results = await Promise.all(
-        localCart.map((item) => addOrUpdateCartItem(userId, item)),
-      )
-
-      const hasError = results.some((res) => !res.success)
-      if (hasError) {
-        toast.error('Some items could not be synced to your cart.') // todo: edit text
-      }
-
+    if (userHasItems && !localHasItems) {
+      setCart(userCart)
       return
     }
 
@@ -54,7 +47,6 @@ export const syncCartsOnLogin = async ({
       })
 
       const mergedCart = Array.from(mergedMap.values())
-
       setCart(mergedCart)
 
       const results = await Promise.all(
@@ -65,8 +57,30 @@ export const syncCartsOnLogin = async ({
       if (hasError) {
         toast.error('Some items in your cart could not be merged.') // todo: edit text
       }
+      return
+    }
+
+    if (userHasItems && localHasItems) {
+      setCart(userCart)
+      return
+    }
+
+    if (!userHasItems && localHasItems) {
+      const results = await Promise.all(
+        localCart.map((item) => addOrUpdateCartItem(userId, item)),
+      )
+
+      const hasError = results.some((res) => !res.success)
+      if (hasError) {
+        toast.error('Some items could not be synced to your cart.')
+      }
+      return
+    }
+
+    if (!userHasItems && !localHasItems) {
+      setCart([]) // Optional: explicitly clear
     }
   } catch (error) {
-    toast.error(`An error occurred while syncing your cart: ${error}`) // todo: edit text
+    toast.error(`An error occurred while syncing your cart: ${error}`)
   }
 }

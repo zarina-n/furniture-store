@@ -23,6 +23,8 @@ import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
 import { revalidatePath } from 'next/cache'
 import { chunkArray } from '@/utils/chunkArray'
 
+// todo: check page revalidation
+
 export const getProducts = async () => {
   try {
     const collectionRef = collection(db, 'products')
@@ -155,7 +157,7 @@ export const addToFavorites = async (userId: string, id: string) => {
     })
 
     revalidatePath('/', 'layout')
-    return { success: true, message: '' } // todo: add success message
+    return { success: true, message: 'The item was added to favorites' }
   } catch (error) {
     return {
       success: false,
@@ -174,7 +176,7 @@ export const removeFromFavorites = async (userId: string, id: string) => {
     })
 
     revalidatePath('/', 'layout')
-    return { success: true, message: '' } // todo: add success message
+    return { success: true, message: 'The item was removed from favorites' }
   } catch (error) {
     return {
       success: false,
@@ -207,7 +209,11 @@ export const addToFireStoreCart = async (userId: string, newItem: CartItem) => {
     await updateDoc(userRef, { cart: updatedCart })
     revalidatePath('/', 'layout')
 
-    return { success: true, message: '' } // todo: add success message
+    const message = itemExists
+      ? 'The item was removed from the cart'
+      : 'The item was added to the cart'
+
+    return { success: true, message }
   } catch (error) {
     return {
       success: false,
@@ -241,7 +247,7 @@ export const updateCartItemAmount = async (
       await updateDoc(userRef, { cart })
 
       revalidatePath('/', 'layout')
-      return { success: true, message: '' } // todo: add message and check for other places where message might be needed
+      return { success: true, message: 'Item amount was updated' } // todo: check for other places where message might be needed
     }
 
     return { success: false, message: 'Item not found in cart.' }
@@ -281,10 +287,15 @@ export const addOrUpdateCartItem = async (
       cart.push({ ...item })
     }
 
+    const message =
+      existingItemIndex !== -1
+        ? 'The item amount was updated'
+        : 'The item was added to the cart'
+
     await updateDoc(userRef, { cart })
     revalidatePath('/', 'layout')
 
-    return { success: true, message: '' } // todo: add success message
+    return { success: true, message }
   } catch (error) {
     return {
       success: false,
@@ -302,7 +313,7 @@ export const removeAllFromCart = async (userId: string) => {
     await updateDoc(userRef, { cart: [] })
 
     revalidatePath('/', 'layout')
-    return { success: true, message: '' } // todo: add success message
+    return { success: true, message: 'The cart is empty' }
   } catch (error) {
     return {
       success: false,
@@ -360,7 +371,7 @@ export const updateProductOnce = async (
     }
 
     await updateDoc(productsRef, newData)
-    return { success: true, message: '' } // todo: add success message
+    return { success: true, message: 'Product is  updated' }
   } catch (error) {
     return {
       success: false,

@@ -31,7 +31,7 @@ export default function Filters() {
     }
 
     if (!categories.length) {
-      //TODO: refactor conditions
+      // todo: refactor conditions
       params.delete('category')
     } else {
       params.set('category', categories?.join(','))

@@ -53,10 +53,10 @@ export default function CartProduct({
     if (isAuthenticated && firebaseUser) {
       const result = await addToFireStoreCart(firebaseUser.id, selectedCartItem)
       showToast(result)
-    } else {
-      removeFromCart(id)
-      toast.success('Todo: add message') // todo: check if message is missed somewhere where user is not logged in
     }
+
+    removeFromCart(id)
+    toast.success('Item was removed from cart') // todo: repeated text
   }
 
   return (

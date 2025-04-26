@@ -21,6 +21,7 @@ export const useProductsStore = create<LocalState>()(
       },
       removeFromCart: (id) => {
         const newCart = get().cart.filter((item) => item.id !== id)
+        console.log('id', id)
         get().updateLocalStorage(newCart)
       },
       updateAmount: (id, amount) => {

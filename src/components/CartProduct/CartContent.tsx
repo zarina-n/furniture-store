@@ -13,26 +13,31 @@ import { syncCartsOnLogin } from '@/utils/syncCartsOnLogin'
 import { useProducts } from '@/providers/ProductsProvider'
 import { toast } from 'sonner'
 import { showToast } from '@/utils/showToast'
+import { useCartSyncStore } from '@/stores/cartSyncStore'
 
 export default function CartContent() {
-  const { firebaseUser } = useUser()
-  const { isAuthenticated } = useUser()
-  const [merge] = useState(false) //todo: add modal to it
-
+  const { firebaseUser, isAuthenticated } = useUser()
+  const [merge] = useState(true) // todo: add modal to it
   const { setCart, products, cart } = useProducts()
+  const { hasSynced, setHasSynced } = useCartSyncStore()
 
-  const cartMap = new Map(cart.map((item) => [item.id, item]))
+  const cartMap = useMemo(
+    () => new Map(cart.map((item) => [item.id, item])),
+    [cart],
+  )
 
-  const cartItems = products
-    .filter((product) => cartMap.has(product.id))
-    .map((product) => {
-      const cartItem = cartMap.get(product.id)!
-      return {
-        ...product,
-        amount: cartItem.amount,
-        price: cartItem.price ?? product.price,
-      }
-    })
+  const cartItems = useMemo(() => {
+    return products
+      .filter((product) => cartMap.has(product.id))
+      .map((product) => {
+        const cartItem = cartMap.get(product.id)!
+        return {
+          ...product,
+          amount: cartItem.amount,
+          price: cartItem.price ?? product.price,
+        }
+      })
+  }, [products, cartMap])
 
   const total = useMemo(() => {
     return cartItems.reduce((acc, item) => {
@@ -49,12 +54,13 @@ export default function CartContent() {
     if (firebaseUser?.id) {
       const result = await removeAllFromCart(firebaseUser?.id)
       showToast(result)
-    } else {
-      toast.success('Cart is empty!') // todo: add success message
-    }
+    } // todo: fix double toast
+    toast.success('Cart is empty!') // todo: add success message
   }
 
   useEffect(() => {
+    if (hasSynced) return
+
     if (!isAuthenticated || !firebaseUser) return
 
     syncCartsOnLogin({
@@ -62,20 +68,34 @@ export default function CartContent() {
       localCart: cart,
       userCart: firebaseUser.cart || [],
       merge,
+      setCart,
     })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuthenticated, firebaseUser, merge])
+
+    setHasSynced(true)
+  }, [
+    cart,
+    firebaseUser,
+    hasSynced,
+    isAuthenticated,
+    merge,
+    setCart,
+    setHasSynced,
+  ])
 
   return (
     <form onSubmit={() => {}}>
       <div className={cn(styles.cart)}>
         <div className={styles.cart_content}>
           <div className={styles.cart_content_top}>
-            <p className={styles.cart_text}>Product</p>
-            <div className={styles.cart_content_top_price_group}>
-              <p className={styles.cart_text}>Price</p>
-              <p className={styles.cart_text}>Quantity</p>
-            </div>
+            {emptyState && ( // todo: refactor empty state conditional rendering
+              <>
+                <p className={styles.cart_text}>Product</p>
+                <div className={styles.cart_content_top_price_group}>
+                  <p className={styles.cart_text}>Price</p>
+                  <p className={styles.cart_text}>Quantity</p>
+                </div>
+              </>
+            )}
           </div>
           <>
             {emptyState
