@@ -19,7 +19,6 @@ const ProductsContext = createContext<LocalState>({
 })
 
 export const ProductsProvider = ({
-  // todo: replace all the functions access
   children,
 }: {
   children: React.ReactNode

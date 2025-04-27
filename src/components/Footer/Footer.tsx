@@ -4,6 +4,7 @@ import styles from './Footer.module.css'
 import cn from 'classnames'
 
 export default function Footer() {
+  // todo: add footer logic
   return (
     <footer className={cn(styles.footer, 'center')}>
       <Link href={'/'} className="logo">

@@ -6,7 +6,7 @@ import Products from '../Products/Products'
 import styles from './CartProduct.module.css'
 import CartProduct from './CartProduct'
 import { useUser } from '@/providers/UserProvider'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo } from 'react'
 import { removeAllFromCart } from '@/app/api/actions'
 import Link from 'next/link'
 import { syncCartsOnLogin } from '@/utils/syncCartsOnLogin'
@@ -14,12 +14,38 @@ import { useProducts } from '@/providers/ProductsProvider'
 import { toast } from 'sonner'
 import { showToast } from '@/utils/showToast'
 import { useCartSyncStore } from '@/stores/cartSyncStore'
+import { useSearchParams, usePathname, useRouter } from 'next/navigation'
+import { MERGE_CARTS_MODAL } from '@/lib/constants'
+import _ from 'lodash'
 
 export default function CartContent() {
   const { firebaseUser, isAuthenticated } = useUser()
-  const [merge] = useState(true) // todo: add modal to it
   const { setCart, products, cart } = useProducts()
-  const { hasSynced, setHasSynced } = useCartSyncStore()
+  const { hasSynced, setHasSynced, hasMerged } = useCartSyncStore.getState()
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const pathName = usePathname()
+
+  const shouldMerge = useMemo(() => {
+    return (
+      !!firebaseUser &&
+      firebaseUser.cart &&
+      isAuthenticated &&
+      !!cart.length &&
+      !hasMerged &&
+      firebaseUser.cart.length !== cart.length &&
+      !_.isEqual(firebaseUser.cart, cart)
+    )
+  }, [firebaseUser, cart, isAuthenticated, hasMerged])
+
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams)
+
+    if (shouldMerge) {
+      params.set('showModal', MERGE_CARTS_MODAL)
+      router.replace(`${pathName}?${params.toString()}`)
+    }
+  }, [pathName, router, searchParams, shouldMerge])
 
   const cartMap = useMemo(
     () => new Map(cart.map((item) => [item.id, item])),
@@ -60,15 +86,13 @@ export default function CartContent() {
   }
 
   useEffect(() => {
-    if (hasSynced) return
-
-    if (!isAuthenticated || !firebaseUser) return
+    if (hasSynced || !isAuthenticated || !firebaseUser) return
 
     syncCartsOnLogin({
       userId: firebaseUser.id,
       localCart: cart,
       userCart: firebaseUser.cart || [],
-      merge,
+      merge: hasMerged,
       setCart,
     })
 
@@ -78,10 +102,12 @@ export default function CartContent() {
     firebaseUser,
     hasSynced,
     isAuthenticated,
-    merge,
+    hasMerged,
     setCart,
     setHasSynced,
   ])
+
+  // todo: add form logic
 
   return (
     <form onSubmit={() => {}}>

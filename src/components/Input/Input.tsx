@@ -25,6 +25,7 @@ export default function Input<T extends FieldValues>({
   control,
   errors,
 }: Props<T>) {
+  // todo: figure put is react hook form is needed
   return (
     <>
       <Controller

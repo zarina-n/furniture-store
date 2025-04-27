@@ -5,13 +5,17 @@ import { persist } from 'zustand/middleware'
 type CartSyncStore = {
   hasSynced: boolean
   setHasSynced: (value: boolean) => void
+  hasMerged: boolean
+  setHasMerged: (value: boolean) => void
 }
 
 export const useCartSyncStore = create<CartSyncStore>()(
   persist(
     (set) => ({
       hasSynced: false,
+      hasMerged: false,
       setHasSynced: (value) => set({ hasSynced: value }),
+      setHasMerged: (value) => set({ hasMerged: value }),
     }),
     {
       name: CART_SYNCED_NAME,

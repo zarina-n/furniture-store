@@ -5,7 +5,6 @@ import { CartItem } from '@/lib/types'
 import { toast } from 'sonner'
 
 export const syncCartsOnLogin = async ({
-  // todo: add toaster logic
   userId,
   localCart,
   userCart,
@@ -28,35 +27,12 @@ export const syncCartsOnLogin = async ({
     }
 
     if (merge && localHasItems && userHasItems) {
-      const mergedMap = new Map<string, CartItem>()
+      await mergeCarts({ localCart, userCart, userId, setCart })
+      return
+    }
 
-      localCart.forEach((item) => {
-        mergedMap.set(item.id, { ...item })
-      })
-
-      userCart.forEach((item) => {
-        if (mergedMap.has(item.id)) {
-          const existing = mergedMap.get(item.id)!
-          mergedMap.set(item.id, {
-            ...existing,
-            amount: (existing.amount || 0) + (item.amount || 0),
-          })
-        } else {
-          mergedMap.set(item.id, { ...item })
-        }
-      })
-
-      const mergedCart = Array.from(mergedMap.values())
-      setCart(mergedCart)
-
-      const results = await Promise.all(
-        mergedCart.map((item) => addOrUpdateCartItem(userId, item)),
-      )
-
-      const hasError = results.some((res) => !res.success)
-      if (hasError) {
-        toast.error('Some items in your cart could not be merged.')
-      }
+    if (localHasItems && !userHasItems) {
+      await syncLocalToUser({ localCart, userId })
       return
     }
 
@@ -65,22 +41,67 @@ export const syncCartsOnLogin = async ({
       return
     }
 
-    if (!userHasItems && localHasItems) {
-      const results = await Promise.all(
-        localCart.map((item) => addOrUpdateCartItem(userId, item)),
-      )
-
-      const hasError = results.some((res) => !res.success)
-      if (hasError) {
-        toast.error('Some items could not be synced to your cart.')
-      }
-      return
-    }
-
-    if (!userHasItems && !localHasItems) {
-      setCart([])
-    }
+    setCart([])
   } catch (error) {
     toast.error(`An error occurred while syncing your cart: ${error}`)
+  }
+}
+
+const mergeCarts = async ({
+  localCart,
+  userCart,
+  userId,
+  setCart,
+}: {
+  localCart: CartItem[]
+  userCart: CartItem[]
+  userId: string
+  setCart: (items: CartItem[]) => void
+}) => {
+  const mergedMap = new Map<string, CartItem>()
+
+  localCart.forEach((item) => {
+    mergedMap.set(item.id, { ...item })
+  })
+
+  userCart.forEach((item) => {
+    if (mergedMap.has(item.id)) {
+      const existing = mergedMap.get(item.id)!
+      mergedMap.set(item.id, {
+        ...existing,
+        amount: (existing.amount || 0) + (item.amount || 0),
+      })
+    } else {
+      mergedMap.set(item.id, { ...item })
+    }
+  })
+
+  const mergedCart = Array.from(mergedMap.values())
+  setCart(mergedCart)
+
+  const results = await Promise.all(
+    mergedCart.map((item) => addOrUpdateCartItem(userId, item)),
+  )
+
+  const hasError = results.some((res) => !res.success)
+  if (hasError) {
+    toast.error('Some items in your cart could not be merged.')
+  }
+}
+
+const syncLocalToUser = async ({
+  localCart,
+  userId,
+}: {
+  localCart: CartItem[]
+  userId: string
+}) => {
+  const results = await Promise.all(
+    localCart.map((item) => addOrUpdateCartItem(userId, item)),
+  )
+
+  const hasError = results.some((res) => !res.success)
+  if (hasError) {
+    toast.error('Some items could not be synced to your cart.')
   }
 }

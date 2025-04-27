@@ -86,3 +86,7 @@ export interface LocalState {
   updateAmount: (itemId: string, amount: number) => void
   updateLocalStorage: (updatedCart: CartItem[]) => void
 }
+
+export type ModalProps = {
+  modalRef: React.RefObject<HTMLDialogElement | null>
+}

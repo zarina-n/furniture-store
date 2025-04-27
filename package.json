@@ -38,6 +38,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@types/lodash": "^4.17.16",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
@@ -48,6 +49,7 @@
     "eslint-plugin-prettier": "^5.2.1",
     "husky": "^9.1.7",
     "lint-staged": "^15.2.11",
+    "lodash": "^4.17.21",
     "prettier": "^3.4.2",
     "typescript": "^5"
   }

@@ -4,12 +4,12 @@ import { LoginLink, LogoutLink } from '@kinde-oss/kinde-auth-nextjs/components'
 import styles from './Header.module.css'
 import Link from 'next/link'
 import { NavbarPagesType } from '@/lib/types'
-import { useProducts } from '@/providers/ProductsProvider'
 import { useUser } from '@/providers/UserProvider'
 import { FaRegCircleUser } from 'react-icons/fa6'
 import { TbLogout } from 'react-icons/tb'
 import { useCartSyncStore } from '@/stores/cartSyncStore'
 import cn from 'classnames'
+import { useProductsStore } from '@/stores/productsStore'
 
 export default function NavBar({
   // todo: add loader to login/logout links
@@ -18,13 +18,14 @@ export default function NavBar({
   navbarPages: NavbarPagesType[]
 }) {
   const { isAuthenticated, firebaseUser } = useUser()
-  const { setCart, cart } = useProducts()
-  const { setHasSynced } = useCartSyncStore()
+  const { setCart, cart } = useProductsStore.getState()
+  const { setHasSynced, setHasMerged } = useCartSyncStore.getState()
   const itemsInTheCart = !!cart.length || !!firebaseUser?.cart.length
 
   const logoutHandler = () => {
     setCart([])
     setHasSynced(false)
+    setHasMerged(false)
   }
 
   // todo: add alt for svg
