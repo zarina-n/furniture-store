@@ -10,6 +10,7 @@ import { TbLogout } from 'react-icons/tb'
 import { useCartSyncStore } from '@/stores/cartSyncStore'
 import cn from 'classnames'
 import { useProductsStore } from '@/stores/productsStore'
+import { useState, useEffect } from 'react'
 
 export default function NavBar({
   // todo: add loader to login/logout links
@@ -18,6 +19,16 @@ export default function NavBar({
   navbarPages: NavbarPagesType[]
 }) {
   const { isAuthenticated, firebaseUser } = useUser()
+
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  if (!isMounted) {
+    return null // Or loading spinner
+  }
   const { setCart, cart } = useProductsStore.getState()
   const { setHasSynced, setHasMerged } = useCartSyncStore.getState()
   const itemsInTheCart = !!cart.length || !!firebaseUser?.cart.length
