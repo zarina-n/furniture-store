@@ -4,6 +4,7 @@ import ModalButtons from './ModalButtons'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 export default function ProgressModal({ modalRef }: ModalProps) {
+  // todo: check localstorage logic
   const router = useRouter()
   const searchParams = useSearchParams()
   const pathName = usePathname()
