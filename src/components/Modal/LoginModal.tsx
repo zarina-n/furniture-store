@@ -1,7 +1,6 @@
 'use client'
 
 import { ModalProps } from '@/lib/types'
-import React from 'react'
 import ModalButtons from './ModalButtons'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { LoginLink } from '@kinde-oss/kinde-auth-nextjs/components'
@@ -32,6 +31,7 @@ export default function LoginModal({ modalRef }: ModalProps) {
         okTitle={<LoginLink onClick={clickOk}>Login</LoginLink>}
         clickOk={clickOk}
         clickCancel={clickOk}
+        cancelButton
       />
     </div>
   )

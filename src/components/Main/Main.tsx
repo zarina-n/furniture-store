@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import React from 'react'
 import Categories from '../Categories/Categories'
 import Products from '../Products/Products'
 import styles from './Main.module.css'

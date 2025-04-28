@@ -1,6 +1,5 @@
 'use client'
 
-import React from 'react'
 import Products from '../Products/Products'
 import { filterBy } from '@/utils/filterBy'
 import { sortBy } from '@/utils/sortBy'

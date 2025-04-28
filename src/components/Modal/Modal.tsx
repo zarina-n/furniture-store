@@ -5,8 +5,9 @@ import { JSX, useEffect, useMemo, useRef } from 'react'
 import styles from './Modal.module.css'
 import MergeCarts from './MergeCarts'
 import ModalWrapper from './ModalWrapper'
-import { LOGIN_MODAL, MERGE_CARTS_MODAL } from '@/lib/constants'
+import { LOGIN_MODAL, MERGE_CARTS_MODAL, PROGRESS_MODAL } from '@/lib/constants'
 import LoginModal from './LoginModal'
+import ProgressModal from './ProgressModal'
 
 export default function Modal() {
   const searchParams = useSearchParams()
@@ -26,6 +27,10 @@ export default function Modal() {
           component: <LoginModal modalRef={modalRef} />,
           title: "Oops! Looks like you're not logged in.",
         },
+        [PROGRESS_MODAL]: {
+          component: <ProgressModal modalRef={modalRef} />,
+          title: 'Features in Progress',
+        },
       }),
       [modalRef],
     )
@@ -40,12 +45,22 @@ export default function Modal() {
   }
 
   useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString())
+
+    if (pathName === '/' && !localStorage.getItem('progressModalShown')) {
+      localStorage.setItem('progressModalShown', 'true')
+      params.set('showModal', PROGRESS_MODAL)
+      router.replace(`${pathName}?${searchParams.toString()}`, {
+        scroll: false,
+      })
+    }
+
     if (!!showModal) {
       modalRef.current?.showModal()
     } else {
       modalRef.current?.close()
     }
-  }, [showModal])
+  }, [showModal, pathName, router, searchParams])
 
   return (
     <dialog

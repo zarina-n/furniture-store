@@ -1,13 +1,11 @@
 'use client'
 
 import { ModalProps } from '@/lib/types'
-import React from 'react'
 import ModalButtons from './ModalButtons'
 import { useCartSyncStore } from '@/stores/cartSyncStore'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 export default function MergeCarts({ modalRef }: ModalProps) {
-  //todo: check again title and modal text
   const { setHasSynced, setHasMerged } = useCartSyncStore()
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -39,6 +37,7 @@ export default function MergeCarts({ modalRef }: ModalProps) {
         okTitle={'Yes'}
         clickOk={clickOk}
         clickCancel={clickCancel}
+        cancelButton
       />
     </div>
   )

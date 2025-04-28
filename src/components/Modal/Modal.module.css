@@ -99,3 +99,48 @@
 .dialog_container {
   padding: 20px;
 }
+
+.progressModalContent {
+  padding: 20px;
+  color: #333;
+  font-size: 16px;
+  line-height: 1.5;
+  text-align: left;
+}
+
+.modalDescription {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #444;
+}
+
+.progressList {
+  list-style-type: none;
+  padding-left: 0;
+  margin-bottom: 20px;
+}
+
+.progressItem {
+  padding-left: 20px;
+  position: relative;
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: #555;
+}
+
+.progressItem::before {
+  content: '\25A0';
+  position: absolute;
+  left: 0;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.thankYouMessage {
+  font-size: 14px;
+  color: #666;
+  margin-top: 15px;
+  font-style: italic;
+}
