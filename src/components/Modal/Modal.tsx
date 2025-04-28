@@ -5,7 +5,12 @@ import { JSX, useEffect, useMemo, useRef } from 'react'
 import styles from './Modal.module.css'
 import MergeCarts from './MergeCarts'
 import ModalWrapper from './ModalWrapper'
-import { LOGIN_MODAL, MERGE_CARTS_MODAL, PROGRESS_MODAL } from '@/lib/constants'
+import {
+  LOGIN_MODAL,
+  MERGE_CARTS_MODAL,
+  PROGRESS_MODAL,
+  PROGRESS_MODAL_SHOWN,
+} from '@/lib/constants'
 import LoginModal from './LoginModal'
 import ProgressModal from './ProgressModal'
 
@@ -47,10 +52,13 @@ export default function Modal() {
   useEffect(() => {
     const params = new URLSearchParams(searchParams.toString())
 
-    if (pathName === '/' && !localStorage.getItem('progressModalShown')) {
-      localStorage.setItem('progressModalShown', 'true')
+    if (
+      pathName === '/' &&
+      (localStorage.getItem(PROGRESS_MODAL_SHOWN) === 'false' ||
+        !localStorage.getItem(PROGRESS_MODAL_SHOWN))
+    ) {
       params.set('showModal', PROGRESS_MODAL)
-      router.replace(`${pathName}?${searchParams.toString()}`, {
+      router.replace(`${pathName}?${params.toString()}`, {
         scroll: false,
       })
     }

@@ -2,15 +2,16 @@ import styles from './Modal.module.css'
 import { ModalProps } from '@/lib/types'
 import ModalButtons from './ModalButtons'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { PROGRESS_MODAL_SHOWN } from '@/lib/constants'
 
 export default function ProgressModal({ modalRef }: ModalProps) {
-  // todo: check localstorage logic
   const router = useRouter()
   const searchParams = useSearchParams()
   const pathName = usePathname()
 
   const closeModal = () => {
     modalRef.current?.close() //todo: repeated code
+    localStorage.setItem(PROGRESS_MODAL_SHOWN, 'true')
     const params = new URLSearchParams(searchParams.toString())
     params.delete('showModal')
     router.replace(`${pathName}?${params.toString()}`, {
