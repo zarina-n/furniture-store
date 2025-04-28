@@ -8,3 +8,4 @@ export const FAVORITES: string = 'favorites'
 export const TAX: number = 0.1
 
 export const MERGE_CARTS_MODAL: string = 'merge-carts'
+export const LOGIN_MODAL: string = 'login'

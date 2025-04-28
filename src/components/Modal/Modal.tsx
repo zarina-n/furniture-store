@@ -5,7 +5,8 @@ import { JSX, useEffect, useMemo, useRef } from 'react'
 import styles from './Modal.module.css'
 import MergeCarts from './MergeCarts'
 import ModalWrapper from './ModalWrapper'
-import { MERGE_CARTS_MODAL } from '@/lib/constants'
+import { LOGIN_MODAL, MERGE_CARTS_MODAL } from '@/lib/constants'
+import LoginModal from './LoginModal'
 
 export default function Modal() {
   const searchParams = useSearchParams()
@@ -14,12 +15,20 @@ export default function Modal() {
   const modalRef = useRef<null | HTMLDialogElement>(null)
   const showModal = searchParams.get('showModal')
 
-  const modalsMap: Record<string, JSX.Element> = useMemo(
-    () => ({
-      [MERGE_CARTS_MODAL]: <MergeCarts modalRef={modalRef} />,
-    }),
-    [modalRef],
-  )
+  const modalsMap: Record<string, { component: JSX.Element; title: string }> =
+    useMemo(
+      () => ({
+        [MERGE_CARTS_MODAL]: {
+          component: <MergeCarts modalRef={modalRef} />,
+          title: 'We found items saved in your local cart.',
+        },
+        [LOGIN_MODAL]: {
+          component: <LoginModal modalRef={modalRef} />,
+          title: "Oops! Looks like you're not logged in.",
+        },
+      }),
+      [modalRef],
+    )
 
   const closeModal = () => {
     modalRef.current?.close()
@@ -39,13 +48,17 @@ export default function Modal() {
   }, [showModal])
 
   return (
-    <dialog ref={modalRef} className={styles.dialog}>
+    <dialog
+      ref={modalRef}
+      className={styles.dialog}
+      style={{ display: showModal ? 'block' : 'none' }}
+    >
       {showModal && modalsMap[showModal] && (
         <ModalWrapper
-          title="We found items saved in your local cart."
+          title={modalsMap[showModal].title}
           closeModal={closeModal}
         >
-          {modalsMap[showModal]}
+          {modalsMap[showModal].component}
         </ModalWrapper>
       )}
     </dialog>

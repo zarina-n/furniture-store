@@ -11,8 +11,13 @@ import { useUser } from '@/providers/UserProvider'
 import { handleFavoriteToggle } from '@/utils/handleFavoriteToggle'
 import { toast } from 'sonner'
 import { showToast } from '@/utils/showToast'
+import { useSearchParams, usePathname, useRouter } from 'next/navigation'
 
 export default function ProductDescription({ product }: { product: Product }) {
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const pathName = usePathname()
+  const params = new URLSearchParams(searchParams)
   const { firebaseUser, isAuthenticated } = useUser()
   const [cartAmount, setCartAmount] = useState(
     !product.amount ? 1 : product.amount,
@@ -58,6 +63,9 @@ export default function ProductDescription({ product }: { product: Product }) {
                 isAuthenticated,
                 firebaseUser,
                 product,
+                params,
+                router,
+                pathName,
               })
             }
           />
@@ -70,6 +78,9 @@ export default function ProductDescription({ product }: { product: Product }) {
                 isAuthenticated,
                 firebaseUser,
                 product,
+                params,
+                router,
+                pathName,
               })
             }
           />

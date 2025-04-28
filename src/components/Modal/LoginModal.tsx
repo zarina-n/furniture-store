@@ -3,12 +3,11 @@
 import { ModalProps } from '@/lib/types'
 import React from 'react'
 import ModalButtons from './ModalButtons'
-import { useCartSyncStore } from '@/stores/cartSyncStore'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { LoginLink } from '@kinde-oss/kinde-auth-nextjs/components'
 
-export default function MergeCarts({ modalRef }: ModalProps) {
+export default function LoginModal({ modalRef }: ModalProps) {
   //todo: check again title and modal text
-  const { setHasSynced, setHasMerged } = useCartSyncStore()
   const router = useRouter()
   const searchParams = useSearchParams()
   const pathName = usePathname()
@@ -23,22 +22,16 @@ export default function MergeCarts({ modalRef }: ModalProps) {
   }
 
   const clickOk = () => {
-    setHasSynced(true)
-    setHasMerged(true)
     closeModal()
   }
 
-  const clickCancel = () => {
-    setHasMerged(false)
-    closeModal()
-  }
   return (
     <div>
-      <p>Would you like to merge them with your current cart items?</p>
+      <p>Log in to add this item to your favorites and keep shopping!</p>
       <ModalButtons
-        okTitle={'Yes'}
+        okTitle={<LoginLink onClick={clickOk}>Login</LoginLink>}
         clickOk={clickOk}
-        clickCancel={clickCancel}
+        clickCancel={clickOk}
       />
     </div>
   )

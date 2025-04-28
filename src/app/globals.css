@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+:root:has(.no-doc-scroll) {
+  overflow: hidden;
+}
+
 a {
   text-decoration: none;
   color: inherit;

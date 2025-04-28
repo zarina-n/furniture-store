@@ -1,21 +1,29 @@
 import { addToFavorites, removeFromFavorites } from '@/app/api/actions'
 import { FirebaseUser, Product } from '@/lib/types'
-import { toast } from 'sonner'
 import { showToast } from './showToast'
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime'
+import { LOGIN_MODAL } from '@/lib/constants'
 
 interface Props {
   e: React.MouseEvent<SVGElement>
   isAuthenticated: boolean
   firebaseUser: FirebaseUser
   product: Product
+  params: URLSearchParams
+  router: AppRouterInstance
+  pathName: string
 }
 
 export const handleFavoriteToggle = async ({
   // todo: fix revalidate path updating
+  //todo: fix repeated logic everywhere
   e,
   isAuthenticated,
   firebaseUser,
   product,
+  params,
+  router,
+  pathName,
 }: Props) => {
   e.preventDefault()
   if (isAuthenticated && firebaseUser) {
@@ -28,6 +36,7 @@ export const handleFavoriteToggle = async ({
       showToast(result)
     }
   } else {
-    toast.error('Please sign in to add to favorites') // todo: move to a modal
+    params.set('showModal', LOGIN_MODAL)
+    router.replace(`${pathName}?${params.toString()}`)
   }
 }

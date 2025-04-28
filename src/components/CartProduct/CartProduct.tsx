@@ -14,6 +14,7 @@ import { useUser } from '@/providers/UserProvider'
 import { handleFavoriteToggle } from '@/utils/handleFavoriteToggle'
 import { showToast } from '@/utils/showToast'
 import { toast } from 'sonner'
+import { useSearchParams, usePathname, useRouter } from 'next/navigation'
 
 export default function CartProduct({
   // TODO: add form for input
@@ -22,6 +23,10 @@ export default function CartProduct({
 }: {
   cartItem: Product
 }) {
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const pathName = usePathname()
+  const params = new URLSearchParams(searchParams)
   const { name, imgSrc, shortDescription, price, id, favorite, amount } =
     cartItem
 
@@ -89,6 +94,9 @@ export default function CartProduct({
                       isAuthenticated,
                       firebaseUser,
                       product: cartItem,
+                      params,
+                      router,
+                      pathName,
                     })
                   }
                 />
@@ -101,6 +109,9 @@ export default function CartProduct({
                       isAuthenticated,
                       firebaseUser,
                       product: cartItem,
+                      params,
+                      router,
+                      pathName,
                     })
                   }
                 />

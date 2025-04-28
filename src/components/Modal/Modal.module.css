@@ -1,50 +1,101 @@
 .dialog {
+  /*todo: fixed scrolling to the top*/
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 10;
-  border-radius: 4px;
-  backdrop-filter: blur(8px);
-  background-color: rgba(31, 41, 55, 0.5);
-}
-
-.dialog_container {
-  width: 500px;
-  max-width: 100%;
-  background-color: #e4e4e4;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+  padding: 20px;
   display: flex;
   flex-direction: column;
+  overscroll-behavior: contain;
+}
+
+.dialog::backdrop {
+  background: rgba(0, 0, 0, 0.5);
 }
 
 .dialog_header {
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
-  margin-bottom: 1rem;
-  padding-top: 0.5rem;
-  padding-left: 1.25rem;
-  padding-right: 1.25rem;
-  background-color: #e4e4e4;
+  align-items: center;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e0e0e0;
 }
 
 .dialog_title {
-  font-size: 1.5rem;
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
 }
 
 .close_button {
-  margin-bottom: 0.5rem;
-  padding: 0.25rem 0.5rem;
-  cursor: pointer;
+  background: none;
   border: none;
-  width: 2rem;
-  height: 2rem;
-  font-weight: bold;
-  background-color: transparent;
+  cursor: pointer;
+  font-size: 24px;
+  color: #999;
+  transition: color 0.2s ease;
+}
+
+.close_button:hover {
+  color: #333;
 }
 
 .dialog_body {
-  padding-left: 1.25rem;
-  padding-right: 1.25rem;
-  padding-bottom: 1.5rem;
+  padding: 20px 0;
+  color: #555;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.dialog_body p {
+  margin: 0;
+  padding-bottom: 20px;
+}
+
+.modal_buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.modal_button {
+  padding: 12px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.modal_button:hover {
+  opacity: 0.8;
+}
+
+.modal_button.ok_button {
+  background-color: black;
+  color: white;
+}
+
+.modal_button.ok_button:hover {
+  background-color: #4d4d4d;
+}
+
+.modal_button.cancel_button {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.modal_button.cancel_button:hover {
+  background-color: #e0e0e0;
+}
+
+.dialog_container {
+  padding: 20px;
 }

@@ -14,9 +14,14 @@ import { useProducts } from '@/providers/ProductsProvider'
 import { handleFavoriteToggle } from '@/utils/handleFavoriteToggle'
 import { showToast } from '@/utils/showToast'
 import { toast } from 'sonner'
+import { useSearchParams, usePathname, useRouter } from 'next/navigation'
 
 export default function ProductCard({ product }: { product: ProductType }) {
   const { firebaseUser, isAuthenticated } = useUser()
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const pathName = usePathname()
+  const params = new URLSearchParams(searchParams)
 
   const {
     name,
@@ -101,6 +106,9 @@ export default function ProductCard({ product }: { product: ProductType }) {
                   isAuthenticated,
                   firebaseUser,
                   product,
+                  params,
+                  router,
+                  pathName,
                 })
               }
             />
@@ -113,6 +121,9 @@ export default function ProductCard({ product }: { product: ProductType }) {
                   isAuthenticated,
                   firebaseUser,
                   product,
+                  params,
+                  router,
+                  pathName,
                 })
               }
             />
