@@ -27,7 +27,7 @@ export default function NavBar({
   }, [])
 
   if (!isMounted) {
-    return null // Or loading spinner
+    return null // todo: add loader
   }
   const { setCart, cart } = useProductsStore.getState()
   const { setHasSynced, setHasMerged } = useCartSyncStore.getState()
