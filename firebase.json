@@ -24,6 +24,13 @@
     ],
     "frameworksBackend": {
       "region": "us-east1"
-    }
+    },
+    "redirects": [
+      {
+        "source": "/**",
+        "destination": "https://theinterior.site",
+        "type": 301
+      }
+    ]
   }
 }

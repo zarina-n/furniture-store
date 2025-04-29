@@ -44,6 +44,11 @@ export default function Modal() {
     modalRef.current?.close()
     const params = new URLSearchParams(searchParams.toString())
     params.delete('showModal')
+
+    if (pathName === '/') {
+      localStorage.setItem(PROGRESS_MODAL_SHOWN, 'true')
+    }
+
     router.replace(`${pathName}?${params.toString()}`, {
       scroll: false,
     })
