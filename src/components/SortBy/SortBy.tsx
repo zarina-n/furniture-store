@@ -6,6 +6,7 @@ import cn from 'classnames'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { sortByOptions } from '@/utils/sortByOptions'
 import { TiArrowSortedUp, TiArrowSortedDown } from 'react-icons/ti'
+import { SORT } from '@/lib/constants'
 
 export default function SortBy() {
   const [areOptionsOpen, setAreOptionsOpen] = useState(false)
@@ -16,13 +17,13 @@ export default function SortBy() {
   const pathName = usePathname()
 
   const params = new URLSearchParams(searchParams)
-  const existingSortOption = params.get('sort')
+  const existingSortOption = params.get(SORT)
 
   const onnSortOptionHandler = (value: string) => {
     if (existingSortOption === value) {
-      params.delete('sort')
+      params.delete(SORT)
     } else {
-      params.set('sort', value)
+      params.set(SORT, value)
     }
 
     router.replace(`${pathName}?${params.toString()}`)

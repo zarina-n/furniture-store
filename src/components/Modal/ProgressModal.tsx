@@ -30,7 +30,6 @@ export default function ProgressModal({ modalRef }: ModalProps) {
         <li className={styles.progressItem}>
           Product database (Currently, there are only 3 products)
         </li>
-        <li className={styles.progressItem}>Authentication on production</li>
         <li className={styles.progressItem}>Minor styles inconsistencies</li>
       </ul>
       <p className={styles.thankYouMessage}>Thanks for your patience!</p>
