@@ -12,3 +12,5 @@ export const LOGIN_MODAL: string = 'login'
 export const PROGRESS_MODAL: string = 'progress'
 
 export const PROGRESS_MODAL_SHOWN: string = 'progressModalShown'
+
+export const SORT: string = 'sort'
